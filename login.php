@@ -30,7 +30,7 @@
 </head>
 
 <body>
-    <h1>Simple PHP Framework</h1>
+    <h1>Shimmer</h1>
     <div id="main">
         <form action="login.php" method="post">
             <?PHP echo $Error; ?>
