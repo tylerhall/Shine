@@ -13,7 +13,7 @@
         private static $me;
 
         // Add your server hostnames to the appropriate arrays. ($_SERVER['HTTP_HOST'])
-        private $productionServers = array('clickontyler.com');
+        private $productionServers = array('yourdomain.com');
         private $stagingServers    = array();
         private $localServers      = array('localhost');
 
@@ -86,11 +86,11 @@
         {
             ini_set('display_errors', '0');
 
-            define('WEB_ROOT', '/appcaster/');
+            define('WEB_ROOT', '/');
 
-            $this->dbHost       = 'localhost';
-            $this->dbName       = 'appcaster';
-            $this->dbUsername   = 'root';
+            $this->dbHost       = '';
+            $this->dbName       = '';
+            $this->dbUsername   = '';
             $this->dbPassword   = '';
             $this->dbDieOnError = false;
         }
@@ -118,9 +118,9 @@
 
             define('WEB_ROOT', '');
 
-            $this->dbHost       = 'localhost';
-            $this->dbName       = 'appcaster';
-            $this->dbUsername   = 'root';
+            $this->dbHost       = '';
+            $this->dbName       = '';
+            $this->dbUsername   = '';
             $this->dbPassword   = '';
             $this->dbDieOnError = true;
         }
