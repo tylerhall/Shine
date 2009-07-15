@@ -44,7 +44,7 @@
  "http://www.w3.org/TR/html4/strict.dtd">
 <html>
 <head>
-    <title>Shimmer</title>
+    <title>Shine</title>
     <meta http-equiv="Content-Type" content="text/html;charset=utf-8" >
     <link rel="stylesheet" href="http://yui.yahooapis.com/2.7.0/build/reset-fonts-grids/reset-fonts-grids.css" type="text/css">
     <link rel="stylesheet" href="css/yuiapp.css" type="text/css">
@@ -54,7 +54,7 @@
     <div id="doc3" class="yui-t6">
 
         <div id="hd">
-            <h1>Shimmer</h1>
+            <h1>Shine</h1>
             <div id="navigation">
                 <ul id="primary-navigation">
                     <li><a href="index.php">Applications</a></li>

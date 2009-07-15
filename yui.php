@@ -2,7 +2,7 @@
  "http://www.w3.org/TR/html4/strict.dtd">
 <html>
 <head>
-    <title>Shimmer</title>
+    <title>Shine</title>
     <meta http-equiv="Content-Type" content="text/html;charset=utf-8" >
     <link rel="stylesheet" href="http://yui.yahooapis.com/2.7.0/build/reset-fonts-grids/reset-fonts-grids.css" type="text/css">
     <link rel="stylesheet" href="css/yuiapp.css" type="text/css">
@@ -14,7 +14,7 @@
     <div id="doc3" class="yui-t6">
 
         <div id="hd">
-            <h1>Shimmer</h1>
+            <h1>Shine</h1>
             <div id="navigation">
                 <ul id="primary-navigation">
                     <li><a href="#">Some Page</a></li>
@@ -36,7 +36,7 @@
             <div id="yui-main">
                 <div class="yui-b"><div class="yui-g">
                     <h2>Hello, there.</h2>
-                    <p><a href="http://github.com/tylerhall/yui-app-theme/">Shimmer</a> is a generic, skinnable layout for web applications.</p>
+                    <p><a href="http://github.com/tylerhall/yui-app-theme/">Shine</a> is a generic, skinnable layout for web applications.</p>
                     <p>What you're looking at is the basic page template. Because it's built on top of the <a href="http://developer.yahoo.com/yui/grids/">YUI Grids</a> foundation, you can easily change the page and column widths or even swap the columns around to suit your needs. Not only is it cross-browser compatible (we support all the major browsers including IE6), but it's super easy to extend as well.</p>
                     <p>It's particularly well suited for admin areas.  You'll find most of the standard UI elements are styled and ready for you to use: blocks, tabbed modules, tables, lists, one and two column forms, etc. Just explore the page to see what's available. Pay particular attention to the theme and layout panels on the side. They'll let you preview alternate layouts and color schemes with one click.</p>
                     <p>Enjoy!</p>
