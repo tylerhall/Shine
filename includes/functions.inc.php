@@ -2,66 +2,6 @@
 	require_once('Mail.php');
 	require_once('Mail/mime.php');
 
-	function send_mail_with_attachment($to, $from, $subject, $message, $license, $filename, $bcc = null)
-	{
-		// Create a random boundary
-		$boundary = base64_encode(md5(rand()));
-
-		$headers  = "From: $from\n";
-		if(!is_null($bcc)) $headers .= "Bcc: $bcc\n";
-		$headers .= "X-Mailer: PHP/" . phpversion() . "\n";
-		$headers .= "MIME-Version: 1.0\n";
-		$headers .= "Content-Type: multipart/mixed; boundary=\"$boundary\"\n";
-		$headers .= "Content-Transfer-Encoding: 7bit\n\n";
-		$headers .= "This is a MIME encoded message.\n\n";
-
-		$headers .= "--$boundary\n";
-
-		$headers .= "Content-Type: text/plain; charset=\"iso-8859-1\"\n";
-		$headers .= "Content-Transfer-Encoding: 7bit\n\n";
-		$headers .= "$message\n\n\n";
-
-		$headers .= "--$boundary\n";
-
-		$headers .= "Content-Type: application/octet-stream; name=\"$filename\"\n";
-		$headers .= "Content-Transfer-Encoding: base64\n";
-		$headers .= "Content-Disposition: attachment\n\n";
-
-	    $headers .= chunk_split(base64_encode($license))."\n";
-
-	    $headers .= "--$boundary--";
-
-		mail($to, $subject, '', utf8_encode($headers));
-	}
-
-	function send_mail_with_attachmentGmail($to, $from, $subject, $message, $license, $filename, $bcc = null)
-	{
-		$license_file = tempnam('/tmp', 'foo');
-		file_put_contents($license_file, $license);
-
-		$text = $message;
-		$html = '';
-		$file = $license_file;
-		$crlf = "\r\n";
-		$hdrs = array('From' => $from, 'Subject' => $subject);
-
-		$mime = new Mail_mime($crlf);
-		$mime->setTXTBody($text);
-		$mime->setHTMLBody($html);
-		$mime->addAttachment($file, 'application/octet-stream', $filename, true, 'base64');
-		
-		$body = $mime->get();
-		$hdrs = $mime->headers($hdrs);
-		
-		$host = 'ssl://smtp.gmail.com';
-		$port = 465;
-		$username = GMAIL_USERNAME;
-		$password = GMAIL_PASSWORD;
-		
-		$smtp =& Mail::factory('smtp', array('host' => $host, 'port' => $port, 'auth' => true, 'username' => $username, 'password' => $password, 'debug' => true));
-		$mail = $smtp->send($to, $hdrs, $body);
-	}
-
     function printr($var)
     {
         $output = print_r($var, true);

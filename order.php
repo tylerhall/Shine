@@ -6,7 +6,7 @@
 	if(!$o->ok()) redirect('orders.php');
 
 	if(isset($_GET['act']) && $_GET['act'] == 'email')
-		$o->emailLicenseGmail();
+		$o->emailLicense();
 	
 	if(isset($_GET['act']) && $_GET['act'] == 'download')
 		$o->downloadLicense();

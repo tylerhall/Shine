@@ -117,13 +117,62 @@
 		public function emailLicense()
 		{
 			$app = new Application($this->app_id);
-			send_mail_with_attachment($this->payer_email, $app->from_email, $app->email_subject, $app->getBody($this), $this->license, $app->license_filename);
+
+			// Create a random boundary
+			$boundary = base64_encode(md5(rand()));
+
+			$headers  = "From: {$app->from_email}\n";
+			$headers .= "X-Mailer: PHP/" . phpversion() . "\n";
+			$headers .= "MIME-Version: 1.0\n";
+			$headers .= "Content-Type: multipart/mixed; boundary=\"$boundary\"\n";
+			$headers .= "Content-Transfer-Encoding: 7bit\n\n";
+			$headers .= "This is a MIME encoded message.\n\n";
+
+			$headers .= "--$boundary\n";
+
+			$headers .= "Content-Type: text/plain; charset=\"iso-8859-1\"\n";
+			$headers .= "Content-Transfer-Encoding: 7bit\n\n";
+			$headers .= $app->getBody($this) . "\n\n\n";
+
+			$headers .= "--$boundary\n";
+
+			$headers .= "Content-Type: application/octet-stream; name=\"{$app->license_filename}\"\n";
+			$headers .= "Content-Transfer-Encoding: base64\n";
+			$headers .= "Content-Disposition: attachment\n\n";
+
+		    $headers .= chunk_split(base64_encode($this->license))."\n";
+
+		    $headers .= "--$boundary--";
+
+			mail($this->payer_email, $app->email_subject, '', utf8_encode($headers));
 		}
 
-		public function emailLicenseGmail()
+		// This method is an alternative to your box's native sendmail. If you have access, I'd recommend using
+		// your company Gmail account to send - as that will help your emails get through spam filters. To setup,
+		// add these lines to the production() method in class.config.php
+		// define('SMTP_USERNAME', 'your@email.com');
+		// define('SMTP_PASSWORD', 'some-password');
+		// define('SMTP_HOST', 'ssl://smtp.gmail.com');
+		// define('SMTP_PORT', 465);
+		public function emailLicenseSMTP()
 		{
 			$app = new Application($this->app_id);
-			send_mail_with_attachmentGmail($this->payer_email, $app->from_email, $app->email_subject, $app->getBody($this), $this->license, $app->license_filename);
+
+			$tmp = tempnam('/tmp', 'foo');
+			file_put_contents($tmp, $this->license);
+
+ 			$hdrs = array('From' => $app->from_email, 'Subject' => $app->email_subject);
+
+			$mime = new Mail_mime("\r\n");
+			$mime->setTXTBody($app->getBody($this));
+			$mime->setHTMLBody('');
+			$mime->addAttachment($tmp, 'application/octet-stream', $app->license_filename, true, 'base64');
+
+			$body = $mime->get();
+			$hdrs = $mime->headers($hdrs);
+
+			$smtp =& Mail::factory('smtp', array('host' => SMTP_HOST, 'port' => SMTP_PORT, 'auth' => true, 'username' => SMTP_USERNAME, 'password' => SMTP_PASSWORD));
+			$mail = $smtp->send($this->payer_email, $hdrs, $body);
 		}
 		
 		public function downloadLicense()
