@@ -1,0 +1,206 @@
+<?PHP
+	require 'includes/master.inc.php';
+	$Auth->requireAdmin('login.php');
+	
+	$app = new Application($_GET['id']);
+	if(!$app->ok()) redirect('index.php');
+
+	if(isset($_POST['btnSaveApp']))
+	{
+		$Error->blank($_POST['name'], 'Application Name');
+
+		if($Error->ok())
+		{
+			$app                   = new Application($_GET['id']);
+			$app->name             = $_POST['name'];
+			$app->link             = $_POST['link'];
+			$app->bundle_name      = $_POST['bundle_name'];
+			$app->s3key            = $_POST['s3key'];
+			$app->s3pkey           = $_POST['s3pkey'];
+			$app->s3bucket         = $_POST['s3bucket'];
+			$app->s3path           = $_POST['s3path'];
+			$app->sparkle_key      = $_POST['sparkle_key'];
+			$app->sparkle_pkey     = $_POST['sparkle_pkey'];
+			$app->ap_key           = $_POST['ap_key'];
+			$app->ap_pkey          = $_POST['ap_pkey'];
+			$app->from_email       = $_POST['from_email'];
+			$app->email_subject    = $_POST['email_subject'];
+			$app->email_body       = $_POST['email_body'];
+			$app->license_filename = $_POST['license_filename'];
+			$app->update();
+			redirect('application.php?id=' . $app->id);
+		}
+		else
+		{
+			$name             = $_POST['name'];
+			$link             = $_POST['link'];
+			$bundle_name      = $_POST['bundle_name'];
+			$s3key            = $_POST['s3key'];
+			$s3pkey           = $_POST['s3pkey'];
+			$s3bucket         = $_POST['s3bucket'];
+			$s3path           = $_POST['s3path'];
+			$sparkle_key      = $_POST['sparkle_key'];
+			$sparkle_pkey     = $_POST['sparkle_pkey'];
+			$ap_key           = $_POST['ap_key'];
+			$ap_pkey          = $_POST['ap_pkey'];
+			$from_email       = $_POST['from_email'];
+			$email_subject    = $_POST['email_subject'];
+			$email_body       = $_POST['email_body'];
+			$license_filename = $_POST['license_filename'];
+		}
+	}
+	else
+	{
+		$name             = $app->name;
+		$link             = $app->link;
+		$bundle_name      = $app->bundle_name;
+		$s3key            = $app->s3key;
+		$s3pkey           = $app->s3pkey;
+		$s3bucket         = $app->s3bucket;
+		$s3path           = $app->s3path;
+		$sparkle_key      = $app->sparkle_key;
+		$sparkle_pkey     = $app->sparkle_pkey;
+		$ap_key           = $app->ap_key;
+		$ap_pkey          = $app->ap_pkey;
+		$from_email       = $app->from_email;
+		$email_subject    = $app->email_subject;
+		$email_body       = $app->email_body;
+		$license_filename = $app->license_filename;
+	}
+?>
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01//EN"
+ "http://www.w3.org/TR/html4/strict.dtd">
+<html>
+<head>
+    <title>Appcaster</title>
+    <meta http-equiv="Content-Type" content="text/html;charset=utf-8" >
+    <link rel="stylesheet" href="http://yui.yahooapis.com/2.7.0/build/reset-fonts-grids/reset-fonts-grids.css" type="text/css">
+    <link rel="stylesheet" href="css/yuiapp.css" type="text/css">
+	<link rel="alternate" type="application/rss+xml" title="Appcast Feed" href="appcast.php?id=<?PHP echo $app->id; ?>" />
+</head>
+<body class="rounded">
+    <div id="doc3" class="yui-t6">
+
+        <div id="hd">
+            <h1>Appcaster</h1>
+            <div id="navigation">
+                <ul id="primary-navigation">
+                    <li class="active"><a href="index.php">Applications</a></li>
+                    <li><a href="orders.php">Orders</a></li>
+                    <li><a href="feedback.php">Feedback</a></li>
+                    <li><a href="stats.php">Stats</a></li>
+                </ul>
+
+                <ul id="user-navigation">
+                    <li><a href="settings.php">Settings</a></li>
+                    <li><a href="logout.php">Logout</a></li>
+                </ul>
+                <div class="clear"></div>
+            </div>
+        </div>
+
+        <div id="bd">
+            <div id="yui-main">
+                <div class="yui-b"><div class="yui-g">
+
+                    <div class="block tabs spaces">
+                        <div class="hd">
+                            <h2>Applications</h2>
+							<ul>
+								<li class="active"><a href="application.php?id=<?PHP echo $app->id; ?>"><?PHP echo $app->name; ?></a></li>
+								<li><a href="versions.php?id=<?PHP echo $app->id; ?>">Versions</a></li>
+								<li><a href="version-new.php?id=<?PHP echo $app->id; ?>">Release New Version</a></li>
+							</ul>
+							<div class="clear"></div>
+                        </div>
+                        <div class="bd">
+							<?PHP echo $Error; ?>
+							<form action="application.php?id=<?PHP echo $app->id; ?>" method="post">
+                                <p>
+									<label for="name">Application Name</label>
+                                    <input type="text" class="text" name="name" id="name" value="<?PHP echo $name; ?>">
+                                </p>
+                                <p>
+									<label for="link">Info URL</label>
+                                    <input type="text" class="text" name="link" id="link" value="<?PHP echo $link; ?>">
+									<span class="info">Your application's product page</span>
+                                </p>
+                                <p>
+									<label for="url">Bundle Name</label>
+                                    <input type="text" class="text" name="bundle_name" id="bundle_name" value="<?PHP echo $bundle_name; ?>">
+									<span class="info">Ex: MyApplication.app</span>
+                                </p>
+								<hr>
+                                <p>
+									<label for="s3key">Amazon S3 Key</label>
+                                    <input type="text" class="text" name="s3key" id="s3key" value="<?PHP echo $s3key; ?>">
+                                </p>
+                                <p>
+									<label for="s3key">Amazon S3 Private Key</label>
+                                    <input type="text" class="text" name="s3pkey" id="s3pkey" value="<?PHP echo $s3pkey; ?>">
+                                </p>
+                                <p>
+									<label for="s3key">Amazon S3 Bucket Name</label>
+                                    <input type="text" class="text" name="s3bucket" id="s3bucket" value="<?PHP echo $s3bucket; ?>">
+                                </p>
+                                <p>
+									<label for="url">Amazon S3 Path</label>
+                                    <input type="text" class="text" name="s3path" id="s3path" value="<?PHP echo $s3path; ?>">
+									<span class="info">The directory in your bucket where you downloads will be stored</span>
+                                </p>
+
+								<hr>
+
+                                <p>
+									<label for="sparkle_key">Sparkle Public Key</label>
+                                    <textarea name="sparkle_key" id="sparkle_key" class="text"><?PHP echo $sparkle_key ?></textarea>
+                                </p>
+                                <p>
+									<label for="sparkle_pkey">Sparkle Private Key</label>
+                                    <textarea name="sparkle_pkey" id="sparkle_pkey" class="text"><?PHP echo $sparkle_pkey ?></textarea>
+                                </p>
+
+                                <p>
+									<label for="ap_key">Aquatic Prime Public Key</label>
+                                    <textarea name="ap_key" id="ap_key" class="text"><?PHP echo $ap_key ?></textarea>
+                                </p>
+                                <p>
+									<label for="ap_pkey">Aquatic Prime Private Key</label>
+                                    <textarea name="ap_pkey" id="ap_pkey" class="text"><?PHP echo $ap_pkey ?></textarea>
+                                </p>
+								
+								<hr>
+								
+								<p>
+									<label for="from_email">From Email</label>
+									<input type="text" class="text" name="from_email" value="<?PHP echo $from_email; ?>" id="from_email">
+								</p>
+								<p>
+									<label for="email_subject">Email Subject</label>
+									<input type="text" class="text" name="email_subject" value="<?PHP echo $email_subject; ?>" id="email_subject">
+								</p>
+                                <p>
+									<label for="email_body">Email Body</label>
+                                    <textarea name="email_body" id="email_body" class="text"><?PHP echo $email_body ?></textarea>
+                                </p>
+								<p>
+									<label for="license_filename">License Filename</label>
+									<input type="text" class="text" name="license_filename" value="<?PHP echo $license_filename; ?>" id="license_filename">
+								</p>
+
+								<p><input type="submit" name="btnSaveApp" value="Save Application" id="btnSaveApp"></p>
+							</form>
+						</div>
+					</div>
+              
+                </div></div>
+            </div>
+            <div id="sidebar" class="yui-b">
+
+            </div>
+        </div>
+
+        <div id="ft"></div>
+    </div>
+</body>
+</html>

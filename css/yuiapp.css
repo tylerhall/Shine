@@ -1,0 +1,121 @@
+html, body { background-color:#f0f0ee; color:#222; }
+
+/* Make the page full bleed */
+#doc3 { margin:0; }
+
+/* Header */
+#hd { padding:1.2em 1.5em 0 1.5em; background-color:#7a1818; }
+h1 { font-size:230%; color:#fff; }
+
+#navigation { margin-top:1.5em; background-color:#262626; height:1%; }
+#navigation li { float:left; display:inline; }
+#navigation li a { display:block; color:#fff; text-decoration:none; }
+#navigation li a:hover { text-decoration:underline; }
+
+#primary-navigation li a { font-size:116%; padding:0.4em 1em; }
+#primary-navigation li.active a { background-color:#f0f0ee; color:#000; }
+
+#user-navigation { float:right; }
+#user-navigation li a { font-size:93%; padding:0.5em 1em; }
+
+/* Body */
+#bd { padding:1.5em; }
+h2 { font-size:153.9%; margin-bottom:0.5em; }
+h3 { font-size:153.9%; margin-bottom:0.5em; }
+
+/* Basic block */
+.block { margin-bottom:1.5em; }
+.block .hd { background-color:#7a1818; padding:0.7em 1em; color:#fff; border-bottom:10px solid #262626; }
+.block .hd h2, .block .hd h3 { font-size:100%; margin-bottom:0; }
+.block .bd { padding:1em; background-color:#fff; }
+.block .bd h2 { color:#7a1818; }
+.block .bd h3 { color:#7a1818; }
+
+/* Extend block with tabs */
+.tabs .hd { padding:0; }
+.tabs .hd ul { height:1%; }
+.tabs .hd ul li { float:left; }
+.tabs .hd ul li a { display:block; color:#fff; text-decoration:none; padding:0.5em 1em; }
+.tabs .hd ul li a:hover { background-color:#470E0E; }
+.tabs .hd ul li.active a { background-color:#262626 !important; color:#fff; text-decoration:none; } /* important! fixes IE cascade issue */
+.tabs .hd h2, .tabs .hd h3 { position:absolute; margin-left:-5000px; } /* Hidden SEO Header if needed */
+
+/* Extend tab block with spaced tabs */
+.spaces .hd { background-color:transparent; }
+.spaces .hd ul li { background-color:#7a1818; margin-right:0.1em; }
+
+/* Extend block and header to have rounded corners */
+.rounded .hd,
+.rounded .hd ul li,
+.rounded .hd ul li a,
+.rounded #navigation,
+.rounded #navigation ul li,
+.rounded #navigation ul li a {
+    -moz-border-radius-topright:7px;
+    -moz-border-radius-topleft:7px;
+    -webkit-border-top-right-radius:7px;
+    -webkit-border-top-left-radius:7px;
+}
+
+/* Style the horizontal rules inside .block */
+.block hr { background-color:#f0f0ee; color:#f0f0ee; height:1px; border:0; }
+
+/* Tables */
+table { width:100%; margin-bottom:2em; }
+table td, table th { padding:0.5em; }
+table thead { background-color:#262626; color:#fff; font-weight:bold; }
+table thead a { text-decoration:none; color:#fff; }
+table thead a:hover { text-decoration:underline; }
+table tbody a { text-decoration:underline; }
+
+/* Pager control*/
+ul.pager { text-align:right; }
+ul.pager li { display:inline; }
+ul.pager li a { padding:0.1em 0.3em; margin-right:0.3em; border:1px solid #000; text-decoration:none; color:#000; }
+ul.pager li.active a, ul.pager li a:hover { background-color:#000; color:#fff; }
+
+/* Forms */
+form label { font-weight:bold; }
+form label span { font-weight:normal; color:#f00; font-size:85%; }
+form span.info { font-style:italic; color:#aaa; font-size:85%; }
+form .text { display:block; width:99%; border:1px solid #aaa; padding:0.3em; }
+form .column { width:48%; }
+form .left { float:left; }
+form .right { float:right; }
+
+/* Messages */
+.alert { padding:0.5em; text-align:center; }
+.error { border:2px solid #fbb; background-color:#fdd; }
+.warning { border:2px solid #fffaaa; background-color:#ffc; }
+.notice { border:2px solid #1fdf00; background-color:#bbffb6; }
+
+/* Lists */
+ol.list, ul.list, dl.list { margin-left:2em; margin-bottom:1em; }
+ol.list li { list-style:decimal outside; }
+ul.list li { list-style:disc outside; }
+dl.list dd { margin-left:1em; }
+
+ul.biglist { margin-bottom:1em; }
+ul.biglist li { margin-top:-1px; border:1px solid #f0f0ee; border-width:1px 0 1px 0; }
+ul.biglist li a { display:block; padding:0.5em 0; text-decoration:none; color:#000; }
+ul.biglist li a:hover { text-decoration:underline; }
+
+/* Footer */
+#ft { text-align:center; font-size:85%; padding:0.5em 1em; color:#262626; }
+
+/* Generics */
+p { margin-bottom:1em; }
+a { color:#7a1818; }
+strong { font-weight:bold; }
+em { font-style:italic; }
+abbr, acronym { border-bottom:1px dotted #000; cursor:help; }
+textarea { height:13em; }
+
+.small { font-size:85%; }
+.gray { color:#999; }
+.highlight { background-color:#ffffcc; }
+.clear { clear:both; }
+.text-left { text-align:left; }
+.text-right { text-align:right; }
+.text-center { text-align:center; }
+.inline { display:inline; }
