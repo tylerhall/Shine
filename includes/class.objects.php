@@ -205,3 +205,11 @@
             parent::__construct('versions', array('app_id', 'human_version', 'version_number', 'dt', 'release_notes', 'filesize', 'url', 'downloads', 'signature'), $id);
         }
     }
+
+	class Feedback extends DBObject
+	{
+		function __construct($id = null)
+		{
+			parent::__construct('feedback', array('appname', 'appversion', 'systemversion', 'email', 'reply', 'type', 'message', 'importance', 'critical', 'dt', 'ip', 'new', 'starred', 'reguser', 'regmail'), $id);
+		}
+	}

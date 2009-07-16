@@ -24,8 +24,8 @@
     $Config = Config::getConfig();
 
     // Store session info in the database?
-    if($Config->useDBSessions === true)
-        DBSession::register();
+//    if($Config->useDBSessions === true)
+//        DBSession::register();
 
     // Initialize our session
 	session_name('spf2');
