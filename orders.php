@@ -2,15 +2,17 @@
 	require 'includes/master.inc.php';
 	$Auth->requireAdmin('login.php');
 
-	$orders = DBObject::glob('Order', 'SELECT * FROM orders ORDER BY dt DESC');
+	$applications = DBObject::glob('Application', 'SELECT * FROM applications ORDER BY name');
 
 	if(isset($_GET['id']))
 	{
 		$app_id = intval($_GET['id']);
-		$applications = DBObject::glob('Application', 'SELECT * FROM applications WHERE id = ' . $app_id . ' ORDER BY name');
+		$orders = DBObject::glob('Order', 'SELECT * FROM orders WHERE app_id = ' . $app_id . ' ORDER BY dt DESC');
 	}
 	else
-		$applications = DBObject::glob('Application', 'SELECT * FROM applications ORDER BY name');
+	{
+		$orders = DBObject::glob('Order', 'SELECT * FROM orders ORDER BY dt DESC');
+	}
 ?>
 <!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01//EN"
  "http://www.w3.org/TR/html4/strict.dtd">
