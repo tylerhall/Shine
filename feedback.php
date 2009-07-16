@@ -1,8 +1,17 @@
 <?PHP
 	require 'includes/master.inc.php';
 	$Auth->requireAdmin('login.php');
-	
-	$feedback = DBObject::glob('Feedback', "SELECT * FROM feedback ORDER BY dt DESC");
+
+	if(isset($_GET['type']))
+	{
+		$db = Database::getDatabase();
+		$type = mysql_real_escape_string($_GET['type'], $db->db);
+		$feedback = DBObject::glob('Feedback', "SELECT * FROM feedback WHERE type = '$type' ORDER BY dt DESC");
+	}
+	else
+	{
+		$feedback = DBObject::glob('Feedback', "SELECT * FROM feedback ORDER BY dt DESC");
+	}
 ?>
 <!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01//EN"
  "http://www.w3.org/TR/html4/strict.dtd">
@@ -43,9 +52,9 @@
                             <h2>Orders</h2>
 							<ul>
 								<li <?PHP if(@$_GET['type']==''){?> class="active"<? } ?>><a href="feedback.php">All Feedback</a></li>
-								<li <?PHP if(@$_GET['type']=='questions'){?> class="active"<? } ?>><a href="feedback.php?type=questions">Support Questions</a></li>
-								<li <?PHP if(@$_GET['type']=='bugs'){?> class="active"<? } ?>><a href="feedback.php?type=bugs">Bug Reports</a></li>
-								<li <?PHP if(@$_GET['type']=='features'){?> class="active"<? } ?>><a href="feedback.php?type=features">Feature Requests</a></li>
+								<li <?PHP if(@$_GET['type']=='support'){?> class="active"<? } ?>><a href="feedback.php?type=support">Support Questions</a></li>
+								<li <?PHP if(@$_GET['type']=='bug'){?> class="active"<? } ?>><a href="feedback.php?type=bug">Bug Reports</a></li>
+								<li <?PHP if(@$_GET['type']=='feature'){?> class="active"<? } ?>><a href="feedback.php?type=feature">Feature Requests</a></li>
 							</ul>
 							<div class="clear"></div>
                         </div>
@@ -71,7 +80,7 @@
 										<td><?PHP echo $f->email; ?></td>
 										<td><?PHP echo ($f->reply == 1) ? '<strong>Yes</strong>' : 'No'; ?></td>
 										<td><?PHP echo time2str($f->dt); ?></td>
-										<td><a href="#">View</a></td>
+										<td><a href="feedback-view.php?id=<?PHP echo $f->id; ?>">View</a></td>
 									</tr>
 									<?PHP endforeach; ?>
                                 </tbody>

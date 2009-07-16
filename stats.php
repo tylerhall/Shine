@@ -84,7 +84,7 @@
 									<tr>
 										<td><?PHP echo dater($r['dt'], 'm/d/Y g:ia'); ?></td>
 										<?PHP foreach($keys as $k) : ?>
-										<td><?PHP echo $r[$k]; ?></td>
+										<td><?PHP echo @$r[$k]; ?></td>
 										<?PHP endforeach; ?>
 									</tr>
 									<?PHP endforeach; ?>

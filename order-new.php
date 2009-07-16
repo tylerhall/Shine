@@ -99,12 +99,5 @@
 
         <div id="ft"></div>
     </div>
-	<script type="text/javascript" charset="utf-8">
-		google.load("jquery", "1");
-		google.setOnLoadCallback(function(){
-			$('#email').click(function(){return confirm('Are you sure you want to email the user their license?');});
-			$('#delete').click(function(){return confirm('Are you sure you want to delete this order?');});
-		});
-	</script>
 </body>
 </html>

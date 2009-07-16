@@ -67,6 +67,7 @@ table thead { background-color:#262626; color:#fff; font-weight:bold; }
 table thead a { text-decoration:none; color:#fff; }
 table thead a:hover { text-decoration:underline; }
 table tbody tr:hover { background-color:#ccc; }
+table tbody tr.new { background-color:#d0adad; }
 table tbody a { text-decoration:underline; }
 
 /* Pager control*/

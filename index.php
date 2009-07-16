@@ -49,16 +49,9 @@
 
                     <div class="block">
                         <div class="hd">
-                            <h2>Applications</h2>
+                            <h2>Your Applications</h2>
                         </div>
                         <div class="bd">
-							<form action="index.php" method="post">
-                                <p>
-									<label for="test1">Application Name</label>
-                                    <input type="text" class="text" name="name" id="appname" value="">
-                                </p>
-								<p><input type="submit" name="btnNewApp" value="Create Application" id="btnNewApp"></p>
-							</form>
                             <table>
                                 <thead>
                                     <tr>
@@ -101,6 +94,21 @@
 						</ul>
 					</div>
 				</div>
+				
+				<div class="block">
+					<div class="hd">
+						<h2>Create an Application</h2>
+					</div>
+					<div class="bd">
+						<form action="index.php" method="post">
+		                    <p>
+								<label for="test1">Application Name</label>
+		                        <input type="text" class="text" name="name" id="appname" value="">
+		                    </p>
+							<p><input type="submit" name="btnNewApp" value="Create Application" id="btnNewApp"></p>
+						</form>	
+					</div>
+				</div>				
 				
             </div>
         </div>
