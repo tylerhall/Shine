@@ -13,6 +13,15 @@
 	{
 		$orders = DBObject::glob('Order', 'SELECT * FROM orders ORDER BY dt DESC');
 	}
+	
+	$db                = Database::getDatabase();
+	$order_totals      = $db->getRows("SELECT DATE_FORMAT(dt, '%b') as dtstr, COUNT(*) FROM orders WHERE type = 'PayPal' GROUP BY CONCAT(YEAR(dt), '-', MONTH(dt)) ORDER BY YEAR(dt) ASC, MONTH(dt) ASC");
+	$chart             = new googleChart(implode(',', gimme($order_totals, 'COUNT(*)')));
+	$chart->showGrid   = 1;
+	$chart->dimensions = '280x100';
+	$labels            = gimme($order_totals, 'dtstr', 5);	
+	$chart->setLabelsMinMax(4,'left');
+	$chart->setLabels($labels, 'bottom');	
 ?>
 <!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01//EN"
  "http://www.w3.org/TR/html4/strict.dtd">
@@ -24,7 +33,7 @@
     <link rel="stylesheet" href="css/yuiapp.css" type="text/css">
 </head>
 <body class="rounded">
-    <div id="doc3" class="yui-t0">
+    <div id="doc3" class="yui-t6">
 
         <div id="hd">
             <h1>Shine</h1>
@@ -95,6 +104,15 @@
             </div>
             <div id="sidebar" class="yui-b">
 
+				<div class="block">
+					<div class="hd">
+						<h2>Orders Per Month</h2>
+					</div>
+					<div class="bd">
+						<?PHP $chart->draw(); ?>
+					</div>
+				</div>
+				
             </div>
         </div>
 

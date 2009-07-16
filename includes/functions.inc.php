@@ -306,14 +306,19 @@
     }
 
     // Returns an array of the values of the specified column from a multi-dimensional array
-    function gimme($arr, $key = null)
+    function gimme($arr, $key = null, $mod = 1)
     {
         if(is_null($key))
             $key = current(array_keys($arr));
 
         $out = array();
-        foreach($arr as $a)
-            $out[] = $a[$key];
+		$i = 0;
+        foreach($arr as $k => $a)
+		{
+			if($i % $mod == 0)
+	            $out[] = $a[$key];
+			$i++;
+		}
 
         return $out;
     }
