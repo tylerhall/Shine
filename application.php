@@ -23,6 +23,8 @@
 			$app->sparkle_pkey     = $_POST['sparkle_pkey'];
 			$app->ap_key           = $_POST['ap_key'];
 			$app->ap_pkey          = $_POST['ap_pkey'];
+			$app->custom_salt      = $_POST['custom_salt'];
+			$app->license_type     = $_POST['license_type'];
 			$app->from_email       = $_POST['from_email'];
 			$app->email_subject    = $_POST['email_subject'];
 			$app->email_body       = $_POST['email_body'];
@@ -43,6 +45,8 @@
 			$sparkle_pkey     = $_POST['sparkle_pkey'];
 			$ap_key           = $_POST['ap_key'];
 			$ap_pkey          = $_POST['ap_pkey'];
+			$custom_salt      = $_POST['custom_salt'];
+			$license_type     = $_POST['license_type'];
 			$from_email       = $_POST['from_email'];
 			$email_subject    = $_POST['email_subject'];
 			$email_body       = $_POST['email_body'];
@@ -62,6 +66,8 @@
 		$sparkle_pkey     = $app->sparkle_pkey;
 		$ap_key           = $app->ap_key;
 		$ap_pkey          = $app->ap_pkey;
+		$custom_salt      = $app->custom_salt;
+		$license_type     = $app->license_type;
 		$from_email       = $app->from_email;
 		$email_subject    = $app->email_subject;
 		$email_body       = $app->email_body;
@@ -160,6 +166,18 @@
                                     <textarea name="sparkle_pkey" id="sparkle_pkey" class="text"><?PHP echo $sparkle_pkey ?></textarea>
                                 </p>
 
+								<hr>
+
+								<p>
+									<label for="license_type">License Type</label><br>
+                                    <select name="license_type" id="license_type">
+										<option <?PHP if($license_type == 'ap') echo 'selected="selected"'; ?> value="ap">Aquatic Prime</option>
+										<option <?PHP if($license_type == 'custom') echo 'selected="selected"'; ?> value="custom">Custom</option>
+									</select>
+                                </p>
+
+								<hr>
+
                                 <p>
 									<label for="ap_key">Aquatic Prime Public Key</label>
                                     <textarea name="ap_key" id="ap_key" class="text"><?PHP echo $ap_key ?></textarea>
@@ -168,7 +186,14 @@
 									<label for="ap_pkey">Aquatic Prime Private Key</label>
                                     <textarea name="ap_pkey" id="ap_pkey" class="text"><?PHP echo $ap_pkey ?></textarea>
                                 </p>
-								
+
+								<hr>
+
+								<p>
+									<label for="custom_salt">Custom License Salt (if not using Aquatic Prime)</label>
+                                    <textarea name="custom_salt" id="custom_salt" class="text"><?PHP echo $custom_salt ?></textarea>
+                                </p>
+                                
 								<hr>
 								
 								<p>

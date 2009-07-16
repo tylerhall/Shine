@@ -13,7 +13,7 @@
     {
         public function __construct($id = null)
         {
-            parent::__construct('applications', array('name', 'link', 'bundle_name', 's3key', 's3pkey', 's3bucket', 's3path', 'sparkle_key', 'sparkle_pkey', 'ap_key', 'ap_pkey', 'from_email', 'email_subject', 'email_body', 'license_filename'), $id);
+            parent::__construct('applications', array('name', 'link', 'bundle_name', 's3key', 's3pkey', 's3bucket', 's3path', 'sparkle_key', 'sparkle_pkey', 'ap_key', 'ap_pkey', 'from_email', 'email_subject', 'email_body', 'license_filename', 'custom_salt', 'license_type'), $id);
         }
 
 		public function versions()
@@ -51,7 +51,7 @@
 
 		function getBody($order)
 		{
-			return str_replace(array('{first_name}', '{last_name}'), array($order->first_name, $order->last_name), $this->email_body);
+			return str_replace(array('{first_name}', '{last_name}', '{payer_email}', '{license}'), array($order->first_name, $order->last_name, $order->payer_email, $order->license), $this->email_body);
 		}
     }
 
@@ -77,6 +77,28 @@
 		}
 		
 		function generateLicense()
+		{
+			$app = new Application($this->app_id);
+			if($app->license_type == 'ap')
+				$this->generateLicenseAP();
+			else
+				$this->generateLicenseCustom();
+		}
+
+		function generateLicenseCustom()
+		{
+			$app = new Application($this->app_id);
+			$arr = array('email' => $this->payer_email);
+
+			$str = '';
+			ksort($arr);
+			foreach($arr as $k => $v) $str .= $v;
+
+			$this->license = strtoupper(md5($str . $app->custom_salt));
+			$this->update();
+		}
+		
+		function generateLicenseAP()
 		{
 			// Much of the following code is adapted/copied from AquaticPrime's PHP library...
 
@@ -114,7 +136,22 @@
 			$this->update();
 		}
 		
-		public function emailLicense()
+		function emailLicense()
+		{
+			$app = new Application($this->app_id);
+			if($app->license_type == 'ap')
+				$this->emailLicenseAP();
+			else
+				$this->emailLicenseCustom();
+		}
+		
+		public function emailLicenseCustom()
+		{
+			$app = new Application($this->app_id);
+			mail($this->payer_email, $app->email_subject, $app->getBody($this), "From: {$app->from_email}");
+		}
+
+		public function emailLicenseAP()
 		{
 			$app = new Application($this->app_id);
 
