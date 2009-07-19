@@ -88,7 +88,7 @@
 		function generateLicenseCustom()
 		{
 			$app = new Application($this->app_id);
-			$arr = array('email' => $this->payer_email);
+			$arr = array('email' => utf8_encode($this->payer_email));
 
 			$str = '';
 			ksort($arr);
@@ -104,17 +104,17 @@
 
 			// Create our license dictionary to be signed
 			$dict = array("Product"       => $this->item_name,
-						  "Name"          => $this->first_name . ' ' . $this->last_name,
-						  "Email"         => $this->payer_email,
+						  "Name"          => utf8_encode($this->first_name . ' ' . $this->last_name),
+						  "Email"         => utf8_encode($this->payer_email),
 						  "Licenses"      => $this->quantity,
 						  "Timestamp"     => date('r', strtotime($this->dt)),
 						  "TransactionID" => $this->txn_id);
 
-			$search = explode(",","ç,æ,œ,á,é,í,ó,ú,à,è,ì,ò,ù,ä,ë,ï,ö,ü,ÿ,â,ê,î,ô,û,å,e,i,ø,u");
-			$replace = explode(",","c,ae,oe,a,e,i,o,u,a,e,i,o,u,a,e,i,o,u,y,a,e,i,o,u,a,e,i,o,u");
+			// $search = explode(",","ç,æ,œ,á,é,í,ó,ú,à,è,ì,ò,ù,ä,ë,ï,ö,ü,ÿ,â,ê,î,ô,û,å,e,i,ø,u");
+			// $replace = explode(",","c,ae,oe,a,e,i,o,u,a,e,i,o,u,a,e,i,o,u,y,a,e,i,o,u,a,e,i,o,u");
 
-			foreach($dict as $k => $v)
-				$dict[$k] = str_replace($search, $replace, $v);
+			// foreach($dict as $k => $v)
+			// 	$dict[$k] = str_replace($search, $replace, $v);
 
 			$app = new Application($this->app_id);
 		    $sig = chunk_split(getSignature($dict, $app->ap_key, $app->ap_pkey));
@@ -124,6 +124,7 @@
 		    $plist .= "<plist version=\"1.0\">\n<dict>\n";
 		    foreach($dict as $key => $value)
 			{
+				$value = utf8_encode($value);
 		        $plist .= "\t<key>" . htmlspecialchars($key, ENT_NOQUOTES) . "</key>\n";
 		        $plist .= "\t<string>" . htmlspecialchars($value, ENT_NOQUOTES) . "</string>\n";
 		    }

@@ -87,8 +87,8 @@
 									<?PHP foreach($orders as $o) : ?>
 									<tr>
 										<td><?PHP echo $o->applicationName(); ?></td>
-										<td><?PHP echo $o->first_name; ?> <?PHP echo $o->last_name ?></td>
-										<td><a href="mailto:<?PHP echo $o->payer_email; ?>"><?PHP echo $o->payer_email; ?></a></td>
+										<td><?PHP echo utf8_encode($o->first_name); ?> <?PHP echo utf8_encode($o->last_name); ?></td>
+										<td><a href="mailto:<?PHP echo utf8_encode($o->payer_email); ?>"><?PHP echo utf8_encode($o->payer_email); ?></a></td>
 										<td><?PHP echo $o->type; ?></td>
 										<td><?PHP echo dater($o->dt, 'm/d/Y g:ia') ?></td>
 										<td>$<?PHP echo number_format($o->payment_gross, 2); ?></td>
