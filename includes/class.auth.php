@@ -29,14 +29,12 @@
 
             if(!is_null($user_to_impersonate))
                 return $this->impersonate($user_to_impersonate);
-
+            
             if($this->attemptSessionLogin())
-                return true;
+                return;
 
             if($this->attemptCookieLogin())
-                return true;
-
-            return false;
+                return;
         }
 
         // Get Singleton object
@@ -71,7 +69,7 @@
 
             $_SESSION['un'] = '';
             $_SESSION['pw'] = '';
-            setcookie('spf', '', time() - 3600, '/', $Config->authDomain);
+            setcookie('spf', '.', time() - 3600, '/', $Config->authDomain);
         }
 
         // Assumes you have already checked for duplicate usernames
@@ -196,6 +194,7 @@
             if(isset($_COOKIE['spf']) && is_string($_COOKIE['spf']))
             {
                 $s = json_decode($_COOKIE['spf'], true);
+
                 if(isset($s['un']) && isset($s['pw']))
                 {
                     return $this->attemptLogin($s['un'], $s['pw']);

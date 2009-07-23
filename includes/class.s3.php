@@ -67,7 +67,7 @@
 		{
 			$info     = pathinfo($filename);
 			$basename = $info['basename'];
-			$ext      = $info['extension'];
+			$ext      = isset($info['extension']) ? $info['extension'] : '';
 
 			$type = isset($this->mime_types[$ext]) ? $this->mime_types[$ext] : "application/octet-stream";
 
