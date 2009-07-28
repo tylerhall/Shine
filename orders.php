@@ -3,15 +3,22 @@
 	$Auth->requireAdmin('login.php');
 
 	$applications = DBObject::glob('Application', 'SELECT * FROM applications ORDER BY name');
+	
+
+	$db = Database::getDatabase();
 
 	if(isset($_GET['id']))
 	{
 		$app_id = intval($_GET['id']);
-		$orders = DBObject::glob('Order', 'SELECT * FROM orders WHERE app_id = ' . $app_id . ' ORDER BY dt DESC');
+		$total_num_orders = $db->getValue("SELECT COUNT(*) FROM orders WHERE app_id = $app_id ORDER BY dt DESC");
+		$pager = new Pager(@$_GET['page'], 50, $total_num_orders);
+		$orders = DBObject::glob('Order', "SELECT * FROM orders WHERE app_id = $app_id ORDER BY dt DESC LIMIT {$pager->firstRecord}, {$pager->perPage}");
 	}
 	else
 	{
-		$orders = DBObject::glob('Order', 'SELECT * FROM orders ORDER BY dt DESC');
+		$total_num_orders = $db->getValue("SELECT COUNT(*) FROM orders");
+		$pager = new Pager(@$_GET['page'], 50, $total_num_orders);
+		$orders = DBObject::glob('Order', "SELECT * FROM orders ORDER BY dt DESC LIMIT {$pager->firstRecord}, {$pager->perPage}");
 	}
 	
 	$db                = Database::getDatabase();
@@ -21,7 +28,7 @@
 	$chart->dimensions = '280x100';
 	$labels            = gimme($order_totals, 'dtstr', 5);	
 	$chart->setLabelsMinMax(4,'left');
-	$chart->setLabels($labels, 'bottom');	
+	$chart->setLabels($labels, 'bottom');
 ?>
 <!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01//EN"
  "http://www.w3.org/TR/html4/strict.dtd">
@@ -64,13 +71,26 @@
 							<ul>
 								<li class="<?PHP if(!isset($_GET['id'])) echo 'active'; ?>"><a href="orders.php">All Orders (<?PHP echo Order::totalOrders(); ?>)</a></li>
 								<?PHP foreach($applications as $a) : ?>
-								<li class="<?PHP if(@$_GET['id'] == $a->id) echo 'active'; ?>"><a href="orders.php?id=<?PHP echo $a->id; ?>"><?PHP echo $a->name; ?></a></li>
+								<li class="<?PHP if(@$_GET['id'] == $a->id) echo 'active'; ?>"><a href="orders.php?id=<?PHP echo $a->id; ?>"><?PHP echo $a->name; ?> (<?PHP echo Order::totalOrders($a->id); ?>)</a></li>
 								<?PHP endforeach; ?>
 								<li><a href="order-new.php">Create Manual Order</a></li>
 							</ul>
 							<div class="clear"></div>
                         </div>
                         <div class="bd">
+	                        <ul class="pager">
+
+                                <li><a href="orders.php?page=<?PHP echo $pager->prevPage(); ?>&amp;id=<?PHP echo @$app_id; ?>">&#171; Prev</a></li>
+								<?PHP for($i = 1; $i <= $pager->numPages; $i++) : ?>
+								<?PHP if($i == $pager->page) : ?>
+                                <li class="active"><a href="orders.php?page=<?PHP echo $i; ?>&amp;id=<?PHP echo @$app_id; ?>"><?PHP echo $i; ?></a></li>
+								<?PHP else : ?>
+                                <li><a href="orders.php?page=<?PHP echo $i; ?>&amp;id=<?PHP echo @$app_id; ?>"><?PHP echo $i; ?></a></li>
+								<?PHP endif; ?>
+								<?PHP endfor; ?>
+                                <li><a href="orders.php?page=<?PHP echo $pager->nextPage(); ?>&amp;id=<?PHP echo @$app_id; ?>">Next &#187;</a></li>
+                            </ul>
+
                             <table>
                                 <thead>
                                     <tr>
@@ -85,7 +105,7 @@
                                 </thead>
                                 <tbody>
 									<?PHP foreach($orders as $o) : ?>
-									<tr>
+									<tr class="<?PHP if($o->type == 'Manual') echo 'dim'; ?>">
 										<td><?PHP echo $o->applicationName(); ?></td>
 										<td><?PHP echo utf8_encode($o->first_name); ?> <?PHP echo utf8_encode($o->last_name); ?></td>
 										<td><a href="mailto:<?PHP echo utf8_encode($o->payer_email); ?>"><?PHP echo utf8_encode($o->payer_email); ?></a></td>
@@ -97,6 +117,19 @@
 									<?PHP endforeach; ?>
                                 </tbody>
                             </table>
+
+	                        <ul class="pager">
+
+                                <li><a href="orders.php?page=<?PHP echo $pager->prevPage(); ?>">&#171; Prev</a></li>
+								<?PHP for($i = 1; $i <= $pager->numPages; $i++) : ?>
+								<?PHP if($i == $pager->page) : ?>
+                                <li class="active"><a href="orders.php?page=<?PHP echo $i; ?>"><?PHP echo $i; ?></a></li>
+								<?PHP else : ?>
+                                <li><a href="orders.php?page=<?PHP echo $i; ?>"><?PHP echo $i; ?></a></li>
+								<?PHP endif; ?>
+								<?PHP endfor; ?>
+                                <li><a href="orders.php?page=<?PHP echo $pager->nextPage(); ?>">Next &#187;</a></li>
+                            </ul>
 						</div>
 					</div>
               

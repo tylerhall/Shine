@@ -143,7 +143,7 @@
 			if($app->license_type == 'ap')
 				$this->emailLicenseAP();
 			else
-				$this->emailLicenseCustom();
+				$this->emailLicenseSMTP();
 		}
 		
 		public function emailLicenseCustom()
@@ -204,7 +204,7 @@
 			$mime = new Mail_mime("\r\n");
 			$mime->setTXTBody($app->getBody($this));
 			$mime->setHTMLBody('');
-			$mime->addAttachment($tmp, 'application/octet-stream', $app->license_filename, true, 'base64');
+			// $mime->addAttachment($tmp, 'application/octet-stream', $app->license_filename, true, 'base64');
 
 			$body = $mime->get();
 			$hdrs = $mime->headers($hdrs);
@@ -229,10 +229,13 @@
 			exit;
 		}
 		
-		public static function totalOrders()
+		public static function totalOrders($id = null)
 		{
 			$db = Database::getDatabase();
-			return $db->getValue("SELECT COUNT(*) FROM orders WHERE type = 'paypal'");
+			if(is_null($id))
+				return $db->getValue("SELECT COUNT(*) FROM orders WHERE type = 'paypal'");
+			else
+				return $db->getValue("SELECT COUNT(*) FROM orders WHERE type = 'paypal' AND app_id = " . intval($id));
 		}
     }
 

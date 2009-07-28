@@ -2,13 +2,7 @@
 	require 'includes/master.inc.php';
 	$Auth->requireAdmin('login.php');
 
-	if(isset($_GET['id']))
-	{
-		$app_id = intval($_GET['id']);
-		$applications = DBObject::glob('Application', 'SELECT * FROM applications WHERE id = ' . $app_id . ' ORDER BY name');
-	}
-	else
-		$applications = DBObject::glob('Application', 'SELECT * FROM applications ORDER BY name');
+	$applications = DBObject::glob('Application', 'SELECT * FROM applications ORDER BY name');
 
 	$db = Database::getDatabase();
 	$keys = $db->getValues("SELECT DISTINCT(`key`) FROM sparkle_data");
@@ -62,9 +56,9 @@
                         <div class="hd">
                             <h2>Orders</h2>
 							<ul>
-								<li class="<?PHP if(!isset($_GET['id'])) echo 'active'; ?>"><a href="orders.php">All Apps (<?PHP echo Order::totalOrders(); ?>)</a></li>
+								<li class="<?PHP if(!isset($_GET['id'])) echo 'active'; ?>"><a href="stats.php">All Apps (<?PHP echo Order::totalOrders(); ?>)</a></li>
 								<?PHP foreach($applications as $a) : ?>
-								<li class="<?PHP if(@$_GET['id'] == $a->id) echo 'active'; ?>"><a href="orders.php?id=<?PHP echo $a->id; ?>"><?PHP echo $a->name; ?></a></li>
+								<li class="<?PHP if(@$_GET['id'] == $a->id) echo 'active'; ?>"><a href="stats.php?id=<?PHP echo $a->id; ?>"><?PHP echo $a->name; ?></a></li>
 								<?PHP endforeach; ?>
 							</ul>
 							<div class="clear"></div>
