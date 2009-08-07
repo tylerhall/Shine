@@ -29,6 +29,7 @@
 			$app->email_subject    = $_POST['email_subject'];
 			$app->email_body       = $_POST['email_body'];
 			$app->license_filename = $_POST['license_filename'];
+			$app->return_url       = $_POST['return_url'];
 			$app->update();
 			redirect('application.php?id=' . $app->id);
 		}
@@ -51,6 +52,7 @@
 			$email_subject    = $_POST['email_subject'];
 			$email_body       = $_POST['email_body'];
 			$license_filename = $_POST['license_filename'];
+			$return_url       = $_POST['return_url'];
 		}
 	}
 	else
@@ -72,6 +74,7 @@
 		$email_subject    = $app->email_subject;
 		$email_body       = $app->email_body;
 		$license_filename = $app->license_filename;
+		$return_url       = $app->return_url;
 	}
 ?>
 <!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01//EN"
@@ -193,7 +196,11 @@
 									<label for="custom_salt">Custom License Salt (if not using Aquatic Prime)</label>
                                     <textarea name="custom_salt" id="custom_salt" class="text"><?PHP echo $custom_salt ?></textarea>
                                 </p>
-                                
+
+								<p>
+									<label for="return_url">PayPal Thanks URL</label>
+                                    <input type="text" class="text" name="return_url" value="<?PHP echo $return_url; ?>" id="return_url">
+                                </p>                                
 								<hr>
 								
 								<p>
