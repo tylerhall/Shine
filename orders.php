@@ -26,6 +26,8 @@
 	$opm->showGrid   = 1;
 	$opm->dimensions = '280x100';
 	$opm->setLabelsMinMax(4,'left');
+	$opm_fb = clone $opm;
+	$opm_fb->dimensions = '640x400';
 
 	// Orders Per Week
 	$order_totals    = $db->getRows("SELECT WEEK(dt) as dtstr, COUNT(*) FROM orders WHERE type = 'PayPal' GROUP BY CONCAT(YEAR(dt), WEEK(dt)) ORDER BY YEAR(dt) ASC, WEEK(dt) ASC");
@@ -33,6 +35,8 @@
 	$opw->showGrid   = 1;
 	$opw->dimensions = '280x100';
 	$opw->setLabelsMinMax(4,'left');
+	$opw_fb = clone $opw;
+	$opw_fb->dimensions = '640x400';
 
 	// Orders Per Month Per Application
 	$data = array();
@@ -43,6 +47,8 @@
 	$opma->showGrid   = 1;
 	$opma->dimensions = '280x100';
 	$opma->setLabelsMinMax(4,'left');
+	$opma_fb = clone $opma;
+	$opma_fb->dimensions = '640x400';
 ?>
 <!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01//EN"
  "http://www.w3.org/TR/html4/strict.dtd">
@@ -52,6 +58,7 @@
     <meta http-equiv="Content-Type" content="text/html;charset=utf-8" >
     <link rel="stylesheet" href="http://yui.yahooapis.com/2.7.0/build/reset-fonts-grids/reset-fonts-grids.css" type="text/css">
     <link rel="stylesheet" href="css/yuiapp.css" type="text/css">
+	<link rel="stylesheet" href="js/jquery.fancybox.css" type="text/css" media="screen">
 </head>
 <body class="rounded">
     <div id="doc3" class="yui-t6">
@@ -153,16 +160,16 @@
 						<h2>Total Orders Per Month</h2>
 					</div>
 					<div class="bd">
-						<?PHP $opm->draw(); ?>
+						<a href="<?PHP echo $opm_fb->draw(false); ?>" class="fb"><?PHP $opm->draw(); ?></a>
 					</div>
 				</div>
 
 				<div class="block">
 					<div class="hd">
-						<h2>Orders Per Week</h2>
+						<h2>Total Orders Per Week</h2>
 					</div>
 					<div class="bd">
-						<?PHP $opw->draw(); ?>
+						<a href="<?PHP echo $opw_fb->draw(false); ?>" class="fb"><?PHP $opw->draw(); ?></a>
 					</div>
 				</div>
 
@@ -171,7 +178,7 @@
 						<h2>Orders Per Month</h2>
 					</div>
 					<div class="bd">
-						<?PHP $opma->draw(); ?>
+						<a href="<?PHP echo $opma_fb->draw(false); ?>" class="fb"><?PHP $opma->draw(); ?></a>
 					</div>
 				</div>
             </div>
@@ -179,5 +186,10 @@
 
         <div id="ft"></div>
     </div>
+	<script type="text/javascript" src="js/jquery-1.3.2.min.js"></script>
+	<script type="text/javascript" src="js/jquery.fancybox-1.2.1.pack.js"></script>
+	<script type="text/javascript" charset="utf-8">
+ 		$(".fb").fancybox({ 'zoomSpeedIn': 300, 'zoomSpeedOut': 300, 'overlayShow': false }); 
+	</script>
 </body>
 </html>

@@ -1,7 +1,4 @@
 <?PHP
-	require_once('Mail.php');
-	require_once('Mail/mime.php');
-
     function printr($var)
     {
         $output = print_r($var, true);

@@ -64,15 +64,17 @@
 			$orders = array();
 			for($i = 0; $i < count($keys); $i++)
 				$orders[$keys[$i]] = $values[$i];
-
+				
 			$first_order_date = $db->getValue("SELECT dt FROM orders ORDER BY dt ASC LIMIT 1");
 			list($year, $month) = explode('-', dater($first_order_date, 'Y-n'));
+
 			do
 			{
+				$month = str_pad($month, 2, '0', STR_PAD_LEFT);
 				if(!isset($orders["$year-$month"]))
-					$orders["$year-" . str_pad($month, 2, '0', STR_PAD_LEFT)] = 0;
+					$orders["$year-$month"] = 0;
 				
-				$month++;
+				$month = intval($month) + 1;
 				if($month == 13)
 				{
 					$month = 1;
@@ -223,6 +225,8 @@
 		// define('SMTP_PASSWORD', 'some-password');
 		// define('SMTP_HOST', 'ssl://smtp.gmail.com');
 		// define('SMTP_PORT', 465);
+		// You'll also need to install PEAR's Mail and Mail_Mime extensions.
+		//
 		// public function emailLicenseSMTP()
 		// {
 		// 	$app = new Application($this->app_id);

@@ -382,7 +382,7 @@ class googleChart {
 			}
 			$newData.=$innerData;
 			
-		}echo '<br/>';
+		}
 		if ($newData) {
 			$this->numericBase='t';//simple mode
 			$this->data=$newData;
