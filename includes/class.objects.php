@@ -36,17 +36,20 @@
 		
 		public function numSupportQuestions()
 		{
-			return '0';
+			$db = Database::getDatabase();
+			return $db->getValue("SELECT COUNT(*) FROM feedback WHERE appname = '{$this->name}' AND `type` = 'support' AND new = 1");
 		}
 		
 		public function numBugReports()
 		{
-			return '0';
+			$db = Database::getDatabase();
+			return $db->getValue("SELECT COUNT(*) FROM feedback WHERE appname = '{$this->name}' AND `type` = 'bug' AND new = 1");
 		}
 		
 		public function numFeatureRequests()
 		{
-			return '0';
+			$db = Database::getDatabase();
+			return $db->getValue("SELECT COUNT(*) FROM feedback WHERE appname = '{$this->name}' AND `type` = 'feature' AND new = 1");
 		}
 
 		function getBody($order)
