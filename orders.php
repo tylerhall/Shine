@@ -3,7 +3,6 @@
 	$Auth->requireAdmin('login.php');
 
 	$applications = DBObject::glob('Application', 'SELECT * FROM applications ORDER BY name');
-	
 
 	$db = Database::getDatabase();
 
@@ -20,15 +19,30 @@
 		$pager = new Pager(@$_GET['page'], 50, $total_num_orders);
 		$orders = DBObject::glob('Order', "SELECT * FROM orders ORDER BY dt DESC LIMIT {$pager->firstRecord}, {$pager->perPage}");
 	}
-	
-	$db                = Database::getDatabase();
-	$order_totals      = $db->getRows("SELECT DATE_FORMAT(dt, '%b') as dtstr, COUNT(*) FROM orders WHERE type = 'PayPal' GROUP BY CONCAT(YEAR(dt), '-', MONTH(dt)) ORDER BY YEAR(dt) ASC, MONTH(dt) ASC");
-	$chart             = new googleChart(implode(',', gimme($order_totals, 'COUNT(*)')));
-	$chart->showGrid   = 1;
-	$chart->dimensions = '280x100';
-	$labels            = gimme($order_totals, 'dtstr', 5);	
-	$chart->setLabelsMinMax(4,'left');
-	$chart->setLabels($labels, 'bottom');
+
+	// Orders Per Month
+	$order_totals    = $db->getRows("SELECT DATE_FORMAT(dt, '%b') as dtstr, COUNT(*) FROM orders WHERE type = 'PayPal' GROUP BY CONCAT(YEAR(dt), '-', MONTH(dt)) ORDER BY YEAR(dt) ASC, MONTH(dt) ASC");
+	$opm             = new googleChart(implode(',', gimme($order_totals, 'COUNT(*)')), 'line');
+	$opm->showGrid   = 1;
+	$opm->dimensions = '280x100';
+	$opm->setLabelsMinMax(4,'left');
+
+	// Orders Per Week
+	$order_totals    = $db->getRows("SELECT WEEK(dt) as dtstr, COUNT(*) FROM orders WHERE type = 'PayPal' GROUP BY CONCAT(YEAR(dt), WEEK(dt)) ORDER BY YEAR(dt) ASC, WEEK(dt) ASC");
+	$opw             = new googleChart(implode(',', gimme($order_totals, 'COUNT(*)')), 'line');
+	$opw->showGrid   = 1;
+	$opw->dimensions = '280x100';
+	$opw->setLabelsMinMax(4,'left');
+
+	// Orders Per Month Per Application
+	$data = array();
+	foreach($applications as $app)
+		$data[$app->name] = $app->ordersPerMonth();
+	$opma = new googleChart();
+	$opma->smartDataLabel($data);
+	$opma->showGrid   = 1;
+	$opma->dimensions = '280x100';
+	$opma->setLabelsMinMax(4,'left');
 ?>
 <!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01//EN"
  "http://www.w3.org/TR/html4/strict.dtd">
@@ -79,7 +93,6 @@
                         </div>
                         <div class="bd">
 	                        <ul class="pager">
-
                                 <li><a href="orders.php?page=<?PHP echo $pager->prevPage(); ?>&amp;id=<?PHP echo @$app_id; ?>">&#171; Prev</a></li>
 								<?PHP for($i = 1; $i <= $pager->numPages; $i++) : ?>
 								<?PHP if($i == $pager->page) : ?>
@@ -119,16 +132,15 @@
                             </table>
 
 	                        <ul class="pager">
-
-                                <li><a href="orders.php?page=<?PHP echo $pager->prevPage(); ?>">&#171; Prev</a></li>
+                                <li><a href="orders.php?page=<?PHP echo $pager->prevPage(); ?>&amp;id=<?PHP echo @$app_id; ?>">&#171; Prev</a></li>
 								<?PHP for($i = 1; $i <= $pager->numPages; $i++) : ?>
 								<?PHP if($i == $pager->page) : ?>
-                                <li class="active"><a href="orders.php?page=<?PHP echo $i; ?>"><?PHP echo $i; ?></a></li>
+                                <li class="active"><a href="orders.php?page=<?PHP echo $i; ?>&amp;id=<?PHP echo @$app_id; ?>"><?PHP echo $i; ?></a></li>
 								<?PHP else : ?>
-                                <li><a href="orders.php?page=<?PHP echo $i; ?>"><?PHP echo $i; ?></a></li>
+                                <li><a href="orders.php?page=<?PHP echo $i; ?>&amp;id=<?PHP echo @$app_id; ?>"><?PHP echo $i; ?></a></li>
 								<?PHP endif; ?>
 								<?PHP endfor; ?>
-                                <li><a href="orders.php?page=<?PHP echo $pager->nextPage(); ?>">Next &#187;</a></li>
+                                <li><a href="orders.php?page=<?PHP echo $pager->nextPage(); ?>&amp;id=<?PHP echo @$app_id; ?>">Next &#187;</a></li>
                             </ul>
 						</div>
 					</div>
@@ -136,16 +148,32 @@
                 </div></div>
             </div>
             <div id="sidebar" class="yui-b">
+				<div class="block">
+					<div class="hd">
+						<h2>Total Orders Per Month</h2>
+					</div>
+					<div class="bd">
+						<?PHP $opm->draw(); ?>
+					</div>
+				</div>
+
+				<div class="block">
+					<div class="hd">
+						<h2>Orders Per Week</h2>
+					</div>
+					<div class="bd">
+						<?PHP $opw->draw(); ?>
+					</div>
+				</div>
 
 				<div class="block">
 					<div class="hd">
 						<h2>Orders Per Month</h2>
 					</div>
 					<div class="bd">
-						<?PHP $chart->draw(); ?>
+						<?PHP $opma->draw(); ?>
 					</div>
 				</div>
-				
             </div>
         </div>
 

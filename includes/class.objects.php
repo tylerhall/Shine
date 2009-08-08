@@ -53,6 +53,37 @@
 		{
 			return str_replace(array('{first_name}', '{last_name}', '{payer_email}', '{license}'), array($order->first_name, $order->last_name, $order->payer_email, $order->license), $this->email_body);
 		}
+		
+		function ordersPerMonth()
+		{
+			$db = Database::getDatabase();			
+
+			$orders = $db->getRows("SELECT DATE_FORMAT(dt, '%Y-%m') as dtstr, COUNT(*) FROM orders WHERE type = 'PayPal' AND app_id = '{$this->id}' GROUP BY CONCAT(YEAR(dt), '-', MONTH(dt)) ORDER BY YEAR(dt) ASC, MONTH(dt) ASC");
+			$keys = gimme($orders, 'dtstr');
+			$values = gimme($orders, 'COUNT(*)');
+			$orders = array();
+			for($i = 0; $i < count($keys); $i++)
+				$orders[$keys[$i]] = $values[$i];
+
+			$first_order_date = $db->getValue("SELECT dt FROM orders ORDER BY dt ASC LIMIT 1");
+			list($year, $month) = explode('-', dater($first_order_date, 'Y-n'));
+			do
+			{
+				if(!isset($orders["$year-$month"]))
+					$orders["$year-" . str_pad($month, 2, '0', STR_PAD_LEFT)] = 0;
+				
+				$month++;
+				if($month == 13)
+				{
+					$month = 1;
+					$year++;
+				}
+			}
+			while($year <> date('Y') && $month <> date('m'));
+			
+			ksort($orders);
+			return $orders;
+		}
     }
 
     class Order extends DBObject
@@ -143,7 +174,7 @@
 			if($app->license_type == 'ap')
 				$this->emailLicenseAP();
 			else
-				$this->emailLicenseSMTP();
+				$this->emailLicenseCustom();
 		}
 		
 		public function emailLicenseCustom()
@@ -192,26 +223,26 @@
 		// define('SMTP_PASSWORD', 'some-password');
 		// define('SMTP_HOST', 'ssl://smtp.gmail.com');
 		// define('SMTP_PORT', 465);
-		public function emailLicenseSMTP()
-		{
-			$app = new Application($this->app_id);
-
-			$tmp = tempnam('/tmp', 'foo');
-			file_put_contents($tmp, $this->license);
-
- 			$hdrs = array('From' => $app->from_email, 'Subject' => $app->email_subject);
-
-			$mime = new Mail_mime("\r\n");
-			$mime->setTXTBody($app->getBody($this));
-			$mime->setHTMLBody('');
-			// $mime->addAttachment($tmp, 'application/octet-stream', $app->license_filename, true, 'base64');
-
-			$body = $mime->get();
-			$hdrs = $mime->headers($hdrs);
-
-			$smtp =& Mail::factory('smtp', array('host' => SMTP_HOST, 'port' => SMTP_PORT, 'auth' => true, 'username' => SMTP_USERNAME, 'password' => SMTP_PASSWORD));
-			$mail = $smtp->send($this->payer_email, $hdrs, $body);
-		}
+		// public function emailLicenseSMTP()
+		// {
+		// 	$app = new Application($this->app_id);
+		// 
+		// 	$tmp = tempnam('/tmp', 'foo');
+		// 	file_put_contents($tmp, $this->license);
+		// 
+		//  			$hdrs = array('From' => $app->from_email, 'Subject' => $app->email_subject);
+		// 
+		// 	$mime = new Mail_mime("\r\n");
+		// 	$mime->setTXTBody($app->getBody($this));
+		// 	$mime->setHTMLBody('');
+		// 	// $mime->addAttachment($tmp, 'application/octet-stream', $app->license_filename, true, 'base64');
+		// 
+		// 	$body = $mime->get();
+		// 	$hdrs = $mime->headers($hdrs);
+		// 
+		// 	$smtp =& Mail::factory('smtp', array('host' => SMTP_HOST, 'port' => SMTP_PORT, 'auth' => true, 'username' => SMTP_USERNAME, 'password' => SMTP_PASSWORD));
+		// 	$mail = $smtp->send($this->payer_email, $hdrs, $body);
+		// }
 		
 		public function downloadLicense()
 		{
