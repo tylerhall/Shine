@@ -12,3 +12,11 @@ License
 
 This code is released under the MIT Open Source License. Feel free to do whatever you want with it.
 
+Screenshots
+-------
+[![Screenshot 1](http://amz.clickontyler.com/blog/shine-ss2-sm.png)](http://amz.clickontyler.com/blog/shine-ss2.png)
+[![Screenshot 2](http://amz.clickontyler.com/blog/shine-ss3-sm.png)](http://amz.clickontyler.com/blog/shine-ss3.png)
+[![Screenshot 3](http://amz.clickontyler.com/blog/shine-ss4-sm.png)](http://amz.clickontyler.com/blog/shine-ss4.png)
+[![Screenshot 4](http://amz.clickontyler.com/blog/shine-ss5-sm.png)](http://amz.clickontyler.com/blog/shine-ss5.png)
+[![Screenshot 5](http://amz.clickontyler.com/blog/shine-ss6-sm.png)](http://amz.clickontyler.com/blog/shine-ss6.png)
+[![Screenshot 6](http://amz.clickontyler.com/blog/shine-ss7-sm.png)](http://amz.clickontyler.com/blog/shine-ss7.png)
