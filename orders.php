@@ -22,7 +22,7 @@
 
 	// Orders Per Month
 	$order_totals    = $db->getRows("SELECT DATE_FORMAT(dt, '%b') as dtstr, COUNT(*) FROM orders WHERE type = 'PayPal' GROUP BY CONCAT(YEAR(dt), '-', MONTH(dt)) ORDER BY YEAR(dt) ASC, MONTH(dt) ASC");
-	$opm             = new googleChart(implode(',', gimme($order_totals, 'COUNT(*)')), 'line');
+	$opm             = new googleChart(implode(',', gimme($order_totals, 'COUNT(*)')), 'bary');
 	$opm->showGrid   = 1;
 	$opm->dimensions = '280x100';
 	$opm->setLabelsMinMax(4,'left');
@@ -31,7 +31,7 @@
 
 	// Orders Per Week
 	$order_totals    = $db->getRows("SELECT WEEK(dt) as dtstr, COUNT(*) FROM orders WHERE type = 'PayPal' GROUP BY CONCAT(YEAR(dt), WEEK(dt)) ORDER BY YEAR(dt) ASC, WEEK(dt) ASC");
-	$opw             = new googleChart(implode(',', gimme($order_totals, 'COUNT(*)')), 'line');
+	$opw             = new googleChart(implode(',', gimme($order_totals, 'COUNT(*)')), 'bary');
 	$opw->showGrid   = 1;
 	$opw->dimensions = '280x100';
 	$opw->setLabelsMinMax(4,'left');
@@ -70,7 +70,7 @@
                     <li><a href="index.php">Applications</a></li>
                     <li class="active"><a href="orders.php">Orders</a></li>
                     <li><a href="feedback.php">Feedback</a></li>
-                    <li><a href="stats.php">Stats</a></li>
+                    <li><a href="stats.php">Sparkle Stats</a></li>
                 </ul>
 
                 <ul id="user-navigation">

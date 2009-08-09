@@ -227,7 +227,7 @@ class googleChart {
 		if ($this->title) $return.='&chtt='.str_replace(' ','+',$this->title); //chart label
 		if ($this->legend) $return.='&chdl='.$this->legend;
 		if ($this->labels) $return.='&chl='.$this->labels;
-		if ($this->barWidth) $return.='&chbh='.$this->barWidth;
+		$return.='&chbh=a';//.$this->barWidth;
 		if ($this->minMaxLabel) {
 			
 		}

@@ -32,7 +32,7 @@
                     <li><a href="index.php">Applications</a></li>
                     <li><a href="orders.php">Orders</a></li>
                     <li class="active"><a href="feedback.php">Feedback</a></li>
-                    <li><a href="stats.php">Stats</a></li>
+                    <li><a href="stats.php">Sparkle Stats</a></li>
                 </ul>
 
                 <ul id="user-navigation">

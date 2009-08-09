@@ -7,15 +7,25 @@
 	$db = Database::getDatabase();
 	$keys = $db->getValues("SELECT DISTINCT(`key`) FROM sparkle_data");
 
-	$reports = $db->getRows("SELECT * FROM sparkle_reports ORDER BY dt DESC");
-	foreach($reports as $k => $r)
+	$charts = array();
+	foreach($keys as $k)
 	{
-		$rows = $db->getRows("SELECT * FROM sparkle_data WHERE sparkle_id = '{$r['id']}'");
+		$data = array();
+		$rows = $db->getRows("SELECT COUNT(*) as num, `data` FROM sparkle_data WHERE `key` = '$k' GROUP BY `data` ORDER BY num DESC");
+		
+		$count = 0;
 		foreach($rows as $row)
 		{
-			$reports[$k][$row['key']] = $row['data'];
+			if($count++ < 5)
+				$data[$row['data']] = $row['num'];
 		}
+		
+		$charts[$k] = $data;
 	}
+	
+	unset($charts['id']);
+	unset($charts['appName']);
+	unset($charts['appVersion']);
 ?>
 <!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01//EN"
  "http://www.w3.org/TR/html4/strict.dtd">
@@ -36,7 +46,7 @@
                     <li><a href="index.php">Applications</a></li>
                     <li><a href="orders.php">Orders</a></li>
                     <li><a href="feedback.php">Feedback</a></li>
-                    <li class="active"><a href="stats.php">Stats</a></li>
+                    <li class="active"><a href="stats.php">Sparkle Stats</a></li>
                 </ul>
 
                 <ul id="user-navigation">
@@ -54,38 +64,31 @@
 
                     <div class="block tabs spaces">
                         <div class="hd">
-                            <h2>Orders</h2>
+                            <h2>Sparkle Stats</h2>
 							<ul>
-								<li class="<?PHP if(!isset($_GET['id'])) echo 'active'; ?>"><a href="stats.php">All Apps (<?PHP echo Order::totalOrders(); ?>)</a></li>
+								<li class="<?PHP if(!isset($_GET['id'])) echo 'active'; ?>"><a href="stats.php">All Apps</a></li>
 								<?PHP foreach($applications as $a) : ?>
 								<li class="<?PHP if(@$_GET['id'] == $a->id) echo 'active'; ?>"><a href="stats.php?id=<?PHP echo $a->id; ?>"><?PHP echo $a->name; ?></a></li>
 								<?PHP endforeach; ?>
 							</ul>
 							<div class="clear"></div>
                         </div>
-                        <div class="bd">
-                            <table>
-                                <thead>
-                                    <tr>
-										<td>Date</td>
-										<?PHP foreach($keys as $k) : ?>
-										<td><?PHP echo $k; ?></td>
-										<?PHP endforeach; ?>
-                                    </tr>
-                                </thead>
-                                <tbody>
-									<?PHP foreach($reports as $r) : ?>
-									<tr>
-										<td><?PHP echo dater($r['dt'], 'm/d/Y g:ia'); ?></td>
-										<?PHP foreach($keys as $k) : ?>
-										<td><?PHP echo @$r[$k]; ?></td>
-										<?PHP endforeach; ?>
-									</tr>
-									<?PHP endforeach; ?>
-                                </tbody>
-                            </table>
+					</div>
+					
+					<?PHP foreach($charts as $title => $data) : ?>
+					<div class="block" style="float:left;margin-right:2em;">
+						<div class="hd">
+							<h2><?PHP echo $title; ?></h2>
+						</div>
+						<div class="bd">
+							<?PHP
+								$gc = new googleChart(implode(',', $data), 'pie');
+								$gc->setLabels(implode('|', array_keys($data)));
+								$gc->draw(true);
+							?>
 						</div>
 					</div>
+					<?PHP endforeach; ?>
               
                 </div></div>
             </div>
