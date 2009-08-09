@@ -14,10 +14,14 @@
 		$rows = $db->getRows("SELECT COUNT(*) as num, `data` FROM sparkle_data WHERE `key` = '$k' GROUP BY `data` ORDER BY num DESC");
 		
 		$count = 0;
+		$total = 0;
 		foreach($rows as $row)
 		{
-			if($count++ < 5)
+			if($count++ < 5) // Limit the pie chart to the top 5 values
+			{
 				$data[$row['data']] = $row['num'];
+				$total += $row['num'];
+			}
 		}
 		
 		$charts[$k] = $data;

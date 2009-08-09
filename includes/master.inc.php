@@ -1,6 +1,8 @@
 <?PHP
     // Application flag
     define('SPF', true);
+	define('DEFAULT_IPN_URL', 'https://www.paypal.com/cgi-bin/webscr?');
+	define('SANDBOX_IPN_URL', 'https://www.sandbox.paypal.com/cgi-bin/webscr?');
 
     // Determine our absolute document root
     define('DOC_ROOT', realpath(dirname(__FILE__) . '/../'));

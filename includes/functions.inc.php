@@ -1,4 +1,19 @@
 <?PHP
+	function set_option($key, $val)
+	{
+		$db = Database::getDatabase();
+		$db->query('REPLACE INTO options (`key`, `value`) VALUES (:key, :value)', array('key' => $key, 'value' => $val));
+	}
+
+	function get_option($key, $default = null)
+	{
+		$db = Database::getDatabase();
+		$db->query('SELECT `value` FROM options WHERE `key` = :key', array('key' => $key));
+		if($db->hasRows())
+			return $db->getValue();
+		else
+			return $default;
+	}
     function printr($var)
     {
         $output = print_r($var, true);

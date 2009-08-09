@@ -1,9 +1,6 @@
 <?PHP
 	class PayPal
 	{
-		public $url = 'https://www.paypal.com/cgi-bin/webscr?';
-		// public $url = 'https://www.sandbox.paypal.com/cgi-bin/webscr?';
-		
 		public function __construct()
 		{
 			
@@ -17,7 +14,7 @@
 
 			$post_vars = is_array($post) ? $post : $_POST;
 			$post_vars['cmd'] = '_notify-validate';
-			$response = $this->curl($this->url, null, http_build_query($post_vars));
+			$response = $this->curl(get_option('paypal_url', DEFAULT_IPN_URL), null, http_build_query($post_vars));
 			return (strpos($response, 'VERIFIED') !== false) ? $post_vars : false;
 		}
 		
