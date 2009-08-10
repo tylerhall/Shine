@@ -8,7 +8,7 @@
 			
 		}
 		
-		public function generateLiceseForArray($arr)
+		public function generateLicenseForArray($arr)
 		{
 			ksort($arr);
 			$str = '';
@@ -19,6 +19,6 @@
 		
 		public function validLicenseForArray($license, $array)
 		{
-			return ($license === $this->generateLiceseForArray($array));
+			return ($license === $this->generateLicenseForArray($array));
 		}
 	}
