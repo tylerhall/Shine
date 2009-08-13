@@ -3,8 +3,10 @@
 	
 	error_log(print_r($_POST, true));
 
+	$db = Database::getDatabase();
+
 	foreach($_POST as $key => $val)
-		$_POST[$key] = mysql_real_escape_string($val, $db);
+		$_POST[$key] = mysql_real_escape_string($val, $db->db);
 
 	$dt = date('Y-m-d H:i:s');
 
@@ -24,7 +26,6 @@
                    '{$_POST['reguser']}',
 				   '{$_POST['regmail']}')";
 
-	$db = Database::getDatabase();
 	mysql_query($query, $db->db) or die('error');
 	
 	echo "ok";
