@@ -12,16 +12,20 @@
 		$total_num_orders = $db->getValue("SELECT COUNT(*) FROM orders WHERE app_id = $app_id ORDER BY dt DESC");
 		$pager = new Pager(@$_GET['page'], 50, $total_num_orders);
 		$orders = DBObject::glob('Order', "SELECT * FROM orders WHERE app_id = $app_id ORDER BY dt DESC LIMIT {$pager->firstRecord}, {$pager->perPage}");
+		$where = " AND app_id = $app_id ";
+		$app_name = $applications[$app_id]->name;
 	}
 	else
 	{
 		$total_num_orders = $db->getValue("SELECT COUNT(*) FROM orders");
 		$pager = new Pager(@$_GET['page'], 50, $total_num_orders);
 		$orders = DBObject::glob('Order', "SELECT * FROM orders ORDER BY dt DESC LIMIT {$pager->firstRecord}, {$pager->perPage}");
+		$where = '';
+		$app_name = 'All';
 	}
 
 	// Orders Per Month
-	$order_totals    = $db->getRows("SELECT DATE_FORMAT(dt, '%b') as dtstr, COUNT(*) FROM orders WHERE type = 'PayPal' GROUP BY CONCAT(YEAR(dt), '-', MONTH(dt)) ORDER BY YEAR(dt) ASC, MONTH(dt) ASC");
+	$order_totals    = $db->getRows("SELECT DATE_FORMAT(dt, '%b') as dtstr, COUNT(*) FROM orders WHERE type = 'PayPal' $where GROUP BY CONCAT(YEAR(dt), '-', MONTH(dt)) ORDER BY YEAR(dt) ASC, MONTH(dt) ASC");
 	$opm             = new googleChart(implode(',', gimme($order_totals, 'COUNT(*)')), 'bary');
 	$opm->showGrid   = 1;
 	$opm->dimensions = '280x100';
@@ -30,7 +34,7 @@
 	$opm_fb->dimensions = '640x400';
 
 	// Orders Per Week
-	$order_totals    = $db->getRows("SELECT WEEK(dt) as dtstr, COUNT(*) FROM orders WHERE type = 'PayPal' GROUP BY CONCAT(YEAR(dt), WEEK(dt)) ORDER BY YEAR(dt) ASC, WEEK(dt) ASC");
+	$order_totals    = $db->getRows("SELECT WEEK(dt) as dtstr, COUNT(*) FROM orders WHERE type = 'PayPal' $where GROUP BY CONCAT(YEAR(dt), WEEK(dt)) ORDER BY YEAR(dt) ASC, WEEK(dt) ASC");
 	$opw             = new googleChart(implode(',', gimme($order_totals, 'COUNT(*)')), 'bary');
 	$opw->showGrid   = 1;
 	$opw->dimensions = '280x100';
@@ -157,7 +161,7 @@
             <div id="sidebar" class="yui-b">
 				<div class="block">
 					<div class="hd">
-						<h2>Total Orders Per Month</h2>
+						<h2>Orders Per Month (<?PHP echo $app_name; ?>)</h2>
 					</div>
 					<div class="bd">
 						<a href="<?PHP echo $opm_fb->draw(false); ?>" class="fb"><?PHP $opm->draw(); ?></a>
@@ -166,7 +170,7 @@
 
 				<div class="block">
 					<div class="hd">
-						<h2>Total Orders Per Week</h2>
+						<h2>Orders Per Week (<?PHP echo $app_name; ?>)</h2>
 					</div>
 					<div class="bd">
 						<a href="<?PHP echo $opw_fb->draw(false); ?>" class="fb"><?PHP $opw->draw(); ?></a>
@@ -175,7 +179,7 @@
 
 				<div class="block">
 					<div class="hd">
-						<h2>Orders Per Month</h2>
+						<h2>Orders Per Month (All)</h2>
 					</div>
 					<div class="bd">
 						<a href="<?PHP echo $opma_fb->draw(false); ?>" class="fb"><?PHP $opma->draw(); ?></a>
