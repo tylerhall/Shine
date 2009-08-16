@@ -34,6 +34,12 @@
 			return dater('m/d/Y', $dt);
 		}
 		
+		public function totalDownloads()
+		{
+			$db = Database::getDatabase();
+			return $db->getValue("SELECT SUM(downloads) FROM versions WHERE app_id = '{$this->id}'");
+		}
+		
 		public function numSupportQuestions()
 		{
 			$db = Database::getDatabase();
