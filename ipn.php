@@ -6,7 +6,11 @@
 	{
 		$app = new Application();
 		$app->select($_POST['item_number']);
-		if(!$app->ok()) error_log("Application {$_POST['item_name']} not found!");
+		if(!$app->ok())
+		{
+			error_log("Application {$_POST['item_name']} {$_POST['item_number']} not found!");
+			exit;
+		}
 
 		$o = new Order();
 		$o->load($_POST);

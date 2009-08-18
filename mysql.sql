@@ -3,7 +3,7 @@
 -- http://www.phpmyadmin.net
 -- 
 -- Host: localhost
--- Generation Time: Aug 07, 2009 at 05:49 PM
+-- Generation Time: Aug 17, 2009 at 10:12 PM
 -- Server version: 5.0.51
 -- PHP Version: 5.2.4-2ubuntu5.6
 -- 
@@ -37,7 +37,33 @@ CREATE TABLE `applications` (
   `license_type` enum('ap','custom') character set utf8 collate utf8_unicode_ci NOT NULL,
   `return_url` varchar(255) NOT NULL,
   PRIMARY KEY  (`id`)
-) ENGINE=MyISAM  DEFAULT CHARSET=utf8;
+) ENGINE=MyISAM  DEFAULT CHARSET=latin1;
+
+-- --------------------------------------------------------
+
+-- 
+-- Table structure for table `downloads`
+-- 
+
+CREATE TABLE `downloads` (
+  `id` int(11) NOT NULL auto_increment,
+  `dt` datetime NOT NULL default '0000-00-00 00:00:00',
+  `referer` varchar(255) collate utf8_unicode_ci NOT NULL default '',
+  `referer_is_local` tinyint(4) NOT NULL default '0',
+  `url` varchar(255) collate utf8_unicode_ci NOT NULL default '',
+  `page_title` varchar(255) collate utf8_unicode_ci NOT NULL default '',
+  `search_terms` varchar(255) collate utf8_unicode_ci NOT NULL default '',
+  `img_search` tinyint(4) NOT NULL default '0',
+  `browser_family` varchar(255) collate utf8_unicode_ci NOT NULL default '',
+  `browser_version` varchar(15) collate utf8_unicode_ci NOT NULL default '',
+  `os` varchar(255) collate utf8_unicode_ci NOT NULL default '',
+  `os_version` varchar(255) collate utf8_unicode_ci NOT NULL default '',
+  `ip` varchar(15) collate utf8_unicode_ci NOT NULL default '',
+  `user_agent` varchar(255) collate utf8_unicode_ci NOT NULL default '',
+  `exec_time` float NOT NULL default '0',
+  `num_queries` int(11) NOT NULL default '0',
+  PRIMARY KEY  (`id`)
+) ENGINE=MyISAM  DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
 
 -- --------------------------------------------------------
 
@@ -64,7 +90,19 @@ CREATE TABLE `feedback` (
   `reguser` varchar(255) NOT NULL,
   `regmail` varchar(255) NOT NULL,
   PRIMARY KEY  (`id`)
-) ENGINE=MyISAM  DEFAULT CHARSET=utf8;
+) ENGINE=MyISAM  DEFAULT CHARSET=latin1;
+
+-- --------------------------------------------------------
+
+-- 
+-- Table structure for table `options`
+-- 
+
+CREATE TABLE `options` (
+  `key` varchar(255) collate utf8_unicode_ci NOT NULL,
+  `value` varchar(255) collate utf8_unicode_ci NOT NULL,
+  PRIMARY KEY  (`key`)
+) ENGINE=MyISAM DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
 
 -- --------------------------------------------------------
 
@@ -102,7 +140,7 @@ CREATE TABLE `orders` (
   `mc_gross` float NOT NULL,
   `custom` varchar(255) character set latin1 NOT NULL,
   `license` text character set latin1 NOT NULL,
-  `type` enum('PayPal','Manual','Student') character set latin1 NOT NULL,
+  `type` enum('PayPal','Manual','Student','MUPromo') character set latin1 NOT NULL,
   `deleted` tinyint(4) NOT NULL,
   `hash` varchar(5) character set latin1 NOT NULL,
   `claimed` tinyint(4) NOT NULL,
@@ -133,7 +171,7 @@ CREATE TABLE `sparkle_data` (
   `key` varchar(128) NOT NULL,
   `data` varchar(128) NOT NULL,
   KEY `sparkle_id` (`sparkle_id`)
-) ENGINE=MyISAM DEFAULT CHARSET=utf8;
+) ENGINE=MyISAM DEFAULT CHARSET=latin1;
 
 -- --------------------------------------------------------
 
@@ -146,7 +184,7 @@ CREATE TABLE `sparkle_reports` (
   `dt` datetime NOT NULL,
   `ip` varchar(15) NOT NULL,
   PRIMARY KEY  (`id`)
-) ENGINE=MyISAM  DEFAULT CHARSET=utf8;
+) ENGINE=MyISAM  DEFAULT CHARSET=latin1;
 
 -- --------------------------------------------------------
 
@@ -183,15 +221,3 @@ CREATE TABLE `versions` (
   `signature` varchar(65) collate utf8_unicode_ci NOT NULL,
   PRIMARY KEY  (`id`)
 ) ENGINE=MyISAM  DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
-
--- --------------------------------------------------------
-
--- 
--- Table structure for table `options`
--- 
-
-CREATE TABLE `options` (
-  `key` varchar(255) collate utf8_unicode_ci NOT NULL,
-  `value` varchar(255) collate utf8_unicode_ci NOT NULL,
-  PRIMARY KEY  (`key`)
-) ENGINE=MyISAM DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
