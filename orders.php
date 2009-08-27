@@ -153,6 +153,7 @@
 								<?PHP endfor; ?>
                                 <li><a href="orders.php?page=<?PHP echo $pager->nextPage(); ?>&amp;id=<?PHP echo @$app_id; ?>">Next &#187;</a></li>
                             </ul>
+							<div class="clear"></div>
 						</div>
 					</div>
               

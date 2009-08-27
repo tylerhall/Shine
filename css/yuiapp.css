@@ -72,7 +72,7 @@ table tbody a { text-decoration:underline; }
 
 /* Pager control*/
 ul.pager { text-align:left; margin-bottom:1em; }
-ul.pager li { display:inline; }
+ul.pager li { float:left; margin-bottom:1em; }
 ul.pager li a { padding:0.1em 0.3em; margin-right:0.3em; border:1px solid #000; text-decoration:none; color:#000; }
 ul.pager li.active a, ul.pager li a:hover { background-color:#000; color:#fff; }
 
