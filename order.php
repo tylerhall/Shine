@@ -93,6 +93,15 @@
 						</ul>
 					</div>
 				</div>
+
+				<div class="block">
+					<div class="hd">
+						<h3>Cut &amp; Paste License</h3>
+					</div>
+					<div class="bd">
+						<textarea style="width:100%;"><?PHP echo "Email: {$o->payer_email}\nReg Key: {$o->license}"; ?></textarea>
+					</div>
+				</div>
 				
             </div>
         </div>
