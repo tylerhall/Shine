@@ -5,21 +5,33 @@
 	$applications = DBObject::glob('Application', 'SELECT * FROM applications ORDER BY name');
 
 	$db = Database::getDatabase();
+	
+	if(isset($_GET['q']))
+	{
+		$q = $_GET['q'];
+		$_q = $db->escape($q);
+		$search_sql = " AND (first_name LIKE '%_$q%' OR last_name LIKE '%_$q%' OR payer_email LIKE '%_$q%') ";
+	}
+	else
+	{
+		$q = '';
+		$search_sql = '';
+	}
 
 	if(isset($_GET['id']))
 	{
 		$app_id = intval($_GET['id']);
-		$total_num_orders = $db->getValue("SELECT COUNT(*) FROM orders WHERE app_id = $app_id ORDER BY dt DESC");
+		$total_num_orders = $db->getValue("SELECT COUNT(*) FROM orders WHERE app_id = $app_id $search_sql ORDER BY dt DESC");
 		$pager = new Pager(@$_GET['page'], 50, $total_num_orders);
-		$orders = DBObject::glob('Order', "SELECT * FROM orders WHERE app_id = $app_id ORDER BY dt DESC LIMIT {$pager->firstRecord}, {$pager->perPage}");
+		$orders = DBObject::glob('Order', "SELECT * FROM orders WHERE app_id = $app_id $search_sql ORDER BY dt DESC LIMIT {$pager->firstRecord}, {$pager->perPage}");
 		$where = " AND app_id = $app_id ";
 		$app_name = $applications[$app_id]->name;
 	}
 	else
 	{
-		$total_num_orders = $db->getValue("SELECT COUNT(*) FROM orders");
+		$total_num_orders = $db->getValue("SELECT COUNT(*) FROM orders WHERE 1 = 1 $search_sql ");
 		$pager = new Pager(@$_GET['page'], 50, $total_num_orders);
-		$orders = DBObject::glob('Order', "SELECT * FROM orders ORDER BY dt DESC LIMIT {$pager->firstRecord}, {$pager->perPage}");
+		$orders = DBObject::glob('Order', "SELECT * FROM orders WHERE 1 = 1 $search_sql ORDER BY dt DESC LIMIT {$pager->firstRecord}, {$pager->perPage}");
 		$where = '';
 		$app_name = 'All';
 	}
@@ -160,6 +172,19 @@
                 </div></div>
             </div>
             <div id="sidebar" class="yui-b">
+				<div class="block">
+					<div class="hd">
+						Search Orders
+					</div>
+					<div class="bd">
+						<form action="orders.php?id=<?PHP echo @$app_id; ?>" method="get">
+							<p><input type="text" name="q" value="<?PHP echo @$q; ?>" id="q" class="text">
+							<span class="info">Searches Buyer's Name and Email address.</span></p>
+							<p><input type="submit" name="btnSearch" value="Search" id="btnSearch"></p>
+						</form>
+					</div>
+				</div>
+
 				<div class="block">
 					<div class="hd">
 						<h2>Orders Per Month (<?PHP echo $app_name; ?>)</h2>
