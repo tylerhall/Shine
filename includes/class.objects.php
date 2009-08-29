@@ -273,6 +273,15 @@
 			exit;
 		}
 		
+		public function intlAmount()
+		{
+			$currencies = array('USD' => '$', 'GBP' =>'£', 'EUR' => '€', 'CAD' => '$', 'JPY' => '¥');
+			
+			if($this->mc_currency == '') return '';
+			
+			return $currencies[$this->mc_currency] . number_format($this->mc_gross, 2);
+		}
+		
 		public static function totalOrders($id = null)
 		{
 			$db = Database::getDatabase();
