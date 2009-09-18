@@ -10,7 +10,7 @@
 	{
 		$q = $_GET['q'];
 		$_q = $db->escape($q);
-		$search_sql = " AND (first_name LIKE '%_$q%' OR last_name LIKE '%_$q%' OR payer_email LIKE '%_$q%') ";
+		$search_sql = " AND (first_name LIKE '%$_q%' OR last_name LIKE '%$_q%' OR payer_email LIKE '%$_q%') ";
 	}
 	else
 	{
