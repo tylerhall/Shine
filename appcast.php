@@ -29,7 +29,7 @@
 		<item>
 			<title><?PHP echo $app->name; ?> <?PHP echo $v->human_version; ?></title>
 			<description><![CDATA[ <?PHP echo $v->release_notes; ?> ]]></description>
-			<pubDate><?PHP echo(date('D, d M Y H:i:s O')); ?></pubDate>
+			<pubDate><?PHP echo dater('D, d M Y H:i:s O', $v->dt); ?></pubDate>
 			<enclosure url="<?PHP echo $v->url; ?>" sparkle:shortVersionString="<?PHP echo $v->human_version; ?>" sparkle:version="<?PHP echo $v->version_number; ?>" length="<?PHP echo $v->filesize; ?>" type="application/octet-stream" sparkle:dsaSignature="<?PHP echo $v->signature; ?>" />
 		</item>
 		<?PHP endforeach; ?>
