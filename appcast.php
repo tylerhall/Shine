@@ -16,6 +16,8 @@
 
 	$versions = DBObject::glob('Version', "SELECT * FROM versions WHERE app_id = '{$app->id}' ORDER BY dt DESC LIMIT 10");
 
+	$db->query("UPDATE versions SET updates = updates + 1 WHERE app_id = '{$app->id}' ORDER BY dt DESC LIMIT 1");
+
 	header("Content-type: application/xml");
 ?>
 <?PHP echo '<'; ?>?xml version="1.0" encoding="utf-8"?>

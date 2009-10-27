@@ -14,44 +14,12 @@
 		redirect('versions.php?id=' . $app->id);
 	}
 
-	// if(isset($_POST['btnUpdateVersion']))
-	// {
-	// 	$Error->blank($_POST['version_number'], 'Version Number');
-	// 	$Error->blank($_POST['human_version'], 'Human Readable Version Number');
-	// 	$Error->blank($_POST['url'], 'Download URL');
-	// 	
-	// 	if($Error->ok())
-	// 	{
-	// 		$v->version_number = $_POST['version_number'];
-	// 		$v->human_version  = $_POST['human_version'];
-	// 		$v->release_notes  = $_POST['release_notes'];
-	// 		$v->dt             = dater();
-	// 		$v->url            = $_POST['url'];
-	// 		$v->signature      = $_POST['signature'];
-	// 		$v->filesize       = $_POST['filesize'];
-	// 		$v->update();
-	// 		redirect('versions.php?id=' . $app->id);
-	// 	}
-	// 	else
-	// 	{
-	// 		$version_number = $_POST['version_number'];
-	// 		$human_version  = $_POST['human_version'];
-	// 		$release_notes  = $_POST['release_notes'];
-	// 		$url            = $_POST['url'];
-	// 		$signature      = $_POST['signature'];
-	// 		$filesize       = $_POST['filesize'];
-	// 	}
-	// }
-	// else
-	// {
-		$version_number = $v->version_number;
-		$human_version  = $v->human_version;
-		$release_notes  = $v->release_notes;
-		$url            = $v->url;
-		$signature      = $v->signature;
-		$filesize       = $v->filesize;
-	// }
-	
+	$version_number = $v->version_number;
+	$human_version  = $v->human_version;
+	$release_notes  = $v->release_notes;
+	$url            = $v->url;
+	$signature      = $v->signature;
+	$filesize       = $v->filesize;	
 ?>
 <!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01//EN"
  "http://www.w3.org/TR/html4/strict.dtd">
@@ -106,10 +74,7 @@
 								<p><label for="release_notes">Release Notes</label> <textarea class="text" name="release_notes" id="release_notes"><?PHP echo $release_notes; ?></textarea></p>
 								<p><label for="filesize">Filesize</label> <input type="text" name="filesize" id="filesize" value="<?PHP echo $filesize; ?>" class="text"></p>
 								<p><label for="signature">Sparkle Signature</label> <input type="text" name="signature" id="signature" value="<?PHP echo $signature; ?>" class="text"></p>
-								<p>
-									<!-- <input type="submit" name="btnUpdateVersion" value="Update Version" id="btnUpdateVersion"> -->
-									<input type="submit" name="btnDelete" value="Delete Version" id="btnDelete" onclick="return confirm('Are you sure?');">
-								</p>
+								<p><input type="submit" name="btnDelete" value="Delete Version" id="btnDelete" onclick="return confirm('Are you sure?');"></p>
 							</form>
 						</div>
 					</div>

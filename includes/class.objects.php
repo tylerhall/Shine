@@ -34,11 +34,17 @@
 			return dater('m/d/Y', $dt);
 		}
 		
-		public function totalDownloads()
-		{
-			$db = Database::getDatabase();
-			return $db->getValue("SELECT SUM(downloads) FROM versions WHERE app_id = '{$this->id}'");
-		}
+        public function totalDownloads()
+        {
+            $db = Database::getDatabase();
+            return $db->getValue("SELECT SUM(downloads) FROM versions WHERE app_id = '{$this->id}'");
+        }
+
+        public function totalUpdates()
+        {
+            $db = Database::getDatabase();
+            return $db->getValue("SELECT SUM(updates) FROM versions WHERE app_id = '{$this->id}'");
+        }
 		
 		public function numSupportQuestions()
 		{
@@ -296,7 +302,7 @@
     {
         public function __construct($id = null)
         {
-            parent::__construct('versions', array('app_id', 'human_version', 'version_number', 'dt', 'release_notes', 'filesize', 'url', 'downloads', 'signature'), $id);
+            parent::__construct('versions', array('app_id', 'human_version', 'version_number', 'dt', 'release_notes', 'filesize', 'url', 'downloads', 'updates', 'signature'), $id);
         }
     }
 

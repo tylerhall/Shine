@@ -218,6 +218,7 @@ CREATE TABLE `versions` (
   `filesize` bigint(20) NOT NULL default '0',
   `url` varchar(255) collate utf8_unicode_ci NOT NULL default '',
   `downloads` int(11) NOT NULL default '0',
+  `updates` int(11) NOT NULL default '0',
   `signature` varchar(65) collate utf8_unicode_ci NOT NULL,
   PRIMARY KEY  (`id`)
 ) ENGINE=MyISAM  DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;

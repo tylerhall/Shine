@@ -58,7 +58,7 @@
                                         <td>Name</td>
                                         <td>Current Version</td>
 										<td>Last Release Date</td>
-										<td>Downloads</td>
+										<td>Downloads / Updates</td>
 										<td>Support Questions</td>
 										<td>Bug Reports</td>
 										<td>Feature Requests</td>
@@ -70,7 +70,7 @@
 	                                    <td><a href="application.php?id=<?PHP echo $a->id;?>"><?PHP echo $a->name; ?></a></td>
 	                                    <td><?PHP echo $a->strCurrentVersion(); ?></td>
 										<td><?PHP echo $a->strLastReleaseDate(); ?></td>
-										<td><a href="versions.php?id=<?PHP echo $a->id; ?>"><?PHP echo number_format($a->totalDownloads()); ?></a></td>
+										<td><a href="versions.php?id=<?PHP echo $a->id; ?>"><?PHP echo number_format($a->totalDownloads()); ?></a> / <a href="versions.php?id=<?PHP echo $a->id; ?>"><?PHP echo number_format($a->totalUpdates()); ?></a></td>
 										<td><?PHP echo $a->numSupportQuestions(); ?></td>
 										<td><?PHP echo $a->numBugReports(); ?></td>
 										<td><?PHP echo $a->numFeatureRequests(); ?></td>

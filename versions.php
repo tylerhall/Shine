@@ -59,6 +59,7 @@
 										<th>Sparkle Version Number</th>
 										<th>Release Date</th>
 										<th>Downloads</th>
+										<th>Updates</th>
 									</tr>
 								</thead>
 								<tbody>
@@ -68,6 +69,7 @@
 										<td><?PHP echo $v->version_number; ?></td>
 										<td><?PHP echo dater($v->dt, 'n/d/Y g:ia'); ?></td>
 										<td><?PHP echo number_format($v->downloads); ?></td>
+										<td><?PHP echo number_format($v->updates); ?></td>
 									</tr>
 									<?PHP endforeach; ?>
 								</tbody>
