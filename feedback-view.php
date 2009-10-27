@@ -126,7 +126,7 @@
 							<form action="feedback-view.php?id=<?PHP echo $f->id;?>" method="post">
 								<p>
 									<input type="submit" name="btnNew" value="Mark as New" id="btnnew"/>
-									<input type="submit" name="btnDelete" value="Delete" id="btndelete"/>
+									<input type="submit" name="btnDelete" value="Delete" id="btndelete" onclick="return confirm('Are you sure?');"/>
 								</p>
 							</form>					
 	

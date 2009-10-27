@@ -108,7 +108,7 @@
 								<p><label for="signature">Sparkle Signature</label> <input type="text" name="signature" id="signature" value="<?PHP echo $signature; ?>" class="text"></p>
 								<p>
 									<!-- <input type="submit" name="btnUpdateVersion" value="Update Version" id="btnUpdateVersion"> -->
-									<input type="submit" name="btnDelete" value="Delete Version" id="btnDelete">
+									<input type="submit" name="btnDelete" value="Delete Version" id="btnDelete" onclick="return confirm('Are you sure?');">
 								</p>
 							</form>
 						</div>
