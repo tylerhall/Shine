@@ -21,6 +21,7 @@
     <meta http-equiv="Content-Type" content="text/html;charset=utf-8" >
     <link rel="stylesheet" href="http://yui.yahooapis.com/2.7.0/build/reset-fonts-grids/reset-fonts-grids.css" type="text/css">
     <link rel="stylesheet" href="css/yuiapp.css" type="text/css">
+	<link rel="stylesheet" href="js/jquery.fancybox.css" type="text/css" media="screen">
 </head>
 <body class="rounded">
     <div id="doc3" class="yui-t6">
@@ -84,6 +85,30 @@
                 </div></div>
             </div>
             <div id="sidebar" class="yui-b">
+					
+					<?PHP
+					
+					$db = Database::getDatabase();
+					
+					// Downloads
+					$order_totals    = $db->getRows("SELECT date(dt) as dtstr, COUNT(*) FROM downloads WHERE 1 GROUP BY date(dt) ORDER BY date(dt) ASC");
+					$opw             = new googleChart(implode(',', gimme($order_totals, 'COUNT(*)')), 'bary');
+					$opw->showGrid   = 1;
+					$opw->dimensions = '280x100';
+					$opw->setLabelsMinMax(4,'left');
+					$opw_fb = clone $opw;
+					$opw_fb->dimensions = '640x400';
+					
+					?>
+				<div class="block">
+					<div class="hd">
+						<h2>Downloads Per Day</h2>
+					</div>
+					<div class="bd">
+						<a href="<?PHP echo $opw_fb->draw(false); ?>" class="fb"><?PHP $opw->draw(); ?></a>
+					</div>
+				</div>
+				
 				<div class="block">
 					<div class="hd">
 						<h2>Recent Orderes (<?PHP echo Order::totalOrders(); ?> total)</h2>
@@ -117,5 +142,10 @@
 
         <div id="ft"></div>
     </div>
+	<script type="text/javascript" src="js/jquery-1.3.2.min.js"></script>
+	<script type="text/javascript" src="js/jquery.fancybox-1.2.1.pack.js"></script>
+	<script type="text/javascript" charset="utf-8">
+ 		$(".fb").fancybox({ 'zoomSpeedIn': 300, 'zoomSpeedOut': 300, 'overlayShow': false }); 
+	</script>
 </body>
 </html>
