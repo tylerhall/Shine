@@ -92,7 +92,7 @@
 										
 					// Downloads
 					$sel = "TIME_FORMAT(dt, '%Y%m%d%H')";
-					$order_totals    = $db->getRows("SELECT $sel as dtstr, COUNT(*) FROM downloads WHERE 1 GROUP BY $sel ORDER BY $sel ASC");
+					$order_totals    = $db->getRows("SELECT $sel as dtstr, COUNT(*) FROM downloads WHERE  DATE_ADD(dt, INTERVAL 24 HOUR) > NOW() GROUP BY dtstr ORDER BY $sel ASC");
 					$opw             = new googleChart(implode(',', gimme($order_totals, 'COUNT(*)')), 'bary');
 					$opw->showGrid   = 1;
 					$opw->dimensions = '280x100';
@@ -104,7 +104,7 @@
 
 				<div class="block">
 					<div class="hd">
-						<h2>Downloads 48 Hours</h2>
+						<h2>Downloads 24 Hours</h2>
 					</div>
 					<div class="bd">
 						<a href="<?PHP echo $opw_fb->draw(false); ?>" class="fb"><?PHP $opw->draw(); ?></a>
@@ -117,7 +117,7 @@
 										
 					// Downloads
 					$sel = "TO_DAYS(dt)";
-					$order_totals    = $db->getRows("SELECT $sel as dtstr, COUNT(*) FROM downloads WHERE 1 GROUP BY $sel ORDER BY $sel ASC");
+					$order_totals    = $db->getRows("SELECT $sel as dtstr, COUNT(*) FROM downloads WHERE DATE_ADD(dt, INTERVAL 30 DAY) > NOW() GROUP BY $sel ORDER BY $sel ASC");
 					$opw             = new googleChart(implode(',', gimme($order_totals, 'COUNT(*)')), 'bary');
 					$opw->showGrid   = 1;
 					$opw->dimensions = '280x100';
