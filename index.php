@@ -110,12 +110,13 @@
 					
 					<div class="block">
     					<div class="hd">
-    						<h2>Recent Orders (<?PHP echo Order::totalOrders(); ?> total)</h2>
+    						<h2>Recent Orders (<?PHP echo number_format(Order::totalOrders()); ?> total)</h2>
     					</div>
     					<div class="bd">
     					    <table>
     					        <thead>
     					            <tr>
+    					                <td>Date</td>
     					                <td>Name</td>
     					                <td>Email</td>
     					                <td>Item Name</td>
@@ -124,6 +125,7 @@
     					        <tbody>
         							<?PHP foreach($orders as $o) : ?>
         							<tr>
+        							    <td><?PHP echo dater($o->dt, 'D n/j'); ?></td>
         							    <td><a href="order.php?id=<?PHP echo $o->id; ?>"><?PHP echo $o->first_name; ?> <?PHP echo $o->last_name; ?></a></td>
         							    <td><a href="mailto:<?PHP echo $o->payer_email; ?>"><?PHP echo $o->payer_email; ?></a></td>
         							    <td><?PHP echo $o->item_name; ?></td>
