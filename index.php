@@ -2,6 +2,7 @@
 	require 'includes/master.inc.php';
 	$Auth->requireAdmin('login.php');
 
+    // Create a new application if needed
 	if(isset($_POST['btnNewApp']) && strlen($_POST['name']))
 	{
 		$a = new Application();
@@ -10,8 +11,11 @@
 		redirect('application.php?id=' . $a->id);
 	}
 	
-	$apps   = DBObject::glob('Application', 'SELECT * FROM applications ORDER BY name');	
-	$orders = DBObject::glob('Order', 'SELECT * FROM orders ORDER BY dt DESC LIMIT 5');
+	// Get a list of our apps
+	$apps   = DBObject::glob('Application', 'SELECT * FROM applications ORDER BY name');
+	
+	// Get our recent orders
+	$orders = DBObject::glob('Order', 'SELECT * FROM orders ORDER BY dt DESC LIMIT 10');
 
     $db = Database::getDatabase();
 
@@ -103,6 +107,32 @@
                             </table>
 						</div>
 					</div>
+					
+					<div class="block">
+    					<div class="hd">
+    						<h2>Recent Orders (<?PHP echo Order::totalOrders(); ?> total)</h2>
+    					</div>
+    					<div class="bd">
+    					    <table>
+    					        <thead>
+    					            <tr>
+    					                <td>Name</td>
+    					                <td>Email</td>
+    					                <td>Item Name</td>
+    					            </tr>
+    					        </thead>
+    					        <tbody>
+        							<?PHP foreach($orders as $o) : ?>
+        							<tr>
+        							    <td><a href="order.php?id=<?PHP echo $o->id; ?>"><?PHP echo $o->first_name; ?> <?PHP echo $o->last_name; ?></a></td>
+        							    <td><a href="mailto:<?PHP echo $o->payer_email; ?>"><?PHP echo $o->payer_email; ?></a></td>
+        							    <td><?PHP echo $o->item_name; ?></td>
+        							</tr>
+        							<?PHP endforeach; ?>
+    					        </tbody>
+    					    </table>
+    					</div>
+    				</div>
               
                 </div></div>
             </div>
@@ -124,20 +154,7 @@
 					<div class="bd">
 						<a href="<?PHP echo $opw30_fb->draw(false); ?>" class="fb"><?PHP $opw30->draw(); ?></a>
 					</div>
-				</div>
-				
-				<div class="block">
-					<div class="hd">
-						<h2>Recent Orderes (<?PHP echo Order::totalOrders(); ?> total)</h2>
-					</div>
-					<div class="bd">
-						<ul class="biglist">
-							<?PHP foreach($orders as $o) : ?>
-							<li><a href="order.php?id=<?PHP echo $o->id; ?>"><?PHP echo $o->payer_email; ?></a></li>
-							<?PHP endforeach; ?>
-						</ul>
-					</div>
-				</div>
+				</div>				
 				
 				<div class="block">
 					<div class="hd">
