@@ -12,6 +12,28 @@
 	
 	$apps   = DBObject::glob('Application', 'SELECT * FROM applications ORDER BY name');	
 	$orders = DBObject::glob('Order', 'SELECT * FROM orders ORDER BY dt DESC LIMIT 5');
+
+    $db = Database::getDatabase();
+
+	// Downloads in last 24 hours
+	$sel = "TIME_FORMAT(dt, '%Y%m%d%H')";
+	$order_totals    = $db->getRows("SELECT $sel as dtstr, COUNT(*) FROM downloads WHERE  DATE_ADD(dt, INTERVAL 24 HOUR) > NOW() GROUP BY dtstr ORDER BY $sel ASC");
+	$opw24           = new googleChart(implode(',', gimme($order_totals, 'COUNT(*)')), 'bary');
+	$opw24->showGrid   = 1;
+	$opw24->dimensions = '280x100';
+	$opw24->setLabelsMinMax(4,'left');
+	$opw24_fb = clone $opw24;
+	$opw24_fb->dimensions = '640x400';
+
+	// Downloads in last 30 days
+	$sel = "TO_DAYS(dt)";
+	$order_totals    = $db->getRows("SELECT $sel as dtstr, COUNT(*) FROM downloads WHERE DATE_ADD(dt, INTERVAL 30 DAY) > NOW() GROUP BY $sel ORDER BY $sel ASC");
+	$opw30           = new googleChart(implode(',', gimme($order_totals, 'COUNT(*)')), 'bary');
+	$opw30->showGrid   = 1;
+	$opw30->dimensions = '280x100';
+	$opw30->setLabelsMinMax(4,'left');
+	$opw30_fb = clone $opw30;
+	$opw30_fb->dimensions = '640x400';
 ?>
 <!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01//EN"
  "http://www.w3.org/TR/html4/strict.dtd">
@@ -85,54 +107,22 @@
                 </div></div>
             </div>
             <div id="sidebar" class="yui-b">
-					
-					<?PHP
-					
-					$db = Database::getDatabase();
-										
-					// Downloads
-					$sel = "TIME_FORMAT(dt, '%Y%m%d%H')";
-					$order_totals    = $db->getRows("SELECT $sel as dtstr, COUNT(*) FROM downloads WHERE  DATE_ADD(dt, INTERVAL 24 HOUR) > NOW() GROUP BY dtstr ORDER BY $sel ASC");
-					$opw             = new googleChart(implode(',', gimme($order_totals, 'COUNT(*)')), 'bary');
-					$opw->showGrid   = 1;
-					$opw->dimensions = '280x100';
-					$opw->setLabelsMinMax(4,'left');
-					$opw_fb = clone $opw;
-					$opw_fb->dimensions = '640x400';
-					
-					?>
 
 				<div class="block">
 					<div class="hd">
 						<h2>Downloads 24 Hours</h2>
 					</div>
 					<div class="bd">
-						<a href="<?PHP echo $opw_fb->draw(false); ?>" class="fb"><?PHP $opw->draw(); ?></a>
+						<a href="<?PHP echo $opw24_fb->draw(false); ?>" class="fb"><?PHP $opw24->draw(); ?></a>
 					</div>
 				</div>
-
-					<?PHP
-					
-					$db = Database::getDatabase();
-										
-					// Downloads
-					$sel = "TO_DAYS(dt)";
-					$order_totals    = $db->getRows("SELECT $sel as dtstr, COUNT(*) FROM downloads WHERE DATE_ADD(dt, INTERVAL 30 DAY) > NOW() GROUP BY $sel ORDER BY $sel ASC");
-					$opw             = new googleChart(implode(',', gimme($order_totals, 'COUNT(*)')), 'bary');
-					$opw->showGrid   = 1;
-					$opw->dimensions = '280x100';
-					$opw->setLabelsMinMax(4,'left');
-					$opw_fb = clone $opw;
-					$opw_fb->dimensions = '640x400';
-					
-					?>
 
 				<div class="block">
 					<div class="hd">
 						<h2>Downloads 30 Days</h2>
 					</div>
 					<div class="bd">
-						<a href="<?PHP echo $opw_fb->draw(false); ?>" class="fb"><?PHP $opw->draw(); ?></a>
+						<a href="<?PHP echo $opw30_fb->draw(false); ?>" class="fb"><?PHP $opw30->draw(); ?></a>
 					</div>
 				</div>
 				
