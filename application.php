@@ -125,6 +125,7 @@
                         <div class="bd">
 							<?PHP echo $Error; ?>
 							<form action="application.php?id=<?PHP echo $app->id; ?>" method="post">
+								<h3>Basic Stuff</h3>
                                 <p>
 									<label for="name">Application Name</label>
                                     <input type="text" class="text" name="name" id="name" value="<?PHP echo $name; ?>">
@@ -139,7 +140,10 @@
                                     <input type="text" class="text" name="bundle_name" id="bundle_name" value="<?PHP echo $bundle_name; ?>">
 									<span class="info">Ex: MyApplication.app</span>
                                 </p>
+
 								<hr>
+								
+								<h3>Amazon S3</h3>
                                 <p>
 									<label for="s3key">Amazon S3 Key</label>
                                     <input type="text" class="text" name="s3key" id="s3key" value="<?PHP echo $s3key; ?>">
@@ -160,6 +164,7 @@
 
 								<hr>
 
+								<h3>Sparkle</h3>
                                 <p>
 									<label for="sparkle_key">Sparkle Public Key</label>
                                     <textarea name="sparkle_key" id="sparkle_key" class="text"><?PHP echo $sparkle_key ?></textarea>
@@ -171,6 +176,7 @@
 
 								<hr>
 
+								<h3>Aquatic Prime</h3>
 								<p>
 									<label for="license_type">License Type</label><br>
                                     <select name="license_type" id="license_type">
@@ -178,8 +184,6 @@
 										<option <?PHP if($license_type == 'custom') echo 'selected="selected"'; ?> value="custom">Custom</option>
 									</select>
                                 </p>
-
-								<hr>
 
                                 <p>
 									<label for="ap_key">Aquatic Prime Public Key</label>
@@ -190,19 +194,22 @@
                                     <textarea name="ap_pkey" id="ap_pkey" class="text"><?PHP echo $ap_pkey ?></textarea>
                                 </p>
 
-								<hr>
-
 								<p>
 									<label for="custom_salt">Custom License Salt (if not using Aquatic Prime)</label>
                                     <textarea name="custom_salt" id="custom_salt" class="text"><?PHP echo $custom_salt ?></textarea>
                                 </p>
 
+								<hr>
+								
+								<h3>PayPal</h3>
 								<p>
 									<label for="return_url">PayPal Thanks URL</label>
                                     <input type="text" class="text" name="return_url" value="<?PHP echo $return_url; ?>" id="return_url">
                                 </p>                                
+
 								<hr>
 								
+								<h3>Thank-you Email</h3>
 								<p>
 									<label for="from_email">From Email</label>
 									<input type="text" class="text" name="from_email" value="<?PHP echo $from_email; ?>" id="from_email">
@@ -213,8 +220,10 @@
 								</p>
                                 <p>
 									<label for="email_body">Email Body</label>
-                                    <textarea name="email_body" id="email_body" class="text"><?PHP echo $email_body ?></textarea>
+                                    <textarea name="email_body" id="email_body" class="text"><?PHP echo $email_body ?></textarea><br>
+									<span class="info"><strong>Available Substitutions</strong>: {first_name}, {last_name}, {payer_email}, {license}. Add your own in includes/class.objects.php getBody().</span>
                                 </p>
+
 								<p>
 									<label for="license_filename">License Filename</label>
 									<input type="text" class="text" name="license_filename" value="<?PHP echo $license_filename; ?>" id="license_filename">
