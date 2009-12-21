@@ -271,7 +271,7 @@
 			header("Cache-Control: post-check=0, pre-check=0", false);
 			header("Pragma: no-cache");
 			header("Last-Modified: " . gmdate("D, d M Y H:i:s") . " GMT");
-			header("Content-Type: application/octet-stream");
+			header("Content-Type: application/x-download"); // Stupid fix for Safari not honoring content-disposition
 			header("Content-Length: " . strlen($this->license));
 			header("Content-Disposition: attachment; filename={$app->license_filename}");
 			header("Content-Transfer-Encoding: binary");
