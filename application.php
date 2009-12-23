@@ -30,6 +30,7 @@
 			$app->email_body       = $_POST['email_body'];
 			$app->license_filename = $_POST['license_filename'];
 			$app->return_url       = $_POST['return_url'];
+			$app->fs_security_key  = $_POST['fs_security_key'];
 			$app->update();
 			redirect('application.php?id=' . $app->id);
 		}
@@ -53,6 +54,7 @@
 			$email_body       = $_POST['email_body'];
 			$license_filename = $_POST['license_filename'];
 			$return_url       = $_POST['return_url'];
+			$fs_security_key  = $_POST['fs_security_key'];
 		}
 	}
 	else
@@ -75,6 +77,7 @@
 		$email_body       = $app->email_body;
 		$license_filename = $app->license_filename;
 		$return_url       = $app->return_url;
+		$fs_security_key  = $app->fs_security_key;
 	}
 ?>
 <!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01//EN"
@@ -201,13 +204,21 @@
 
 								<hr>
 								
-								<h3>PayPal</h3>
-								<p>
-									<label for="return_url">PayPal Thanks URL</label>
+                                <h3>PayPal</h3>
+                                <p>
+                                    <label for="return_url">PayPal Thanks URL</label>
                                     <input type="text" class="text" name="return_url" value="<?PHP echo $return_url; ?>" id="return_url">
                                 </p>                                
 
-								<hr>
+                                <hr>
+
+                                <h3>FastSpring</h3>
+                                <p>
+                                    <label for="return_url">Item Notification Security Key</label>
+                                    <input type="text" class="text" name="fs_security_key" value="<?PHP echo $fs_security_key; ?>" id="fs_security_key">
+                                </p>                                
+
+                                <hr>
 								
 								<h3>Thank-you Email</h3>
 								<p>

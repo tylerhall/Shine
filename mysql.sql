@@ -36,6 +36,7 @@ CREATE TABLE `applications` (
   `custom_salt` text character set utf8 collate utf8_unicode_ci NOT NULL,
   `license_type` enum('ap','custom') character set utf8 collate utf8_unicode_ci NOT NULL,
   `return_url` varchar(255) NOT NULL,
+  `fs_security_key` varchar(45) NOT NULL,
   PRIMARY KEY  (`id`)
 ) ENGINE=MyISAM  DEFAULT CHARSET=latin1;
 

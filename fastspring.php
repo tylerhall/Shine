@@ -8,6 +8,11 @@
         error_log("Application {$_POST['item_name']} {$_POST['item_number']} not found!");
         exit;
     }
+    
+    // FastSpring security check...
+    if(md5($_REQUEST['security_data'] . $app->fs_security_key) != $_REQUEST['security_hash'])
+        die('Security check failed.');
+    
 
     $o = new Order();
     $o->payer_email       = $_POST['CustomerEmail'];
