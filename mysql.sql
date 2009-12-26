@@ -3,9 +3,9 @@
 -- http://www.phpmyadmin.net
 -- 
 -- Host: localhost
--- Generation Time: Aug 17, 2009 at 10:12 PM
+-- Generation Time: Dec 26, 2009 at 05:03 AM
 -- Server version: 5.0.51
--- PHP Version: 5.2.4-2ubuntu5.6
+-- PHP Version: 5.3.0-0.dotdeb.8
 -- 
 -- Database: `shine`
 -- 
@@ -141,12 +141,27 @@ CREATE TABLE `orders` (
   `mc_gross` float NOT NULL,
   `custom` varchar(255) character set latin1 NOT NULL,
   `license` text character set latin1 NOT NULL,
-  `type` enum('PayPal','Manual','Student','MUPromo') character set latin1 NOT NULL,
+  `type` enum('PayPal','Manual','Student','MUPromo','FastSpring') character set latin1 NOT NULL,
   `deleted` tinyint(4) NOT NULL,
   `hash` varchar(5) character set latin1 NOT NULL,
   `claimed` tinyint(4) NOT NULL,
   PRIMARY KEY  (`id`)
 ) ENGINE=MyISAM  DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
+
+-- --------------------------------------------------------
+
+-- 
+-- Table structure for table `pirates`
+-- 
+
+CREATE TABLE `pirates` (
+  `id` int(11) NOT NULL auto_increment,
+  `app_id` int(11) NOT NULL,
+  `ip` varchar(15) NOT NULL,
+  `guid` varchar(128) NOT NULL,
+  `dt` datetime NOT NULL,
+  PRIMARY KEY  (`id`)
+) ENGINE=MyISAM DEFAULT CHARSET=latin1;
 
 -- --------------------------------------------------------
 
@@ -219,7 +234,8 @@ CREATE TABLE `versions` (
   `filesize` bigint(20) NOT NULL default '0',
   `url` varchar(255) collate utf8_unicode_ci NOT NULL default '',
   `downloads` int(11) NOT NULL default '0',
-  `updates` int(11) NOT NULL default '0',
+  `updates` int(11) NOT NULL,
   `signature` varchar(65) collate utf8_unicode_ci NOT NULL,
+  `pirate_count` int(11) NOT NULL,
   PRIMARY KEY  (`id`)
 ) ENGINE=MyISAM  DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
