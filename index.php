@@ -126,7 +126,7 @@
         							<?PHP foreach($orders as $o) : ?>
         							<tr>
         							    <td><?PHP echo dater($o->dt, 'D n/j'); ?></td>
-        							    <td><a href="order.php?id=<?PHP echo $o->id; ?>"><?PHP echo $o->first_name; ?> <?PHP echo $o->last_name; ?></a></td>
+        							    <td><a href="order.php?id=<?PHP echo $o->id; ?>"><?PHP echo utf8_encode($o->first_name); ?> <?PHP echo utf8_encode($o->last_name); ?></a></td>
         							    <td><a href="mailto:<?PHP echo $o->payer_email; ?>"><?PHP echo $o->payer_email; ?></a></td>
         							    <td><?PHP echo $o->item_name; ?></td>
         							</tr>
