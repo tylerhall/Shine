@@ -32,7 +32,7 @@
     $o->insert();
 
     $o->generateLicense();
-    $o->emailLicense();
+    // $o->emailLicense();
 
     // These are the fields and values you'll need to setup in FastSpring's
     // remote notification fulfillment option.
