@@ -51,7 +51,7 @@
 							<form action="settings.php" method="post">
 								<p>
 									<label for="ipn_url">IPN URL</label> <input type="text" name="ipn_url" id="ipn_url" value="<?PHP echo $ipn_url;?>" class="text">
-									<span class="info">This is where PayPal will post back to when it receives an instant payment notification.
+									<span class="info">This is where PayPal will post back to when it receives an <a href="https://www.paypal.com/ipn">instant payment notification</a>.
 										<br>Default is: <a href="<?PHP echo DEFAULT_IPN_URL; ?>"><?PHP echo DEFAULT_IPN_URL; ?></a>
 										<br>Testing is: <a href="<?PHP echo SANDBOX_IPN_URL; ?>"><?PHP echo SANDBOX_IPN_URL; ?></a></span>
 								</p>

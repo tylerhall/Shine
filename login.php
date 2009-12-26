@@ -23,19 +23,20 @@
 <html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en">
 <head>
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
-    <title>Simple PHP Framework</title>
+    <title>Shine - An Open Source Dashboard for Inidie Mac Developers</title>
     <link rel="stylesheet" type="text/css" href="http://yui.yahooapis.com/2.5.2/build/reset-fonts-grids/reset-fonts-grids.css">
     <link rel="stylesheet" type="text/css" href="http://yui.yahooapis.com/2.5.2/build/base/base-min.css">
     <link rel="stylesheet" href="styles/screen.css" type="text/css" media="screen" title="Screen" charset="utf-8" />
 </head>
 
 <body>
-    <h1>Shine</h1>
+    <h1>Welcome to Shine</h1>
     <div id="main">
         <form action="login.php" method="post">
             <?PHP echo $Error; ?>
             <p><label for="username">Username:</label> <input type="text" name="username" value="<?PHP echo $username;?>" id="username" /></p>
             <p><label for="password">Password:</label> <input type="password" name="password" value="" id="password" /></p>
+            <p><a href="http://wiki.github.com/tylerhall/Shine/installation">Trouble logging in?</a></p>
             <p><input type="submit" name="btnlogin" value="Login" id="btnlogin" /></p>
         </form>
     </div>
