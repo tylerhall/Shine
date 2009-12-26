@@ -97,7 +97,7 @@
 	                                    <td><a href="application.php?id=<?PHP echo $a->id;?>"><?PHP echo $a->name; ?></a></td>
 	                                    <td><?PHP echo $a->strCurrentVersion(); ?></td>
 										<td><?PHP echo $a->strLastReleaseDate(); ?></td>
-										<td><a href="versions.php?id=<?PHP echo $a->id; ?>"><?PHP echo number_format($a->totalDownloads()); ?></a> / <a href="versions.php?id=<?PHP echo $a->id; ?>"><?PHP echo number_format($a->totalUpdates()); ?></a> / <a href="versions.php?id=<?PHP echo $a->id; ?>"><?PHP echo number_format($a->totalPirates()); ?></a></td>
+										<td><a href="versions.php?id=<?PHP echo $a->id; ?>"><?PHP echo number_format($a->totalDownloads()); ?></a> / <a href="versions.php?id=<?PHP echo $a->id; ?>"><?PHP echo number_format($a->totalUpdates()); ?></a> / <a href="pirates.php?id=<?PHP echo $a->id; ?>"><?PHP echo number_format($a->totalPirates()); ?></a></td>
 										<td><?PHP echo $a->numSupportQuestions(); ?></td>
 										<td><?PHP echo $a->numBugReports(); ?></td>
 										<td><?PHP echo $a->numFeatureRequests(); ?></td>

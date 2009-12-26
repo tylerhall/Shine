@@ -4,7 +4,9 @@
 	
 	$app = new Application($_GET['id']);
 	if(!$app->ok()) redirect('index.php');
-	$versions = $app->versions();
+
+    $db = Database::getDatabase();
+    $pirates = $db->getRows("SELECT * FROM pirates WHERE app_id = '{$app->id}' ORDER BY dt DESC");
 ?>
 <!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01//EN"
  "http://www.w3.org/TR/html4/strict.dtd">
@@ -14,7 +16,6 @@
     <meta http-equiv="Content-Type" content="text/html;charset=utf-8" >
     <link rel="stylesheet" href="http://yui.yahooapis.com/2.7.0/build/reset-fonts-grids/reset-fonts-grids.css" type="text/css">
     <link rel="stylesheet" href="css/yuiapp.css" type="text/css">
-	<link rel="alternate" type="application/rss+xml" title="Appcast Feed" href="appcast.php?id=<?PHP echo $app->id; ?>" />
 </head>
 <body class="rounded">
     <div id="doc3" class="yui-t0">
@@ -46,8 +47,8 @@
                             <h2>Applications</h2>
 							<ul>
 								<li><a href="application.php?id=<?PHP echo $app->id; ?>"><?PHP echo $app->name; ?></a></li>
-								<li class="active"><a href="versions.php?id=<?PHP echo $app->id; ?>">Versions</a></li>
-								<li><a href="pirates.php?id=<?PHP echo $app->id; ?>">Pirates</a></li>
+								<li><a href="versions.php?id=<?PHP echo $app->id; ?>">Versions</a></li>
+								<li class="active"><a href="pirates.php?id=<?PHP echo $app->id; ?>">Pirates</a></li>
 								<li><a href="version-new.php?id=<?PHP echo $app->id; ?>">Release New Version</a></li>
 							</ul>
 							<div class="clear"></div>
@@ -56,23 +57,17 @@
 							<table>
 								<thead>
 									<tr>
-										<th>Human Readable Version</th>
-										<th>Sparkle Version Number</th>
-										<th>Release Date</th>
-										<th>Downloads</th>
-										<th>Updates</th>
-										<th>Pirate Count</th>
+										<th>IP Address</th>
+										<th>GUID</th>
+										<th>Date</th>
 									</tr>
 								</thead>
 								<tbody>
-									<?PHP foreach($versions as $v) : ?>
+									<?PHP foreach($pirates as $p) : ?>
 									<tr>
-										<td><a href="version-edit.php?id=<?PHP echo $v->id; ?>"><?PHP echo $v->human_version; ?></a></td>
-										<td><?PHP echo $v->version_number; ?></td>
-										<td><?PHP echo dater($v->dt, 'n/d/Y g:ia'); ?></td>
-										<td><?PHP echo number_format($v->downloads); ?></td>
-										<td><?PHP echo number_format($v->updates); ?></td>
-										<td><?PHP echo number_format($v->pirate_count); ?></td>
+									    <td><a href="http://www.geobytes.com/IpLocator.htm?GetLocation&amp;ipaddress=<?PHP echo $p['ip']; ?>"><?PHP echo $p['ip']; ?></a></td>
+									    <td><?PHP echo $p['guid']; ?></td>
+									    <td><?PHP echo $p['dt']; ?></td>
 									</tr>
 									<?PHP endforeach; ?>
 								</tbody>

@@ -121,6 +121,7 @@
 							<ul>
 								<li class="active"><a href="application.php?id=<?PHP echo $app->id; ?>"><?PHP echo $app->name; ?></a></li>
 								<li><a href="versions.php?id=<?PHP echo $app->id; ?>">Versions</a></li>
+								<li><a href="pirates.php?id=<?PHP echo $app->id; ?>">Pirates</a></li>
 								<li><a href="version-new.php?id=<?PHP echo $app->id; ?>">Release New Version</a></li>
 							</ul>
 							<div class="clear"></div>
