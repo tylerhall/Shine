@@ -60,6 +60,7 @@
 										<th>Release Date</th>
 										<th>Downloads</th>
 										<th>Updates</th>
+										<th>Pirate Count</th>
 									</tr>
 								</thead>
 								<tbody>
@@ -70,6 +71,7 @@
 										<td><?PHP echo dater($v->dt, 'n/d/Y g:ia'); ?></td>
 										<td><?PHP echo number_format($v->downloads); ?></td>
 										<td><?PHP echo number_format($v->updates); ?></td>
+										<td><?PHP echo number_format($v->pirate_count); ?></td>
 									</tr>
 									<?PHP endforeach; ?>
 								</tbody>
