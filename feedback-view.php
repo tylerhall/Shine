@@ -75,51 +75,44 @@
 
 							<table>
 								<tr>
-									<th class="r">App Name</th>
+									<th>App Name</th>
 									<td><?PHP echo $f->appname . ' ' . $f->appversion;?></td>
 								</tr>
 								<tr>
-									<th class="r">System</th>
+									<th>System</th>
 									<td><?PHP echo $f->systemversion;?></td>
 								</tr>
 								<tr>
-									<th class="r">Email</th>
-									<td>
-										<a href="mailto:<?PHP echo $f->email;?>"><?PHP echo $f->email;?></a>
-										<?PHP echo ($f->reply == 1) ? "(Wants a reply)" : "(Does not want a reply)"; ?>
-									</td>
+									<th>Email</th>
+									<td><a href="mailto:<?PHP echo $f->email;?>"><?PHP echo $f->email;?></a></td>
 								</tr>
 								<tr>
-									<th class="r">Type</th>
+									<th>Type</th>
 									<td><?PHP echo ucwords($f->type);?></td>
 								</tr>
 								<tr>
-									<th class="r">Message</th>
+									<th>Message</th>
 									<td><?PHP echo nl2br($f->__message);?></td>
 								</tr>
 								<?PHP if($f->type == "feature") : ?>
 								<tr>
-									<th class="r">Importance</th>
+									<th>Importance</th>
 									<td><?PHP echo $f->importance;?></td>
 								</tr>
 								<?PHP endif; ?>
 								<?PHP if($f->type == "bug") : ?>
 								<tr>
-									<th class="r">Critical</th>
+									<th>Critical</th>
 									<td><?PHP echo ($f->critical == 0) ? "No" : "Yes!"; ?></td>
 								</tr>
 								<?PHP endif; ?>
 								<tr>
-									<th class="r">Date Submitted</th>
+									<th>Date Submitted</th>
 									<td><?PHP echo dater('n/j/Y g:ia', $f->dt); ?></td>
 								</tr>
 								<tr>
-									<th class="r">IP</th>
+									<th>IP</th>
 									<td><?PHP echo $f->ip;?></td>
-								</tr>
-								<tr>
-									<th class="r">Registration</th>
-									<td><?PHP echo $f->reguser;?> - <?PHP echo $f->regmail;?></td>
 								</tr>
 							</table>
 

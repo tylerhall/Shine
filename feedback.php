@@ -46,10 +46,9 @@
         <div id="bd">
             <div id="yui-main">
                 <div class="yui-b"><div class="yui-g">
-
                     <div class="block tabs spaces">
                         <div class="hd">
-                            <h2>Orders</h2>
+                            <h2>Feedback</h2>
 							<ul>
 								<li <?PHP if(@$_GET['type']==''){?> class="active"<? } ?>><a href="feedback.php">All Feedback</a></li>
 								<li <?PHP if(@$_GET['type']=='support'){?> class="active"<? } ?>><a href="feedback.php?type=support">Support Questions</a></li>
@@ -86,7 +85,8 @@
                                 </tbody>
                             </table>
 						</div>
-					</div>              
+					</div>
+					<p>Use <a href="http://github.com/tylerhall/OpenFeedback/">OpenFeedback</a> to collect feedback from your users.</p>
                 </div></div>
             </div>
             <div id="sidebar" class="yui-b">
