@@ -106,9 +106,9 @@
                         <div class="hd">
                             <h2>Orders</h2>
 							<ul>
-								<li class="<?PHP if(!isset($_GET['id'])) echo 'active'; ?>"><a href="orders.php">All Orders (<?PHP echo Order::totalOrders(); ?>)</a></li>
+								<li class="<?PHP if(!isset($_GET['id'])) echo 'active'; ?>"><a href="orders.php">All Orders</a></li>
 								<?PHP foreach($applications as $a) : ?>
-								<li class="<?PHP if(@$_GET['id'] == $a->id) echo 'active'; ?>"><a href="orders.php?id=<?PHP echo $a->id; ?>"><?PHP echo $a->name; ?> (<?PHP echo Order::totalOrders($a->id); ?>)</a></li>
+								<li class="<?PHP if(@$_GET['id'] == $a->id) echo 'active'; ?>"><a href="orders.php?id=<?PHP echo $a->id; ?>"><?PHP echo $a->name; ?></a></li>
 								<?PHP endforeach; ?>
 								<li><a href="order-new.php">Create Manual Order</a></li>
 							</ul>
