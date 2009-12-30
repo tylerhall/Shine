@@ -104,6 +104,7 @@
                 </ul>
 
                 <ul id="user-navigation">
+                    <li><a href="users.php">Users</a></li>
                     <li><a href="settings.php">Settings</a></li>
                     <li><a href="logout.php">Logout</a></li>
                 </ul>
