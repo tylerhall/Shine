@@ -5,7 +5,7 @@
 	$u = new User($_GET['id']);
         if(!$u->ok()) redirect('users.php');
 
-        if($_GET['action'] == 'delete')
+        if(isset($_GET['action']) && $_GET['action'] == 'delete')
         {
             $u->delete();
             redirect('users.php');
@@ -24,7 +24,7 @@
 			$u->level      = $_POST['level'];
 
                         // Leave the password alone if it's not set
-                        if(empty($_POST['password']))
+                        if(!empty($_POST['password']))
                         {
 			    $u->setPassword($_POST['password']);
                         }
