@@ -7,6 +7,21 @@
         {
             parent::__construct('users', array('username', 'password', 'level', 'email'), $id);
         }
+
+        /**
+         * Give the user object the ability to change the password with encryption.
+         *
+         * @param string $password The plain text string value of the password.
+         */
+        public function setPassword($password)
+        {
+            $Config = Config::getConfig();
+
+            if($Config->useHashedPasswords === true)
+                $this->password = sha1($password . $Config->authSalt);
+            else
+                $this->password = $password;
+        }
     }
 
     class Application extends DBObject
