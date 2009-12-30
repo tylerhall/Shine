@@ -96,7 +96,8 @@
                         <div class="bd">
 							<form action="user-edit.php?id=<?PHP echo $u->id; ?>" method="post">
 								<p><label for="username">Username</label> <input type="text" name="username" id="username" value="<?PHP echo $username; ?>" class="text"></p>
-								<p><label for="password">Password</label> <input type="password" name="password" id="password" value="" class="text"></p>
+								<p><label for="password">Password</label> <input type="password" name="password" id="password" value="" class="text">
+<span class="info">Leave the password blank if you do not wish to change it</span></p>
 								<p><label for="email">Email</label> <input type="text" name="email" id="email" value="<?PHP echo $email; ?>" class="text"></p>
 								<p><label for="level">Level</label> <select name="level" id="level">
 <option <?PHP if($level == 'user') echo 'selected="selected"'; ?> value="user">User</option>
