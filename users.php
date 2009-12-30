@@ -77,6 +77,7 @@
 										<td>Username</td>
 										<td>Level</td>
 										<td>Email</td>
+                                        <td>Actions</td>
                                     </tr>
                                 </thead>
                                 <tbody>
@@ -85,6 +86,10 @@
 										<td><?PHP echo $u->username; ?></td>
 										<td><?PHP echo $u->level; ?></td>
 										<td><?PHP echo $u->email; ?></td>
+                                    <td>
+                                        <a href="user-edit.php?id=<?PHP echo $u->id; ?>">Edit</a>
+                                        <a href="user-edit.php?id=<?PHP echo $u->id; ?>&action=delete" onclick="return confirm('Are you sure?');">Delete</a>
+                                    </td>
 									</tr>
 									<?PHP endforeach; ?>
                                 </tbody>

@@ -2,21 +2,34 @@
 	require 'includes/master.inc.php';
 	$Auth->requireAdmin('login.php');
 
-	if(isset($_POST['btnCreateAccount']))
+	$u = new User($_GET['id']);
+        if(!$u->ok()) redirect('users.php');
+
+        if($_GET['action'] == 'delete')
+        {
+            $u->delete();
+            redirect('users.php');
+        }
+
+	if(isset($_POST['btnEditAccount']))
 	{
 		$Error->blank($_POST['username'], 'Username');
-		$Error->blank($_POST['password'], 'Password');
 		$Error->blank($_POST['level'], 'Level');
                 $Error->email($_POST['email']);
 		
 		if($Error->ok())
 		{
-			$u = new User();
 			$u->username   = $_POST['username'];
 			$u->email      = $_POST['email'];
 			$u->level      = $_POST['level'];
-			$u->setPassword($_POST['password']);
-			$u->insert();
+
+                        // Leave the password alone if it's not set
+                        if(empty($_POST['password']))
+                        {
+			    $u->setPassword($_POST['password']);
+                        }
+
+			$u->update();
 
                         redirect('users.php');
 		}
@@ -29,9 +42,9 @@
 	}
 	else
 	{
-		$username  = '';
-		$email     = '';
-		$level     = 'user';
+		$username  = $u->username;
+		$email     = $u->email;
+		$level     = $u->level;
 	}
 ?>
 <!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01//EN"
@@ -70,12 +83,18 @@
             <div id="yui-main">
                 <div class="yui-b"><div class="yui-g">
 					<?PHP echo $Error; ?>
-                    <div class="block">
+                    <div class="block tabs spaces">
                         <div class="hd">
+                           <h2>Users</h2>
+<ul>
+<li class="active"><a href="users.php">Users</a></li>
+<li><a href="user-new.php">Create new user</a></li>
+</ul>
+<div class="clear"></div>
                             <h2>Create new user</h2>
                         </div>
                         <div class="bd">
-							<form action="user-new.php" method="post">
+							<form action="user-edit.php?id=<?PHP echo $u->id; ?>" method="post">
 								<p><label for="username">Username</label> <input type="text" name="username" id="username" value="<?PHP echo $username; ?>" class="text"></p>
 								<p><label for="password">Password</label> <input type="password" name="password" id="password" value="" class="text"></p>
 								<p><label for="email">Email</label> <input type="text" name="email" id="email" value="<?PHP echo $email; ?>" class="text"></p>
@@ -83,7 +102,7 @@
 <option <?PHP if($level == 'user') echo 'selected="selected"'; ?> value="user">User</option>
 <option <?PHP if($level == 'admin') echo 'selected="selected"'; ?> value="admin">Admin</option>
 </select></p>
-								<p><input type="submit" name="btnCreateAccount" value="Create Account" id="btnCreateAccount"></p>
+								<p><input type="submit" name="btnEditAccount" value="Save" id="btnEditAccount"></p>
 							</form>
 						</div>
 					</div>
