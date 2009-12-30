@@ -16,11 +16,13 @@
 -- Table structure for table `applications`
 -- 
 
+DROP TABLE IF EXISTS `applications`;
 CREATE TABLE `applications` (
   `id` int(11) NOT NULL auto_increment,
   `name` varchar(128) character set utf8 collate utf8_unicode_ci NOT NULL default '',
   `link` varchar(128) character set utf8 collate utf8_unicode_ci NOT NULL default '',
   `bundle_name` varchar(128) character set utf8 collate utf8_unicode_ci NOT NULL default '',
+  `fspath` varchar(128) character set utf8 collate utf8_unicode_ci NOT NULL default '',
   `s3key` varchar(128) character set utf8 collate utf8_unicode_ci NOT NULL default '',
   `s3pkey` varchar(128) character set utf8 collate utf8_unicode_ci NOT NULL default '',
   `s3bucket` varchar(128) character set utf8 collate utf8_unicode_ci NOT NULL default '',
@@ -46,6 +48,7 @@ CREATE TABLE `applications` (
 -- Table structure for table `downloads`
 -- 
 
+DROP TABLE IF EXISTS `downloads`;
 CREATE TABLE `downloads` (
   `id` int(11) NOT NULL auto_increment,
   `dt` datetime NOT NULL default '0000-00-00 00:00:00',
@@ -72,6 +75,7 @@ CREATE TABLE `downloads` (
 -- Table structure for table `feedback`
 -- 
 
+DROP TABLE IF EXISTS `feedback`;
 CREATE TABLE `feedback` (
   `id` int(11) NOT NULL auto_increment,
   `appname` varchar(255) NOT NULL,
@@ -99,6 +103,7 @@ CREATE TABLE `feedback` (
 -- Table structure for table `options`
 -- 
 
+DROP TABLE IF EXISTS `options`;
 CREATE TABLE `options` (
   `key` varchar(255) collate utf8_unicode_ci NOT NULL,
   `value` varchar(255) collate utf8_unicode_ci NOT NULL,
@@ -111,6 +116,7 @@ CREATE TABLE `options` (
 -- Table structure for table `orders`
 -- 
 
+DROP TABLE IF EXISTS `orders`;
 CREATE TABLE `orders` (
   `id` int(11) NOT NULL auto_increment,
   `app_id` int(11) NOT NULL,
@@ -154,6 +160,7 @@ CREATE TABLE `orders` (
 -- Table structure for table `pirates`
 -- 
 
+DROP TABLE IF EXISTS `pirates`;
 CREATE TABLE `pirates` (
   `id` int(11) NOT NULL auto_increment,
   `app_id` int(11) NOT NULL,
@@ -169,6 +176,7 @@ CREATE TABLE `pirates` (
 -- Table structure for table `sessions`
 -- 
 
+DROP TABLE IF EXISTS `sessions`;
 CREATE TABLE `sessions` (
   `id` int(255) NOT NULL auto_increment,
   `data` text collate utf8_unicode_ci NOT NULL,
@@ -182,6 +190,7 @@ CREATE TABLE `sessions` (
 -- Table structure for table `sparkle_data`
 -- 
 
+DROP TABLE IF EXISTS `sparkle_data`;
 CREATE TABLE `sparkle_data` (
   `sparkle_id` int(11) NOT NULL,
   `key` varchar(128) NOT NULL,
@@ -195,6 +204,7 @@ CREATE TABLE `sparkle_data` (
 -- Table structure for table `sparkle_reports`
 -- 
 
+DROP TABLE IF EXISTS `sparkle_reports`;
 CREATE TABLE `sparkle_reports` (
   `id` int(11) NOT NULL auto_increment,
   `dt` datetime NOT NULL,
@@ -208,6 +218,7 @@ CREATE TABLE `sparkle_reports` (
 -- Table structure for table `users`
 -- 
 
+DROP TABLE IF EXISTS `users`;
 CREATE TABLE `users` (
   `id` int(11) NOT NULL auto_increment,
   `username` varchar(65) collate utf8_unicode_ci NOT NULL default '',
@@ -224,6 +235,7 @@ CREATE TABLE `users` (
 -- Table structure for table `versions`
 -- 
 
+DROP TABLE IF EXISTS `versions`;
 CREATE TABLE `versions` (
   `id` int(11) NOT NULL auto_increment,
   `app_id` int(11) NOT NULL default '0',
