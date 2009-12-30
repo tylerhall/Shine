@@ -7,7 +7,14 @@
 
 	require 'includes/master.inc.php';
 
-	$app_id = 1; // Set this to the ID of the application to download
+        if(isset($_GET['id']))
+        {
+            $app_id = $_GET['id'];
+        }
+        else {
+            // So that functionality mirrors what it was before you could specify an app_id
+            $app_id = 1;
+        }
 	
 	$v = DBObject::glob('Version', "SELECT * FROM versions WHERE app_id = $app_id ORDER BY dt DESC LIMIT 1");
 	$v = array_pop($v);
