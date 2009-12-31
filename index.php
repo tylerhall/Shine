@@ -1,6 +1,7 @@
 <?PHP
 	require 'includes/master.inc.php';
 	$Auth->requireAdmin('login.php');
+    $db = Database::getDatabase();
 
     // Create a new application if needed
 	if(isset($_POST['btnNewApp']) && strlen($_POST['name']))
@@ -11,13 +12,18 @@
 		redirect('application.php?id=' . $a->id);
 	}
 	
+	if(isset($_GET['clearPirates']))
+	{
+	    // This is just to help you keep track of new waves of piracy by visually looking
+	    // for any numbers greater than 0 on the dashboard.
+	    $db->query("UPDATE versions SET pirate_count = 0");
+    }
+	
 	// Get a list of our apps
 	$apps   = DBObject::glob('Application', 'SELECT * FROM applications ORDER BY name');
 	
 	// Get our recent orders
 	$orders = DBObject::glob('Order', 'SELECT * FROM orders ORDER BY dt DESC LIMIT 10');
-
-    $db = Database::getDatabase();
 
 	// Downloads in last 24 hours
 	$sel = "TIME_FORMAT(dt, '%Y%m%d%H')";
@@ -172,8 +178,9 @@
 							<p><input type="submit" name="btnNewApp" value="Create Application" id="btnNewApp"></p>
 						</form>	
 					</div>
-				</div>				
-				
+				</div>
+
+				<p><a href="index.php?clearPirates=1">Clear pirate counts</a></p>
             </div>
         </div>
 
