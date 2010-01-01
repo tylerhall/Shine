@@ -14,22 +14,7 @@
     <div id="doc3" class="yui-t6">
 
         <div id="hd">
-            <h1>Shine</h1>
-            <div id="navigation">
-                <ul id="primary-navigation">
-                    <li><a href="#">Some Page</a></li>
-                    <li class="active"><a href="#">Active</a></li>
-                    <li><a href="#">Login</a></li>
-                    <li><a href="#">Signup</a></li>
-                </ul>
-
-                <ul id="user-navigation">
-                    <li><a href="#">Profile</a></li>
-                    <li><a href="#">Settings</a></li>
-                    <li><a href="#">Logout</a></li>
-                </ul>
-                <div class="clear"></div>
-            </div>
+            <?PHP include('inc/header.inc.php'); ?>
         </div>
 
         <div id="bd">
