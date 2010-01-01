@@ -103,7 +103,7 @@
 									<tr>
 	                                    <td><a href="application.php?id=<?PHP echo $a->id;?>"><?PHP echo $a->name; ?></a></td>
 	                                    <td><?PHP echo $a->strCurrentVersion(); ?></td>
-										<td><?PHP echo $a->strLastReleaseDate(); ?></td>
+										<td><?PHP echo time2str($a->strLastReleaseDate()); ?></td>
 										<td><a href="versions.php?id=<?PHP echo $a->id; ?>"><?PHP echo number_format($a->totalDownloads()); ?></a> / <a href="versions.php?id=<?PHP echo $a->id; ?>"><?PHP echo number_format($a->totalUpdates()); ?></a> / <a href="pirates.php?id=<?PHP echo $a->id; ?>"><?PHP echo number_format($a->totalPirates()); ?></a></td>
 										<td><?PHP echo $a->numSupportQuestions(); ?></td>
 										<td><?PHP echo $a->numBugReports(); ?></td>
@@ -132,7 +132,7 @@
     					        <tbody>
         							<?PHP foreach($orders as $o) : ?>
         							<tr>
-        							    <td><?PHP echo dater($o->dt, 'D n/j'); ?></td>
+        							    <td><?PHP echo time2str($o->dt); ?></td>
         							    <td><a href="order.php?id=<?PHP echo $o->id; ?>"><?PHP echo utf8_encode($o->first_name); ?> <?PHP echo utf8_encode($o->last_name); ?></a></td>
         							    <td><a href="mailto:<?PHP echo $o->payer_email; ?>"><?PHP echo $o->payer_email; ?></a></td>
         							    <td><?PHP echo $o->item_name; ?></td>
