@@ -15,6 +15,7 @@
 			$app->name             = $_POST['name'];
 			$app->link             = $_POST['link'];
 			$app->bundle_name      = $_POST['bundle_name'];
+			$app->i_use_this_key   = $_POST['i_use_this_key'];
 			$app->s3key            = $_POST['s3key'];
 			$app->s3pkey           = $_POST['s3pkey'];
 			$app->s3bucket         = $_POST['s3bucket'];
@@ -39,6 +40,7 @@
 			$name             = $_POST['name'];
 			$link             = $_POST['link'];
 			$bundle_name      = $_POST['bundle_name'];
+			$i_use_this_key   = $_POST['i_use_this_key'];
 			$s3key            = $_POST['s3key'];
 			$s3pkey           = $_POST['s3pkey'];
 			$s3bucket         = $_POST['s3bucket'];
@@ -62,6 +64,7 @@
 		$name             = $app->name;
 		$link             = $app->link;
 		$bundle_name      = $app->bundle_name;
+		$i_use_this_key   = $app->i_use_this_key;
 		$s3key            = $app->s3key;
 		$s3pkey           = $app->s3pkey;
 		$s3bucket         = $app->s3bucket;
@@ -126,9 +129,14 @@
 									<span class="info">Your application's product page</span>
                                 </p>
                                 <p>
-									<label for="url">Bundle Name</label>
+                                    <label for="url">Bundle Name</label>
                                     <input type="text" class="text" name="bundle_name" id="bundle_name" value="<?PHP echo $bundle_name; ?>">
-									<span class="info">Ex: MyApplication.app</span>
+                                    <span class="info">Ex: MyApplication.app</span>
+                                </p>
+                                <p>
+                                    <label for="url">i use this URL Key Slug</label>
+                                    <input type="text" class="text" name="i_use_this_key" id="i_use_this_key" value="<?PHP echo $i_use_this_key; ?>">
+                                    <span class="info">Ex: http://osx.iusethis.com/app/<strong>virtualhostx</strong></span>
                                 </p>
 
 								<hr>
@@ -235,7 +243,14 @@
                 </div></div>
             </div>
             <div id="sidebar" class="yui-b">
-
+                <div class="block">
+                    <div class="hd">
+                        <h3>i use this</h3>
+                    </div>
+                    <div class="bd">
+                        <?PHP echo $app->iUseThisHTML(); ?>
+                    </div>
+                </div>
             </div>
         </div>
 

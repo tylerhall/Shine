@@ -28,7 +28,7 @@
     {
         public function __construct($id = null)
         {
-            parent::__construct('applications', array('name', 'link', 'bundle_name', 's3key', 's3pkey', 's3bucket', 's3path', 'sparkle_key', 'sparkle_pkey', 'ap_key', 'ap_pkey', 'from_email', 'email_subject', 'email_body', 'license_filename', 'custom_salt', 'license_type', 'return_url', 'fs_security_key'), $id);
+            parent::__construct('applications', array('name', 'link', 'bundle_name', 's3key', 's3pkey', 's3bucket', 's3path', 'sparkle_key', 'sparkle_pkey', 'ap_key', 'ap_pkey', 'from_email', 'email_subject', 'email_body', 'license_filename', 'custom_salt', 'license_type', 'return_url', 'fs_security_key', 'i_use_this_key'), $id);
         }
 
 		public function versions()
@@ -122,6 +122,14 @@
 			ksort($orders);
 			return $orders;
 		}
+		
+		public function iUseThisHTML()
+		{
+		    $html = file_get_contents("http://osx.iusethis.com/app/include/{$this->i_use_this_key}/2");
+		    $count = preg_replace('/[^0-9]/', '', strip_tags($html));
+		    $result = "<div style=\"width: 160px;background: no-repeat url(http://osx.iusethis.com/static/badges/ucb2.png); height: 43px; cursor: pointer;\"><a href='http://osx.iusethis.com/app/{$this->i_use_this_key}'><div style=\"color: #383838; font: 14px Geneva, Arial, Helvetica, sans-serif; position: relative; top: 14px;    left: 45px; font-weight: bold; text-align: left;\">$count<span style=\"color:#7a7a7a; font:12px;\">usethis</span></div></a></div>";
+		    return $result;
+	    }
     }
 
     class Order extends DBObject
