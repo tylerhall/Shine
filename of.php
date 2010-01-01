@@ -27,5 +27,5 @@
 				   '{$_POST['regmail']}')";
 
 	mysql_query($query, $db->db) or die('error');
-	
+
 	echo "ok";

@@ -334,3 +334,11 @@
 			parent::__construct('feedback', array('appname', 'appversion', 'systemversion', 'email', 'reply', 'type', 'message', 'importance', 'critical', 'dt', 'ip', 'new', 'starred', 'reguser', 'regmail'), $id);
 		}
 	}
+
+	class Serial extends DBObject
+	{
+		function __construct($id = null)
+		{
+			parent::__construct('pirated_serials', array('app_id', 'dt', 'guid', 'serial'), $id);
+		}
+	}
