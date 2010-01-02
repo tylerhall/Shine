@@ -14,6 +14,7 @@ h1 { font-size:230%; color:#fff; }
 
 #primary-navigation li a { font-size:116%; padding:0.4em 1em; }
 #primary-navigation li.active a { background-color:#f0f0ee; color:#000; }
+#primary-navigation li.highlight a { background-color:lightyellow; color:#000; }
 
 #user-navigation { float:right; }
 #user-navigation li a { font-size:93%; padding:0.5em 1em; }
