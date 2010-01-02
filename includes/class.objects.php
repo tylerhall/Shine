@@ -46,7 +46,7 @@
 		{
 			$db = Database::getDatabase();
 			$dt = $db->getValue("SELECT dt FROM versions WHERE app_id = '{$this->id}' ORDER BY dt DESC LIMIT 1");
-			return dater($dt, 'n/j/Y');
+			return time2str($dt);
 		}
 		
         public function totalDownloads()
