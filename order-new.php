@@ -11,6 +11,8 @@
 		
 		if($Error->ok())
 		{
+		    $app = new Application($_POST['app_id']);
+		    
 			$o = new Order();
 			$o->first_name  = $_POST['first_name'];
 			$o->last_name   = $_POST['last_name'];
@@ -18,6 +20,7 @@
 			$o->app_id      = $_POST['app_id'];
 			$o->type        = 'Manual';
 			$o->dt          = dater();
+			$o->item_name   = $app->name;
 			$o->insert();
 
 			$o->generateLicense();
