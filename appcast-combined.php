@@ -1,5 +1,7 @@
 <?PHP
-    // This is your basic, run of the mill appcast feed
+    // This is a combined appcast that displays all of your recent updates in Sparkle.
+    // However, it breaks how appcasts are supposed to work, so don't use it with
+    // services like MacUpdate and IUseThis.
 
 	require 'includes/master.inc.php';
 
@@ -20,6 +22,20 @@
 
 	$db->query("UPDATE versions SET updates = updates + 1 WHERE app_id = '{$app->id}' ORDER BY dt DESC LIMIT 1");
 	
+	$previous_version = "<h2>Previous Versions</h2>";
+	$combined_description = '';
+	foreach($versions as $v)
+	{
+	    $date = dater($v->dt, 'F j, Y');
+	    $combined_description .= "<h3>{$v->human_version} - $date</h3>";
+	    $combined_description .= $v->release_notes . "<hr>";
+	    $combined_description .= $previous_version;
+	    $previous_version = '';
+    }
+    
+    reset($versions);
+    $v = current($versions);
+
 	header("Content-type: application/xml");
 ?>
 <?PHP echo '<'; ?>?xml version="1.0" encoding="utf-8"?>
@@ -29,13 +45,11 @@
 		<link><?PHP echo $app->link; ?></link>
 		<description>Most recent changes with links to updates.</description>
 		<language>en</language>
-		<?PHP foreach($versions as $v) : ?>
 		<item>
 			<title><?PHP echo $app->name; ?> <?PHP echo $v->human_version; ?></title>
-			<description><![CDATA[ <?PHP echo $v->release_notes; ?> ]]></description>
+			<description><![CDATA[ <?PHP echo $combined_description; ?> ]]></description>
 			<pubDate><?PHP echo dater('D, d M Y H:i:s O', $v->dt); ?></pubDate>
 			<enclosure url="<?PHP echo $v->url; ?>" sparkle:shortVersionString="<?PHP echo $v->human_version; ?>" sparkle:version="<?PHP echo $v->version_number; ?>" length="<?PHP echo $v->filesize; ?>" type="application/octet-stream" sparkle:dsaSignature="<?PHP echo $v->signature; ?>" />
 		</item>
-		<?PHP endforeach; ?>
 	</channel>
 </rss>

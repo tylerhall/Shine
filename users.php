@@ -16,13 +16,7 @@
 		$search_sql = '';
 	}
 
-        /**
-         * Add pager information
-	 * $total_num_orders = $db->getValue("SELECT COUNT(*) FROM users WHERE 1 = 1 $search_sql ");
-	 * $pager = new Pager(@$_GET['page'], 50, $total_num_orders);
-         */
-	$users = DBObject::glob('User', "SELECT * FROM users WHERE 1 = 1 $search_sql ORDER BY username"); // LIMIT {$pager->firstRecord}, {$pager->perPage}");
-	$where = '';
+	$users = DBObject::glob('User', "SELECT * FROM users WHERE 1 = 1 $search_sql ORDER BY username");
 ?>
 <!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01//EN"
  "http://www.w3.org/TR/html4/strict.dtd">
@@ -32,7 +26,6 @@
     <meta http-equiv="Content-Type" content="text/html;charset=utf-8" >
     <link rel="stylesheet" href="http://yui.yahooapis.com/2.7.0/build/reset-fonts-grids/reset-fonts-grids.css" type="text/css">
     <link rel="stylesheet" href="css/yuiapp.css" type="text/css">
-	<link rel="stylesheet" href="js/jquery.fancybox.css" type="text/css" media="screen">
 </head>
 <body class="rounded">
     <div id="doc3" class="yui-t6">
@@ -47,14 +40,13 @@
 
 
                     <div class="block tabs spaces">
-			<div class="hd">
-                           <h2>Users</h2>
-<ul>
-<li class="active"><a href="users.php">Users</a></li>
-<li><a href="user-new.php">Create new user</a></li>
-</ul>
-<div class="clear"></div>
-</div>
+                        <div class="hd">
+                            <ul>
+                                <li class="active"><a href="users.php">Users</a></li>
+                                <li><a href="user-new.php">Create new user</a></li>
+                            </ul>
+                            <div class="clear"></div>
+                        </div>
                         <div class="bd">
                             <table>
                                 <thead>
@@ -71,10 +63,10 @@
 										<td><?PHP echo $u->username; ?></td>
 										<td><?PHP echo $u->level; ?></td>
 										<td><?PHP echo $u->email; ?></td>
-                                    <td>
-                                        <a href="user-edit.php?id=<?PHP echo $u->id; ?>">Edit</a>
-                                        <a href="user-edit.php?id=<?PHP echo $u->id; ?>&action=delete" onclick="return confirm('Are you sure?');">Delete</a>
-                                    </td>
+                                        <td>
+                                            <a href="user-edit.php?id=<?PHP echo $u->id; ?>">Edit</a>
+                                            <a href="user-edit.php?id=<?PHP echo $u->id; ?>&amp;action=delete" onclick="return confirm('Are you sure?');">Delete</a>
+                                        </td>
 									</tr>
 									<?PHP endforeach; ?>
                                 </tbody>
@@ -102,10 +94,5 @@
 
         <div id="ft"></div>
     </div>
-	<script type="text/javascript" src="js/jquery-1.3.2.min.js"></script>
-	<script type="text/javascript" src="js/jquery.fancybox-1.2.1.pack.js"></script>
-	<script type="text/javascript" charset="utf-8">
- 		$(".fb").fancybox({ 'zoomSpeedIn': 300, 'zoomSpeedOut': 300, 'overlayShow': false }); 
-	</script>
 </body>
 </html>
