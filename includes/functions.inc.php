@@ -77,7 +77,8 @@
             if($day_diff < 7) return $day_diff . ' days ago';
             if($day_diff < 31) return ceil($day_diff / 7) . ' weeks ago';
             if($day_diff < 60) return 'last month';
-            return date('F Y', $ts);
+            $ret = date('F Y', $ts);
+            return ($ret == 'December 1969') ? '' : $ret;
         }
         else
         {
@@ -95,7 +96,8 @@
             if($day_diff < 7 + (7 - date('w'))) return 'next week';
             if(ceil($day_diff / 7) < 4) return 'in ' . ceil($day_diff / 7) . ' weeks';
             if(date('n', $ts) == date('n') + 1) return 'next month';
-            return date('F Y', $ts);
+            $ret = date('F Y', $ts);
+            return ($ret == 'December 1969') ? '' : $ret;
         }
     }
 

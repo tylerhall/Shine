@@ -4,9 +4,9 @@
     $db = Database::getDatabase();
     $tweet_apps = $db->getRows('SELECT id, tweet_terms FROM applications');
 
-    foreach($tweet_apps as $app)
+    foreach($tweet_apps as $tweet_app)
     {
-        $terms = explode(',', $app['tweet_terms']);
+        $terms = explode(',', $tweet_app['tweet_terms']);
         foreach($terms as $term)
         {
             $term = trim($term);
@@ -19,7 +19,7 @@
                     $t = new Tweet();
                     $t->tweet_id    = $result->id;
                     $t->username    = $result->from_user;
-                    $t->app_id      = $app['id'];
+                    $t->app_id      = $tweet_app['id'];
                     $t->dt          = dater($result->created_at);
                     $t->body        = $result->text;
                     $t->profile_img = $result->profile_image_url;

@@ -5,6 +5,9 @@
 
 	$applications = DBObject::glob('Application', 'SELECT * FROM applications ORDER BY name');
 	
+	if(isset($_GET['refresh']))
+	    include 'tweet-cron.php';
+	
 	if(isset($_GET['delete']))
 	{
 	    $t = new Tweet($_GET['delete']);
@@ -124,6 +127,7 @@
                     <div class="bd">
                         <p><?PHP echo count($tweets); ?> tweets</p>
                         <p><a href="tweets.php?id=<?PHP echo $app_id; ?>&amp;read=1">Mark all as read</a></p>
+                        <p><a href="tweets.php?id=<?PHP echo $app_id; ?>&amp;refresh=1">Refresh All</a></p>
                     </div>
                 </div>
             </div>
