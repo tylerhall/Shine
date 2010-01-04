@@ -3,7 +3,7 @@
 -- http://www.phpmyadmin.net
 -- 
 -- Host: localhost
--- Generation Time: Dec 26, 2009 at 05:03 AM
+-- Generation Time: Jan 04, 2010 at 12:27 AM
 -- Server version: 5.0.51
 -- PHP Version: 5.3.0-0.dotdeb.8
 -- 
@@ -22,7 +22,6 @@ CREATE TABLE `applications` (
   `name` varchar(128) character set utf8 collate utf8_unicode_ci NOT NULL default '',
   `link` varchar(128) character set utf8 collate utf8_unicode_ci NOT NULL default '',
   `bundle_name` varchar(128) character set utf8 collate utf8_unicode_ci NOT NULL default '',
-  `fspath` varchar(128) character set utf8 collate utf8_unicode_ci NOT NULL default '',
   `s3key` varchar(128) character set utf8 collate utf8_unicode_ci NOT NULL default '',
   `s3pkey` varchar(128) character set utf8 collate utf8_unicode_ci NOT NULL default '',
   `s3bucket` varchar(128) character set utf8 collate utf8_unicode_ci NOT NULL default '',
@@ -39,8 +38,10 @@ CREATE TABLE `applications` (
   `license_type` enum('ap','custom') character set utf8 collate utf8_unicode_ci NOT NULL,
   `return_url` varchar(255) NOT NULL,
   `fs_security_key` varchar(45) NOT NULL,
+  `i_use_this_key` varchar(45) NOT NULL,
+  `tweet_terms` text NOT NULL,
   PRIMARY KEY  (`id`)
-) ENGINE=MyISAM  DEFAULT CHARSET=latin1;
+) ENGINE=MyISAM  DEFAULT CHARSET=latin1 AUTO_INCREMENT=7 ;
 
 -- --------------------------------------------------------
 
@@ -67,7 +68,7 @@ CREATE TABLE `downloads` (
   `exec_time` float NOT NULL default '0',
   `num_queries` int(11) NOT NULL default '0',
   PRIMARY KEY  (`id`)
-) ENGINE=MyISAM  DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
+) ENGINE=MyISAM  DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci AUTO_INCREMENT=22251 ;
 
 -- --------------------------------------------------------
 
@@ -95,7 +96,7 @@ CREATE TABLE `feedback` (
   `reguser` varchar(255) NOT NULL,
   `regmail` varchar(255) NOT NULL,
   PRIMARY KEY  (`id`)
-) ENGINE=MyISAM  DEFAULT CHARSET=latin1;
+) ENGINE=MyISAM  DEFAULT CHARSET=latin1 AUTO_INCREMENT=15 ;
 
 -- --------------------------------------------------------
 
@@ -152,7 +153,23 @@ CREATE TABLE `orders` (
   `hash` varchar(5) character set latin1 NOT NULL,
   `claimed` tinyint(4) NOT NULL,
   PRIMARY KEY  (`id`)
-) ENGINE=MyISAM  DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
+) ENGINE=MyISAM  DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci AUTO_INCREMENT=1962 ;
+
+-- --------------------------------------------------------
+
+-- 
+-- Table structure for table `pirated_serials`
+-- 
+
+DROP TABLE IF EXISTS `pirated_serials`;
+CREATE TABLE `pirated_serials` (
+  `id` int(11) NOT NULL auto_increment,
+  `app_id` int(11) NOT NULL,
+  `dt` datetime NOT NULL,
+  `guid` text NOT NULL,
+  `serial` text NOT NULL,
+  PRIMARY KEY  (`id`)
+) ENGINE=MyISAM  DEFAULT CHARSET=latin1 AUTO_INCREMENT=10 ;
 
 -- --------------------------------------------------------
 
@@ -168,7 +185,7 @@ CREATE TABLE `pirates` (
   `guid` varchar(128) NOT NULL,
   `dt` datetime NOT NULL,
   PRIMARY KEY  (`id`)
-) ENGINE=MyISAM DEFAULT CHARSET=latin1;
+) ENGINE=MyISAM  DEFAULT CHARSET=latin1 AUTO_INCREMENT=108 ;
 
 -- --------------------------------------------------------
 
@@ -182,7 +199,7 @@ CREATE TABLE `sessions` (
   `data` text collate utf8_unicode_ci NOT NULL,
   `updated_on` int(10) NOT NULL default '0',
   PRIMARY KEY  (`id`)
-) ENGINE=MyISAM  DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
+) ENGINE=MyISAM  DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci AUTO_INCREMENT=2147483648 ;
 
 -- --------------------------------------------------------
 
@@ -210,7 +227,30 @@ CREATE TABLE `sparkle_reports` (
   `dt` datetime NOT NULL,
   `ip` varchar(15) NOT NULL,
   PRIMARY KEY  (`id`)
-) ENGINE=MyISAM  DEFAULT CHARSET=latin1;
+) ENGINE=MyISAM  DEFAULT CHARSET=latin1 AUTO_INCREMENT=26213 ;
+
+-- --------------------------------------------------------
+
+-- 
+-- Table structure for table `tweets`
+-- 
+
+DROP TABLE IF EXISTS `tweets`;
+CREATE TABLE `tweets` (
+  `id` int(11) NOT NULL auto_increment,
+  `tweet_id` bigint(20) NOT NULL,
+  `username` varchar(55) NOT NULL,
+  `app_id` int(11) NOT NULL,
+  `dt` datetime NOT NULL,
+  `body` text NOT NULL,
+  `profile_img` varchar(255) NOT NULL,
+  `new` tinyint(4) NOT NULL,
+  `replied_to` tinyint(4) NOT NULL,
+  `reply_date` datetime NOT NULL,
+  `deleted` tinyint(4) NOT NULL,
+  PRIMARY KEY  (`id`),
+  UNIQUE KEY `id` (`tweet_id`,`app_id`)
+) ENGINE=MyISAM  DEFAULT CHARSET=latin1 AUTO_INCREMENT=57 ;
 
 -- --------------------------------------------------------
 
@@ -227,7 +267,7 @@ CREATE TABLE `users` (
   `email` varchar(65) collate utf8_unicode_ci default NULL,
   PRIMARY KEY  (`id`),
   UNIQUE KEY `username` (`username`)
-) ENGINE=MyISAM  DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
+) ENGINE=MyISAM  DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci AUTO_INCREMENT=2 ;
 
 -- --------------------------------------------------------
 
@@ -250,4 +290,4 @@ CREATE TABLE `versions` (
   `signature` varchar(65) collate utf8_unicode_ci NOT NULL,
   `pirate_count` int(11) NOT NULL,
   PRIMARY KEY  (`id`)
-) ENGINE=MyISAM  DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
+) ENGINE=MyISAM  DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci AUTO_INCREMENT=94 ;
