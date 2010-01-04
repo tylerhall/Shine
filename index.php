@@ -2,6 +2,7 @@
 	require 'includes/master.inc.php';
 	$Auth->requireAdmin('login.php');
     $db = Database::getDatabase();
+	$nav = 'applications';
 
     // Create a new application if needed
 	if(isset($_POST['btnNewApp']) && strlen($_POST['name']))

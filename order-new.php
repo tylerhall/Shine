@@ -1,6 +1,7 @@
 <?PHP
 	require 'includes/master.inc.php';
 	$Auth->requireAdmin('login.php');
+	$nav = 'orders';
 
 	if(isset($_POST['btnCreateOrder']))
 	{

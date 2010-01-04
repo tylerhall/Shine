@@ -1,6 +1,7 @@
 <?PHP
 	require 'includes/master.inc.php';
 	$Auth->requireAdmin('login.php');
+	$nav = 'applications';
 	
 	$v = new Version($_GET['id']);
 	if(!$v->ok()) redirect('index.php');

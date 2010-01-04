@@ -28,7 +28,7 @@
     {
         public function __construct($id = null)
         {
-            parent::__construct('applications', array('name', 'link', 'bundle_name', 's3key', 's3pkey', 's3bucket', 's3path', 'sparkle_key', 'sparkle_pkey', 'ap_key', 'ap_pkey', 'from_email', 'email_subject', 'email_body', 'license_filename', 'custom_salt', 'license_type', 'return_url', 'fs_security_key', 'i_use_this_key'), $id);
+            parent::__construct('applications', array('name', 'link', 'bundle_name', 's3key', 's3pkey', 's3bucket', 's3path', 'sparkle_key', 'sparkle_pkey', 'ap_key', 'ap_pkey', 'from_email', 'email_subject', 'email_body', 'license_filename', 'custom_salt', 'license_type', 'return_url', 'fs_security_key', 'i_use_this_key', 'tweet_terms'), $id);
         }
 
 		public function versions()
@@ -343,10 +343,18 @@
 		}
 	}
 
-	class Serial extends DBObject
-	{
-		function __construct($id = null)
-		{
-			parent::__construct('pirated_serials', array('app_id', 'dt', 'guid', 'serial'), $id);
-		}
-	}
+    class Serial extends DBObject
+    {
+        function __construct($id = null)
+        {
+            parent::__construct('pirated_serials', array('app_id', 'dt', 'guid', 'serial'), $id);
+        }
+    }
+
+    class Tweet extends DBObject
+    {
+        function __construct($id = null)
+        {
+            parent::__construct('tweets', array('tweet_id', 'app_id', 'username', 'dt', 'body', 'profile_img', 'new', 'replied_to', 'reply_date', 'deleted'), $id);
+        }
+    }

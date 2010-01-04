@@ -1,6 +1,7 @@
 <?PHP
 	require 'includes/master.inc.php';
 	$Auth->requireAdmin('login.php');
+	$nav = 'orders';
 
 	$o = new Order(@$_GET['id']);
 	if(!$o->ok()) redirect('orders.php');

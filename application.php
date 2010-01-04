@@ -1,6 +1,7 @@
 <?PHP
 	require 'includes/master.inc.php';
 	$Auth->requireAdmin('login.php');
+	$nav = 'applications';
 	
 	$app = new Application($_GET['id']);
 	if(!$app->ok()) redirect('index.php');
@@ -32,6 +33,7 @@
 			$app->license_filename = $_POST['license_filename'];
 			$app->return_url       = $_POST['return_url'];
 			$app->fs_security_key  = $_POST['fs_security_key'];
+			$app->tweet_terms      = $_POST['tweet_terms'];
 			$app->update();
 			redirect('application.php?id=' . $app->id);
 		}
@@ -57,6 +59,7 @@
 			$license_filename = $_POST['license_filename'];
 			$return_url       = $_POST['return_url'];
 			$fs_security_key  = $_POST['fs_security_key'];
+			$tweet_terms      = $_POST['tweet_terms'];
 		}
 	}
 	else
@@ -81,6 +84,7 @@
 		$license_filename = $app->license_filename;
 		$return_url       = $app->return_url;
 		$fs_security_key  = $app->fs_security_key;
+		$tweet_terms      = $app->tweet_terms;
 	}
 ?>
 <!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01//EN"
@@ -137,6 +141,11 @@
                                     <label for="url">i use this URL Key Slug</label>
                                     <input type="text" class="text" name="i_use_this_key" id="i_use_this_key" value="<?PHP echo $i_use_this_key; ?>">
                                     <span class="info">Ex: http://osx.iusethis.com/app/<strong>virtualhostx</strong></span>
+                                </p>
+                                <p>
+                                    <label for="url">Twitter keywords to search for</label>
+                                    <input type="text" class="text" name="tweet_terms" id="tweet_terms" value="<?PHP echo $tweet_terms; ?>">
+                                    <span class="info">Seperate with commas</span>
                                 </p>
 
 								<hr>

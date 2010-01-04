@@ -1,6 +1,7 @@
 <?PHP
 	require 'includes/master.inc.php';
 	$Auth->requireAdmin('login.php');
+	$nav = 'orders';
 
 	$applications = DBObject::glob('Application', 'SELECT * FROM applications ORDER BY name');
 

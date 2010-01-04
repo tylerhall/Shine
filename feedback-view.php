@@ -1,6 +1,7 @@
 <?PHP
 	require 'includes/master.inc.php';
 	$Auth->requireAdmin('login.php');
+	$nav = 'feedback';
 	
 	$f = new Feedback($_GET['id']);
 	if(!$f->ok()) redirect('feedback.php');

@@ -1,18 +1,19 @@
 <?PHP
+    if(rand(1,10) == 1)
+        include 'tweet-cron.php';
+
     $db = Database::getDatabase();
     $feedback_count = $db->getValue("SELECT COUNT(*) FROM feedback WHERE new = 1");
+    $tweet_count = $db->getValue("SELECT COUNT(*) FROM tweets WHERE new = 1");
 ?>
 <h1>Shine</h1>
 <div id="navigation">
     <ul id="primary-navigation">
-        <li class="active"><a href="index.php">Applications</a></li>
-        <li><a href="orders.php">Orders</a></li>
-        <?PHP if($feedback_count == 0) : ?>
-        <li><a href="feedback.php">Feedback</a></li>
-        <?PHP else : ?>
-        <li class="highlight"><a href="feedback.php">Feedback</a></li>
-        <?PHP endif; ?>
-        <li><a href="stats.php">Sparkle Stats</a></li>
+        <li<?PHP if($nav == 'applications') : ?> class="active"<?PHP endif; ?>><a href="index.php">Applications</a></li>
+        <li<?PHP if($nav == 'orders') : ?> class="active"<?PHP endif; ?>><a href="orders.php">Orders</a></li>
+        <li<?PHP if($nav == 'feedback') : ?> class="active"<?PHP endif; ?>><a href="feedback.php">Feedback (<?PHP echo $feedback_count; ?>)</a></li>
+        <li<?PHP if($nav == 'tweets') : ?> class="active"<?PHP endif; ?>><a href="tweets.php">Tweets (<?PHP echo $tweet_count; ?>)</a></li>
+        <li<?PHP if($nav == 'stats') : ?> class="active"<?PHP endif; ?>><a href="stats.php">Sparkle Stats</a></li>
     </ul>
 
     <ul id="user-navigation">
