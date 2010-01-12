@@ -12,6 +12,7 @@
 	{
 	    $t = new Tweet($_GET['delete']);
 	    $t->deleted = 1;
+		$t->new = 0;
 	    $t->update();
     }
     

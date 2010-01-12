@@ -12,8 +12,10 @@
             $term = trim($term);
             if(strlen($term) > 0)
             {
-                $json = geturl("http://search.twitter.com/search.json?q=$term");
+                $json = geturl("http://search.twitter.com/search.json?q=" . urlencode($term));
                 $data = json_decode($json);
+				if(!is_object($data)) continue;
+
                 foreach($data->results as $result)
                 {
                     $t = new Tweet();
