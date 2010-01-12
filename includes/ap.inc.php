@@ -119,66 +119,23 @@ function getSignature($dict, $key, $privKey)
     foreach ($dict as $value)
         $total .= $value;
     
-    // Escape apostrophes by un-quoting, adding apos, then re-quoting
-    // so this turns ' into '\'' ... we have to double-slash for this php.
-    $fixedApostrophes = str_replace("'", "'\\''", $total);
+    // Get the hash
+    $hash = sha1(utf8_encode($total));
 
-    // This part is the most expensive below
-    // We try to do it with native code first
-    ob_start();
-    $passthruString = DOC_ROOT . "/includes/aquaticprime $key $privKey '$fixedApostrophes'";
-    //passthru($passthruString, $err);
-    $sig = ob_get_contents();
-    ob_end_clean();
-    if(true)
+    // OpenSSL-compatible PKCS1 Padding
+    // 128 bytes - 20 bytes hash - 3 bytes extra padding = 105 bytes '0xff'
+    $paddedHash = '0001';
+    for ($i = 0; $i < 105; $i++)
     {
-        // Get the hash
-        $hash = sha1(utf8_encode($total));
-
-        // OpenSSL-compatible PKCS1 Padding
-        // 128 bytes - 20 bytes hash - 3 bytes extra padding = 105 bytes '0xff'
-        $paddedHash = '0001';
-        for ($i = 0; $i < 105; $i++)
-        {
-            $paddedHash .= 'ff';
-        }
-        $paddedHash .= '00'.$hash;
-
-        $decryptedSig = hex2dec($paddedHash);
-
-        // Encrypt into a signature
-        $sig = powmod($decryptedSig, hex2dec($privKey), hex2dec($key));
-        $sig = base64_encode(hex2bin(dec2hex($sig)));
+        $paddedHash .= 'ff';
     }
+    $paddedHash .= '00'.$hash;
+
+    $decryptedSig = hex2dec($paddedHash);
+
+    // Encrypt into a signature
+    $sig = powmod($decryptedSig, hex2dec($privKey), hex2dec($key));
+    $sig = base64_encode(hex2bin(dec2hex($sig)));
 
     return $sig;
-}
-
-/**
-  * licenseDataForDictionary
-  * Get the signed plist for a dictionary
-  * @param array Associative array (i.e. dictionary) of key-value pairs
-  * @param string Hexadecimal string of public key
-  * @param string Hexadecimal string the private key
-  * @return string License file as plist
-  */
-function licenseDataForDictionary($dict, $pubKey, $privKey)
-{
-    $sig = chunk_split(getSignature($dict, $pubKey, $privKey));
-    
-    $plist = "<?xml version=\"1.0\" encoding=\"UTF-8\"?".">\n";
-    $plist .= "<!DOCTYPE plist PUBLIC \"-//Apple Computer//DTD PLIST 1.0//EN\" \"http://www.apple.com/DTDs/PropertyList-1.0.dtd\">\n";
-    $plist .= "<plist version=\"1.0\">\n<dict>\n";
-    
-    foreach ($dict as $key => $value) {
-        $plist .= "\t<key>".htmlspecialchars($key, ENT_NOQUOTES)."</key>\n";
-        $plist .= "\t<string>".htmlspecialchars($value, ENT_NOQUOTES)."</string>\n";
-    }
-    
-    $plist .= "\t<key>Signature</key>\n";
-    $plist .= "\t<data>$sig</data>\n";
-    $plist .= "</dict>\n";
-    $plist .= "</plist>\n";
-    
-    return $plist;
 }

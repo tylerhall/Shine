@@ -49,18 +49,18 @@
 		$release_notes  = '';
 	}
 	
-	function sign_file($filename, $keydata)
+    function sign_file($filename, $keydata)
     {
-		$binary = shell_exec('openssl dgst -sha1 -binary < ' . $filename);
-		$stdin = tempnam('/tmp', 'foo');
-		file_put_contents($stdin, $binary);
+        $binary_hash = shell_exec('openssl dgst -sha1 -binary < ' . $filename);
+        $hash_tmp_file = tempnam('/tmp', 'foo');
+        file_put_contents($tmp_file, $binary_hash);
 
-		$keyin = tempnam('/tmp', 'bar');
-		file_put_contents($keyin, "-----BEGIN DSA PRIVATE KEY-----\n" . $keydata . "\n-----END DSA PRIVATE KEY-----\n");
+        $key_tmp_file = tempnam('/tmp', 'bar');
+        file_put_contents($key_tmp_file, "-----BEGIN DSA PRIVATE KEY-----\n" . $keydata . "\n-----END DSA PRIVATE KEY-----\n");
 
-		$signed = shell_exec("openssl dgst -dss1 -sign $keyin < $stdin");
+        $signed_data = shell_exec("openssl dgst -dss1 -sign $key_tmp_file < $hash_tmp_file");
 
-		return base64_encode($signed);		
+        return base64_encode($signed_data);     
     }
 ?>
 <!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01//EN"
