@@ -1,5 +1,5 @@
 <?PHP
-    if(rand(1,10) == 1)
+    if(rand(1,30) == 1)
         include 'tweet-cron.php';
 
     $db = Database::getDatabase();

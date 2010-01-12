@@ -144,7 +144,7 @@
                                 </p>
                                 <p>
                                     <label for="url">Twitter keywords to search for</label>
-                                    <input type="text" class="text" name="tweet_terms" id="tweet_terms" value="<?PHP echo $tweet_terms; ?>">
+                                    <input type="text" class="text" name="tweet_terms" id="tweet_terms" value="<?PHP echo htmlspecialchars($tweet_terms); ?>">
                                     <span class="info">Seperate with commas</span>
                                 </p>
 
