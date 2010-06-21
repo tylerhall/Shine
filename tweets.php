@@ -40,7 +40,7 @@
         redirect("tweets.php?id=$app_id");
     }
 
-	$tweets = DBObject::glob('Tweet', "SELECT * FROM shine_tweets WHERE deleted = 0 $sql ORDER BY dt DESC");
+	$tweets = DBObject::glob('Tweet', "SELECT * FROM shine_tweets WHERE deleted = 0 $sql ORDER BY dt DESC LIMIT 100");
 	
 	function twitterfy($str)
 	{

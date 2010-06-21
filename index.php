@@ -14,7 +14,7 @@
 	}
 	
 	// Get a list of our apps
-	$apps   = DBObject::glob('Application', 'SELECT * FROM shine_applications ORDER BY name');
+	$apps   = DBObject::glob('Application', 'SELECT * FROM shine_applications WHERE hidden = 0 ORDER BY name');
 	
 	// Get our recent orders
 	$orders = DBObject::glob('Order', 'SELECT * FROM shine_orders ORDER BY dt DESC LIMIT 10');
