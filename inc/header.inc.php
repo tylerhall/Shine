@@ -6,7 +6,6 @@
     $feedback_count = $db->getValue("SELECT COUNT(*) FROM shine_feedback WHERE new = 1");
     $tweet_count = $db->getValue("SELECT COUNT(*) FROM shine_tweets WHERE new = 1");
 ?>
-<h1>Shine</h1>
 <div id="navigation">
     <ul id="primary-navigation">
         <li<?PHP if($nav == 'applications') : ?> class="active"<?PHP endif; ?>><a href="index.php">Applications</a></li>
