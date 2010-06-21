@@ -8,11 +8,6 @@
             parent::__construct('shine_users', array('username', 'password', 'level', 'email'), $id);
         }
 
-        /**
-         * Give the user object the ability to change the password with encryption.
-         *
-         * @param string $password The plain text string value of the password.
-         */
         public function setPassword($password)
         {
             $Config = Config::getConfig();
@@ -342,5 +337,37 @@
         function __construct($id = null)
         {
             parent::__construct('shine_tweets', array('tweet_id', 'app_id', 'username', 'dt', 'body', 'profile_img', 'new', 'replied_to', 'reply_date', 'deleted'), $id);
+        }
+    }
+
+    class Ticket extends DBObject
+    {
+        function __construct($id = null)
+        {
+            parent::__construct('shine_ticket', array('app_id', 'title', 'description', 'created_by', 'milestone_id', 'state_id', 'dt_created', 'dt_last_state'), $id);
+        }
+    }
+
+    class Milestone extends DBObject
+    {
+        function __construct($id = null)
+        {
+            parent::__construct('shine_milestone', array('app_id', 'title', 'dt_due', 'description'), $id);
+        }
+    }
+
+    class TicketHistory extends DBObject
+    {
+        function __construct($id = null)
+        {
+            parent::__construct('shine_milestone', array('dt', 'ticket_id', 'app_id', 'user_id', 'state_from_id', 'state_to_id', 'milestone_from_id', 'milestone_to_id', 'comment'), $id);
+        }
+    }
+
+    class TicketStatus extends DBObject
+    {
+        function __construct($id = null)
+        {
+            parent::__construct('shine_ticket_statuses', array('title', 'is_open', 'css_class'), $id);
         }
     }

@@ -40,6 +40,7 @@
 	$opw30_fb->dimensions = '640x400';
 ?>
 <?PHP include('inc/header.inc.php'); ?>
+
         <div id="bd">
             <div id="yui-main">
                 <div class="yui-b"><div class="yui-g">
