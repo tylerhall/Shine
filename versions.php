@@ -34,7 +34,6 @@
 							<ul>
 								<li><a href="application.php?id=<?PHP echo $app->id; ?>"><?PHP echo $app->name; ?></a></li>
 								<li class="active"><a href="versions.php?id=<?PHP echo $app->id; ?>">Versions</a></li>
-								<li><a href="pirates.php?id=<?PHP echo $app->id; ?>">Pirates</a></li>
 								<li><a href="version-new.php?id=<?PHP echo $app->id; ?>">Release New Version</a></li>
 							</ul>
 							<div class="clear"></div>
@@ -48,7 +47,6 @@
 										<th>Release Date</th>
 										<th>Downloads</th>
 										<th>Updates</th>
-										<th>Pirate Count</th>
 									</tr>
 								</thead>
 								<tbody>
@@ -59,7 +57,6 @@
 										<td><?PHP echo dater($v->dt, 'n/d/Y g:ia'); ?></td>
 										<td><?PHP echo number_format($v->downloads); ?></td>
 										<td><?PHP echo number_format($v->updates); ?></td>
-										<td><?PHP echo number_format($v->pirate_count); ?></td>
 									</tr>
 									<?PHP endforeach; ?>
 								</tbody>

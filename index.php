@@ -13,13 +13,6 @@
 		redirect('application.php?id=' . $a->id);
 	}
 	
-	if(isset($_GET['clearPirates']))
-	{
-	    // This is just to help you keep track of new waves of piracy by visually looking
-	    // for any numbers greater than 0 on the dashboard.
-	    $db->query("UPDATE versions SET pirate_count = 0");
-    }
-	
 	// Get a list of our apps
 	$apps   = DBObject::glob('Application', 'SELECT * FROM applications ORDER BY name');
 	
@@ -78,7 +71,7 @@
                                         <td>Name</td>
                                         <td>Current Version</td>
 										<td>Last Release Date</td>
-										<td>Downloads / Updates / Pirates</td>
+										<td>Downloads / Updates</td>
 										<td>Support Questions</td>
 										<td>Bug Reports</td>
 										<td>Feature Requests</td>
@@ -90,7 +83,7 @@
 	                                    <td><a href="application.php?id=<?PHP echo $a->id;?>"><?PHP echo $a->name; ?></a></td>
 	                                    <td><?PHP echo $a->strCurrentVersion(); ?></td>
 										<td><?PHP echo $a->strLastReleaseDate(); ?></td>
-										<td><a href="versions.php?id=<?PHP echo $a->id; ?>"><?PHP echo number_format($a->totalDownloads()); ?></a> / <a href="versions.php?id=<?PHP echo $a->id; ?>"><?PHP echo number_format($a->totalUpdates()); ?></a> / <a href="pirates.php?id=<?PHP echo $a->id; ?>"><?PHP echo number_format($a->totalPirates()); ?></a></td>
+										<td><a href="versions.php?id=<?PHP echo $a->id; ?>"><?PHP echo number_format($a->totalDownloads()); ?></a> / <a href="versions.php?id=<?PHP echo $a->id; ?>"><?PHP echo number_format($a->totalUpdates()); ?></a></td>
 										<td><?PHP echo $a->numSupportQuestions(); ?></td>
 										<td><?PHP echo $a->numBugReports(); ?></td>
 										<td><?PHP echo $a->numFeatureRequests(); ?></td>
@@ -166,7 +159,6 @@
 					</div>
 				</div>
 
-				<p><a href="index.php?clearPirates=1">Clear pirate counts</a></p>
             </div>
         </div>
 
