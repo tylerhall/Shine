@@ -16,7 +16,7 @@
 		$search_sql = '';
 	}
 
-	$users = DBObject::glob('User', "SELECT * FROM users WHERE 1 = 1 $search_sql ORDER BY username");
+	$users = DBObject::glob('User', "SELECT * FROM shine_users WHERE 1 = 1 $search_sql ORDER BY username");
 ?>
 <!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01//EN"
  "http://www.w3.org/TR/html4/strict.dtd">

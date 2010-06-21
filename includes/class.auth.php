@@ -76,7 +76,7 @@
         public function changeUsername($new_username)
         {
             $db = Database::getDatabase();
-            $db->query('UPDATE users SET username = :username WHERE id = :id', array('username' => $new_username, 'id' => $this->id));
+            $db->query('UPDATE shine_users SET username = :username WHERE id = :id', array('username' => $new_username, 'id' => $this->id));
             if($db->affectedRows() == 1)
             {
                 $this->impersonate($this->id);
@@ -94,7 +94,7 @@
             if($Config->useHashedPasswords === true)
                 $new_password = $this->createHashedPassword($new_password);
 
-            $db->query('UPDATE users SET password = :password WHERE id = :id', array('password' => $new_password, 'id' => $this->id));
+            $db->query('UPDATE shine_users SET password = :password WHERE id = :id', array('password' => $new_password, 'id' => $this->id));
             if($db->affectedRows() == 1)
             {
                 $this->impersonate($this->id);
@@ -135,7 +135,7 @@
             if($Config->useHashedPasswords === true)
                 $pw = $this->createHashedPassword($pw);
 
-            $db->query('SELECT COUNT(*) FROM users WHERE username = :username AND password = BINARY :password', array('username' => $this->username, 'password' => $pw));
+            $db->query('SELECT COUNT(*) FROM shine_users WHERE username = :username AND password = BINARY :password', array('username' => $this->username, 'password' => $pw));
             return $db->getValue() == 1;
         }
 
@@ -149,9 +149,9 @@
             $Config = Config::getConfig();
 
             if(ctype_digit($user_to_impersonate))
-                $row = $db->getRow('SELECT * FROM users WHERE id = ' . $db->quote($user_to_impersonate));
+                $row = $db->getRow('SELECT * FROM shine_users WHERE id = ' . $db->quote($user_to_impersonate));
             else
-                $row = $db->getRow('SELECT * FROM users WHERE username = ' . $db->quote($user_to_impersonate));
+                $row = $db->getRow('SELECT * FROM shine_users WHERE username = ' . $db->quote($user_to_impersonate));
 
             if(is_array($row))
             {
@@ -213,7 +213,7 @@
             $Config = Config::getConfig();
 
             // We SELECT * so we can load the full user record into the user DBObject later
-            $row = $db->getRow('SELECT * FROM users WHERE username = ' . $db->quote($un));
+            $row = $db->getRow('SELECT * FROM shine_users WHERE username = ' . $db->quote($un));
             if($row === false) return false;
 
             if($Config->useHashedPasswords === false)

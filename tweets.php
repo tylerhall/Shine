@@ -3,7 +3,7 @@
 	$Auth->requireAdmin('login.php');
 	$nav = 'tweets';
 
-	$applications = DBObject::glob('Application', 'SELECT * FROM applications ORDER BY name');
+	$applications = DBObject::glob('Application', 'SELECT * FROM shine_applications ORDER BY name');
 	
 	if(isset($_GET['refresh']))
 	    include 'tweet-cron.php';
@@ -36,11 +36,11 @@
     if(isset($_GET['read']))
     {
         $db = Database::getDatabase();
-        $db->query("UPDATE tweets SET new = 0 WHERE 1 = 1 $sql");
+        $db->query("UPDATE shine_tweets SET new = 0 WHERE 1 = 1 $sql");
         redirect("tweets.php?id=$app_id");
     }
 
-	$tweets = DBObject::glob('Tweet', "SELECT * FROM tweets WHERE deleted = 0 $sql ORDER BY dt DESC");
+	$tweets = DBObject::glob('Tweet', "SELECT * FROM shine_tweets WHERE deleted = 0 $sql ORDER BY dt DESC");
 	
 	function twitterfy($str)
 	{

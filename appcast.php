@@ -11,14 +11,14 @@
 	// This table format is crap, but it future proofs us against Sparkle format changes
 	$ip = $_SERVER['REMOTE_ADDR'];
 	$dt = date("Y-m-d H:i:s");
-	$db->query("INSERT INTO sparkle_reports (ip, dt) VALUES (:ip, :dt)", array('ip' => $ip, 'dt' => $dt));
+	$db->query("INSERT INTO shine_sparkle_reports (ip, dt) VALUES (:ip, :dt)", array('ip' => $ip, 'dt' => $dt));
 	$id = $db->insertId();
 	foreach($_GET as $k => $v)
-		$db->query("INSERT INTO sparkle_data (sparkle_id, `key`, data) VALUES (:id, :k, :v)", array('id' => $id, 'k' => $k, 'v' => $v));
+		$db->query("INSERT INTO shine_sparkle_data (sparkle_id, `key`, data) VALUES (:id, :k, :v)", array('id' => $id, 'k' => $k, 'v' => $v));
 
-	$versions = DBObject::glob('Version', "SELECT * FROM versions WHERE app_id = '{$app->id}' ORDER BY dt DESC LIMIT 10");
+	$versions = DBObject::glob('Version', "SELECT * FROM shine_versions WHERE app_id = '{$app->id}' ORDER BY dt DESC LIMIT 10");
 
-	$db->query("UPDATE versions SET updates = updates + 1 WHERE app_id = '{$app->id}' ORDER BY dt DESC LIMIT 1");
+	$db->query("UPDATE shine_versions SET updates = updates + 1 WHERE app_id = '{$app->id}' ORDER BY dt DESC LIMIT 1");
 	
 	header("Content-type: application/xml");
 ?>

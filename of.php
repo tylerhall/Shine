@@ -10,7 +10,7 @@
 
 	$dt = date('Y-m-d H:i:s');
 
-	$query = "INSERT INTO feedback (appname, appversion, systemversion, email, reply, `type`, message, importance, critical, dt, ip, `new`, reguser, regmail) VALUES
+	$query = "INSERT INTO shine_feedback (appname, appversion, systemversion, email, reply, `type`, message, importance, critical, dt, ip, `new`, reguser, regmail) VALUES
                   ('{$_POST['appname']}',
                    '{$_POST['appversion']}',
                    '{$_POST['systemversion']}',

@@ -5,7 +5,7 @@
     {
         public function __construct($id = null)
         {
-            parent::__construct('users', array('username', 'password', 'level', 'email'), $id);
+            parent::__construct('shine_users', array('username', 'password', 'level', 'email'), $id);
         }
 
         /**
@@ -28,55 +28,55 @@
     {
         public function __construct($id = null)
         {
-            parent::__construct('applications', array('name', 'link', 'bundle_name', 's3key', 's3pkey', 's3bucket', 's3path', 'sparkle_key', 'sparkle_pkey', 'ap_key', 'ap_pkey', 'from_email', 'email_subject', 'email_body', 'license_filename', 'custom_salt', 'license_type', 'return_url', 'fs_security_key', 'i_use_this_key', 'tweet_terms'), $id);
+            parent::__construct('shine_applications', array('name', 'link', 'bundle_name', 's3key', 's3pkey', 's3bucket', 's3path', 'sparkle_key', 'sparkle_pkey', 'ap_key', 'ap_pkey', 'from_email', 'email_subject', 'email_body', 'license_filename', 'custom_salt', 'license_type', 'return_url', 'fs_security_key', 'i_use_this_key', 'tweet_terms'), $id);
         }
 
 		public function versions()
 		{
-			return DBObject::glob('Version', "SELECT * FROM versions WHERE app_id = '{$this->id}' ORDER BY dt DESC");
+			return DBObject::glob('Version', "SELECT * FROM shine_versions WHERE app_id = '{$this->id}' ORDER BY dt DESC");
 		}
 
 		public function strCurrentVersion()
 		{
 			$db = Database::getDatabase();
-			return $db->getValue("SELECT version_number FROM versions WHERE app_id = '{$this->id}' ORDER BY dt DESC LIMIT 1");
+			return $db->getValue("SELECT version_number FROM shine_versions WHERE app_id = '{$this->id}' ORDER BY dt DESC LIMIT 1");
 		}
 		
 		public function strLastReleaseDate()
 		{
 			$db = Database::getDatabase();
-			$dt = $db->getValue("SELECT dt FROM versions WHERE app_id = '{$this->id}' ORDER BY dt DESC LIMIT 1");
+			$dt = $db->getValue("SELECT dt FROM shine_versions WHERE app_id = '{$this->id}' ORDER BY dt DESC LIMIT 1");
 			return time2str($dt);
 		}
 		
         public function totalDownloads()
         {
             $db = Database::getDatabase();
-            return $db->getValue("SELECT SUM(downloads) FROM versions WHERE app_id = '{$this->id}'");
+            return $db->getValue("SELECT SUM(downloads) FROM shine_versions WHERE app_id = '{$this->id}'");
         }
 
         public function totalUpdates()
         {
             $db = Database::getDatabase();
-            return $db->getValue("SELECT SUM(updates) FROM versions WHERE app_id = '{$this->id}'");
+            return $db->getValue("SELECT SUM(updates) FROM shine_versions WHERE app_id = '{$this->id}'");
         }
 
 		public function numSupportQuestions()
 		{
 			$db = Database::getDatabase();
-			return $db->getValue("SELECT COUNT(*) FROM feedback WHERE appname = '{$this->name}' AND `type` = 'support' AND new = 1");
+			return $db->getValue("SELECT COUNT(*) FROM shine_feedback WHERE appname = '{$this->name}' AND `type` = 'support' AND new = 1");
 		}
 		
 		public function numBugReports()
 		{
 			$db = Database::getDatabase();
-			return $db->getValue("SELECT COUNT(*) FROM feedback WHERE appname = '{$this->name}' AND `type` = 'bug' AND new = 1");
+			return $db->getValue("SELECT COUNT(*) FROM shine_feedback WHERE appname = '{$this->name}' AND `type` = 'bug' AND new = 1");
 		}
 		
 		public function numFeatureRequests()
 		{
 			$db = Database::getDatabase();
-			return $db->getValue("SELECT COUNT(*) FROM feedback WHERE appname = '{$this->name}' AND `type` = 'feature' AND new = 1");
+			return $db->getValue("SELECT COUNT(*) FROM shine_feedback WHERE appname = '{$this->name}' AND `type` = 'feature' AND new = 1");
 		}
 
 		function getBody($order)
@@ -88,14 +88,14 @@
 		{
 			$db = Database::getDatabase();			
 
-			$orders = $db->getRows("SELECT DATE_FORMAT(dt, '%Y-%m') as dtstr, COUNT(*) FROM orders WHERE type = 'PayPal' AND app_id = '{$this->id}' GROUP BY CONCAT(YEAR(dt), '-', MONTH(dt)) ORDER BY YEAR(dt) ASC, MONTH(dt) ASC");
+			$orders = $db->getRows("SELECT DATE_FORMAT(dt, '%Y-%m') as dtstr, COUNT(*) FROM shine_orders WHERE type = 'PayPal' AND app_id = '{$this->id}' GROUP BY CONCAT(YEAR(dt), '-', MONTH(dt)) ORDER BY YEAR(dt) ASC, MONTH(dt) ASC");
 			$keys = gimme($orders, 'dtstr');
 			$values = gimme($orders, 'COUNT(*)');
 			$orders = array();
 			for($i = 0; $i < count($keys); $i++)
 				$orders[$keys[$i]] = $values[$i];
 				
-			$first_order_date = $db->getValue("SELECT dt FROM orders ORDER BY dt ASC LIMIT 1");
+			$first_order_date = $db->getValue("SELECT dt FROM shine_orders ORDER BY dt ASC LIMIT 1");
 			list($year, $month) = explode('-', dater($first_order_date, 'Y-n'));
 
 			do
@@ -130,7 +130,7 @@
     {
         public function __construct($id = null)
         {
-            parent::__construct('orders', array('app_id', 'dt', 'txn_type', 'first_name', 'last_name', 'residence_country', 'item_name', 'payment_gross', 'mc_currency', 'business', 'payment_type', 'verify_sign', 'payer_status', 'tax', 'payer_email', 'txn_id', 'quantity', 'receiver_email', 'payer_id', 'receiver_id', 'item_number', 'payment_status', 'payment_fee', 'mc_fee', 'shipping', 'mc_gross', 'custom', 'license', 'type', 'deleted', 'hash', 'claimed'), $id);
+            parent::__construct('shine_orders', array('app_id', 'dt', 'txn_type', 'first_name', 'last_name', 'residence_country', 'item_name', 'payment_gross', 'mc_currency', 'business', 'payment_type', 'verify_sign', 'payer_status', 'tax', 'payer_email', 'txn_id', 'quantity', 'receiver_email', 'payer_id', 'receiver_id', 'item_number', 'payment_status', 'payment_fee', 'mc_fee', 'shipping', 'mc_gross', 'custom', 'license', 'type', 'deleted', 'hash', 'claimed'), $id);
         }
 
 		public function applicationName()
@@ -315,9 +315,9 @@
 		{
 			$db = Database::getDatabase();
 			if(is_null($id))
-				return $db->getValue("SELECT COUNT(*) FROM orders WHERE type = 'paypal'");
+				return $db->getValue("SELECT COUNT(*) FROM shine_orders WHERE type = 'paypal'");
 			else
-				return $db->getValue("SELECT COUNT(*) FROM orders WHERE type = 'paypal' AND app_id = " . intval($id));
+				return $db->getValue("SELECT COUNT(*) FROM shine_orders WHERE type = 'paypal' AND app_id = " . intval($id));
 		}
     }
 
@@ -325,7 +325,7 @@
     {
         public function __construct($id = null)
         {
-            parent::__construct('versions', array('app_id', 'human_version', 'version_number', 'dt', 'release_notes', 'filesize', 'url', 'downloads', 'updates', 'signature'), $id);
+            parent::__construct('shine_versions', array('app_id', 'human_version', 'version_number', 'dt', 'release_notes', 'filesize', 'url', 'downloads', 'updates', 'signature'), $id);
         }
     }
 
@@ -333,7 +333,7 @@
 	{
 		function __construct($id = null)
 		{
-			parent::__construct('feedback', array('appname', 'appversion', 'systemversion', 'email', 'reply', 'type', 'message', 'importance', 'critical', 'dt', 'ip', 'new', 'starred', 'reguser', 'regmail'), $id);
+			parent::__construct('shine_feedback', array('appname', 'appversion', 'systemversion', 'email', 'reply', 'type', 'message', 'importance', 'critical', 'dt', 'ip', 'new', 'starred', 'reguser', 'regmail'), $id);
 		}
 	}
 
@@ -341,6 +341,6 @@
     {
         function __construct($id = null)
         {
-            parent::__construct('tweets', array('tweet_id', 'app_id', 'username', 'dt', 'body', 'profile_img', 'new', 'replied_to', 'reply_date', 'deleted'), $id);
+            parent::__construct('shine_tweets', array('tweet_id', 'app_id', 'username', 'dt', 'body', 'profile_img', 'new', 'replied_to', 'reply_date', 'deleted'), $id);
         }
     }

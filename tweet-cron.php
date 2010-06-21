@@ -2,7 +2,7 @@
     require_once('includes/master.inc.php');
 
     $db = Database::getDatabase();
-    $tweet_apps = $db->getRows('SELECT id, tweet_terms FROM applications');
+    $tweet_apps = $db->getRows('SELECT id, tweet_terms FROM shine_applications');
 
     foreach($tweet_apps as $tweet_app)
     {

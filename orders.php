@@ -3,7 +3,7 @@
 	$Auth->requireAdmin('login.php');
 	$nav = 'orders';
 
-	$applications = DBObject::glob('Application', 'SELECT * FROM applications ORDER BY name');
+	$applications = DBObject::glob('Application', 'SELECT * FROM shine_applications ORDER BY name');
 
 	$db = Database::getDatabase();
 	
@@ -22,23 +22,23 @@
 	if(isset($_GET['id']))
 	{
 		$app_id = intval($_GET['id']);
-		$total_num_orders = $db->getValue("SELECT COUNT(*) FROM orders WHERE app_id = $app_id $search_sql ORDER BY dt DESC");
+		$total_num_orders = $db->getValue("SELECT COUNT(*) FROM shine_orders WHERE app_id = $app_id $search_sql ORDER BY dt DESC");
 		$pager = new Pager(@$_GET['page'], 50, $total_num_orders);
-		$orders = DBObject::glob('Order', "SELECT * FROM orders WHERE app_id = $app_id $search_sql ORDER BY dt DESC LIMIT {$pager->firstRecord}, {$pager->perPage}");
+		$orders = DBObject::glob('Order', "SELECT * FROM shine_orders WHERE app_id = $app_id $search_sql ORDER BY dt DESC LIMIT {$pager->firstRecord}, {$pager->perPage}");
 		$where = " AND app_id = $app_id ";
 		$app_name = $applications[$app_id]->name;
 	}
 	else
 	{
-		$total_num_orders = $db->getValue("SELECT COUNT(*) FROM orders WHERE 1 = 1 $search_sql ");
+		$total_num_orders = $db->getValue("SELECT COUNT(*) FROM shine_orders WHERE 1 = 1 $search_sql ");
 		$pager = new Pager(@$_GET['page'], 50, $total_num_orders);
-		$orders = DBObject::glob('Order', "SELECT * FROM orders WHERE 1 = 1 $search_sql ORDER BY dt DESC LIMIT {$pager->firstRecord}, {$pager->perPage}");
+		$orders = DBObject::glob('Order', "SELECT * FROM shine_orders WHERE 1 = 1 $search_sql ORDER BY dt DESC LIMIT {$pager->firstRecord}, {$pager->perPage}");
 		$where = '';
 		$app_name = 'All';
 	}
 
 	// Orders Per Month
-	$order_totals    = $db->getRows("SELECT DATE_FORMAT(dt, '%b') as dtstr, COUNT(*) FROM orders WHERE type = 'PayPal' $where GROUP BY CONCAT(YEAR(dt), '-', MONTH(dt)) ORDER BY YEAR(dt) ASC, MONTH(dt) ASC");
+	$order_totals    = $db->getRows("SELECT DATE_FORMAT(dt, '%b') as dtstr, COUNT(*) FROM shine_orders WHERE type = 'PayPal' $where GROUP BY CONCAT(YEAR(dt), '-', MONTH(dt)) ORDER BY YEAR(dt) ASC, MONTH(dt) ASC");
 	$opm             = new googleChart(implode(',', gimme($order_totals, 'COUNT(*)')), 'bary');
 	$opm->showGrid   = 1;
 	$opm->dimensions = '280x100';
@@ -47,7 +47,7 @@
 	$opm_fb->dimensions = '640x400';
 
 	// Orders Per Week
-	$order_totals    = $db->getRows("SELECT WEEK(dt) as dtstr, COUNT(*) FROM orders WHERE type = 'PayPal' $where GROUP BY CONCAT(YEAR(dt), WEEK(dt)) ORDER BY YEAR(dt) ASC, WEEK(dt) ASC");
+	$order_totals    = $db->getRows("SELECT WEEK(dt) as dtstr, COUNT(*) FROM shine_orders WHERE type = 'PayPal' $where GROUP BY CONCAT(YEAR(dt), WEEK(dt)) ORDER BY YEAR(dt) ASC, WEEK(dt) ASC");
 	$opw             = new googleChart(implode(',', gimme($order_totals, 'COUNT(*)')), 'bary');
 	$opw->showGrid   = 1;
 	$opw->dimensions = '280x100';

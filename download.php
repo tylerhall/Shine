@@ -16,7 +16,7 @@
         $app_id = 1;
     }
 	
-	$v = DBObject::glob('Version', "SELECT * FROM versions WHERE app_id = $app_id ORDER BY dt DESC LIMIT 1");
+	$v = DBObject::glob('Version', "SELECT * FROM shine_versions WHERE app_id = $app_id ORDER BY dt DESC LIMIT 1");
 	$v = array_pop($v);
 	$v->downloads++;
 	$v->update();

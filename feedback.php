@@ -7,11 +7,11 @@
 	{
 		$db = Database::getDatabase();
 		$type = mysql_real_escape_string($_GET['type'], $db->db);
-		$feedback = DBObject::glob('Feedback', "SELECT * FROM feedback WHERE type = '$type' ORDER BY dt DESC");
+		$feedback = DBObject::glob('Feedback', "SELECT * FROM shine_feedback WHERE type = '$type' ORDER BY dt DESC");
 	}
 	else
 	{
-		$feedback = DBObject::glob('Feedback', "SELECT * FROM feedback ORDER BY dt DESC");
+		$feedback = DBObject::glob('Feedback', "SELECT * FROM shine_feedback ORDER BY dt DESC");
 	}
 ?>
 <!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01//EN"

@@ -3,16 +3,16 @@
 	$Auth->requireAdmin('login.php');
 	$nav = 'stats';
 
-	$applications = DBObject::glob('Application', 'SELECT * FROM applications ORDER BY name');
+	$applications = DBObject::glob('Application', 'SELECT * FROM shine_applications ORDER BY name');
 
 	$db = Database::getDatabase();
-	$keys = $db->getValues("SELECT DISTINCT(`key`) FROM sparkle_data");
+	$keys = $db->getValues("SELECT DISTINCT(`key`) FROM shine_sparkle_data");
 
 	$charts = array();
 	foreach($keys as $k)
 	{
 		$data = array();
-		$rows = $db->getRows("SELECT COUNT(*) as num, `data` FROM sparkle_data WHERE `key` = '$k' GROUP BY `data` ORDER BY num DESC");
+		$rows = $db->getRows("SELECT COUNT(*) as num, `data` FROM shine_sparkle_data WHERE `key` = '$k' GROUP BY `data` ORDER BY num DESC");
 		
 		$count = 0;
 		$total = 0;

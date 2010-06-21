@@ -14,14 +14,14 @@
 	}
 	
 	// Get a list of our apps
-	$apps   = DBObject::glob('Application', 'SELECT * FROM applications ORDER BY name');
+	$apps   = DBObject::glob('Application', 'SELECT * FROM shine_applications ORDER BY name');
 	
 	// Get our recent orders
-	$orders = DBObject::glob('Order', 'SELECT * FROM orders ORDER BY dt DESC LIMIT 10');
+	$orders = DBObject::glob('Order', 'SELECT * FROM shine_orders ORDER BY dt DESC LIMIT 10');
 
 	// Downloads in last 24 hours
 	$sel = "TIME_FORMAT(dt, '%Y%m%d%H')";
-	$order_totals    = $db->getRows("SELECT $sel as dtstr, COUNT(*) FROM downloads WHERE  DATE_ADD(dt, INTERVAL 24 HOUR) > NOW() GROUP BY dtstr ORDER BY $sel ASC");
+	$order_totals    = $db->getRows("SELECT $sel as dtstr, COUNT(*) FROM shine_downloads WHERE  DATE_ADD(dt, INTERVAL 24 HOUR) > NOW() GROUP BY dtstr ORDER BY $sel ASC");
 	$opw24           = new googleChart(implode(',', gimme($order_totals, 'COUNT(*)')), 'bary');
 	$opw24->showGrid   = 1;
 	$opw24->dimensions = '280x100';
@@ -31,7 +31,7 @@
 
 	// Downloads in last 30 days
 	$sel = "TO_DAYS(dt)";
-	$order_totals    = $db->getRows("SELECT $sel as dtstr, COUNT(*) FROM downloads WHERE DATE_ADD(dt, INTERVAL 30 DAY) > NOW() GROUP BY $sel ORDER BY $sel ASC");
+	$order_totals    = $db->getRows("SELECT $sel as dtstr, COUNT(*) FROM shine_downloads WHERE DATE_ADD(dt, INTERVAL 30 DAY) > NOW() GROUP BY $sel ORDER BY $sel ASC");
 	$opw30           = new googleChart(implode(',', gimme($order_totals, 'COUNT(*)')), 'bary');
 	$opw30->showGrid   = 1;
 	$opw30->dimensions = '280x100';

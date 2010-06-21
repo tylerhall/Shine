@@ -3,8 +3,8 @@
         include 'tweet-cron.php';
 
     $db = Database::getDatabase();
-    $feedback_count = $db->getValue("SELECT COUNT(*) FROM feedback WHERE new = 1");
-    $tweet_count = $db->getValue("SELECT COUNT(*) FROM tweets WHERE new = 1");
+    $feedback_count = $db->getValue("SELECT COUNT(*) FROM shine_feedback WHERE new = 1");
+    $tweet_count = $db->getValue("SELECT COUNT(*) FROM shine_tweets WHERE new = 1");
 ?>
 <h1>Shine</h1>
 <div id="navigation">

@@ -32,7 +32,7 @@
             $exec_time = defined('START_TIME') ? microtime(true) - START_TIME : 0;
             $num_queries = $db->numQueries();
 
-            $sql = "INSERT INTO downloads (dt, referer, referer_is_local, url, page_title, search_terms, img_search, browser_family, browser_version, os, os_version, ip, user_agent, exec_time, num_queries)
+            $sql = "INSERT INTO shine_downloads (dt, referer, referer_is_local, url, page_title, search_terms, img_search, browser_family, browser_version, os, os_version, ip, user_agent, exec_time, num_queries)
                     VALUES (:dt, :referer, :referer_is_local, :url, :page_title, :search_terms, :img_search, :browser_family, :browser_version, :os, :os_version, :ip, :user_agent, :exec_time, :num_queries)";
             $vals = array('dt'               => $dt,
                           'referer_is_local' => $referer_is_local,
