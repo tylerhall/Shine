@@ -12,6 +12,7 @@
     require DOC_ROOT . '/includes/class.dbobject.php';
     require DOC_ROOT . '/includes/class.objects.php';
     require DOC_ROOT . '/includes/ap.inc.php'; // AquaticPrime functions
+    require DOC_ROOT . '/includes/markdown.inc.php';
 
     // Fix magic quotes
     if(get_magic_quotes_gpc())

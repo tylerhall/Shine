@@ -220,7 +220,7 @@
                                 <p>
 									<label for="email_body">Email Body</label>
                                     <textarea name="email_body" id="email_body" class="text"><?PHP echo $email_body ?></textarea><br>
-									<span class="info"><strong>Available Substitutions</strong>: {first_name}, {last_name}, {payer_email}, {license}. Add your own in includes/class.objects.php getBody().</span>
+									<span class="info"><strong>Available Substitutions</strong>: {first_name}, {last_name}, {payer_email}, {license}, {1daylink}, {3daylink}, {1weeklink}, {foreverlink}. Add your own in includes/class.objects.php getBody().</span>
                                 </p>
 
 								<p>

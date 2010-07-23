@@ -49,8 +49,11 @@
                     </div>
                     <div class="bd">
 						<ul class="biglist">
-							<li><a href="order.php?id=<?PHP echo $o->id; ?>&amp;act=download">Download</a></li>
 							<li><a href="order.php?id=<?PHP echo $o->id; ?>&amp;act=email" id="email">Email to User</a></li>
+							<li><a href="<?PHP echo $o->getDownloadLink(); ?>">Download Link (does not expire)</a></li>
+							<li><a href="<?PHP echo $o->getDownloadLink(86400); ?>">Download Link (1 day)</a></li>
+							<li><a href="<?PHP echo $o->getDownloadLink(86400 * 3); ?>">Download Link (3 days)</a></li>
+							<li><a href="<?PHP echo $o->getDownloadLink(86400 * 7); ?>">Download Link (1 week)</a></li>
 						</ul>
 					</div>
 				</div>

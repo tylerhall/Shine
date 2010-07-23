@@ -123,3 +123,24 @@ textarea { height:13em; }
 .text-center { text-align:center; }
 .inline { display:inline; }
 .dim { opacity:0.3; }
+
+/* Shine Specific Stuff */
+a.big-button {
+	display:block; border:1px solid #999; color:#000; text-decoration:none; padding:0.5em 1em;
+	-moz-border-radius:7px; -webkit-border-radius:7px;
+	background-image:-webkit-gradient(linear,left top,left bottom,color-stop(0, rgb(250,250,250)),color-stop(0.5, rgb(220,220,220)));
+	background:-moz-linear-gradient(center top,rgb(250,250,250) 0%,rgb(220,220,220) 50%);
+}
+a.big-button:hover {
+	background-image:-webkit-gradient(linear,left top,left bottom,color-stop(0, rgb(230,230,230)),color-stop(0.5, rgb(200,200,200)));
+	background:-moz-linear-gradient(center top,rgb(230,230,230) 0%,rgb(200,200,200) 50%);
+}
+
+.bd div.ticket { background-color:#edd; margin:-1em; margin-bottom:1em; padding:1em; border-bottom:1px solid #ccc; }
+.bd div.ticket img { float:left; margin:0 1em 1em 0; }
+.bd div.ticket h3 { font-weight:bold; color:#000; margin-bottom:0; font-size:138.5%; }
+.bd div.ticket .meta { color:#666; }
+.bd div.ticket .float-box { float:right; text-align:center; background-color:#ccc; font-weight:bold; padding:0.5em; font-size:123.1%;  -moz-border-radius:7px; -webkit-border-radius:7px; border:1px solid #aaa; }
+.bd div.ticket .float-box span { font-size:77%; }
+.bd div.ticket h4 { font-size:108%; font-weight:bold; }
+.bd div.ticket .markdown { clear:both; }

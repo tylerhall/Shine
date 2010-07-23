@@ -5,7 +5,7 @@
     {
         public function __construct($id = null)
         {
-            parent::__construct('shine_users', array('username', 'password', 'level', 'email'), $id);
+            parent::__construct('shine_users', array('username', 'password', 'level', 'email', 'twitter'), $id);
         }
 
         public function setPassword($password)
@@ -17,6 +17,14 @@
             else
                 $this->password = $password;
         }
+
+		public function avatar()
+		{		
+			if(strlen($this->twitter) > 0)
+				return "http://api.twitter.com/1/users/profile_image/{$this->twitter}.xml?size=normal";
+			else
+				return "http://l.yimg.com/us.yimg.com/i/identity/nopic_48.gif";
+		}
     }
 
     class Application extends DBObject
@@ -76,7 +84,8 @@
 
 		function getBody($order)
 		{
-			return str_replace(array('{first_name}', '{last_name}', '{payer_email}', '{license}'), array($order->first_name, $order->last_name, $order->payer_email, $order->license), $this->email_body);
+			return str_replace(array('{first_name}', '{last_name}', '{payer_email}', '{license}', '{1daylink}', '{3daylink}', '{1weeklink}', '{foreverlink}'),
+			array($order->first_name, $order->last_name, $order->payer_email, $order->license, $order->getDownloadLink(86400), $order->getDownloadLink(86400*3), $order->getDownloadLink(86400*7), $order->getDownloadLink(0)), $this->email_body);
 		}
 		
 		function ordersPerMonth()
@@ -119,6 +128,40 @@
 		    $result = "<div style=\"width: 160px;background: no-repeat url(http://osx.iusethis.com/static/badges/ucb2.png); height: 43px; cursor: pointer;\"><a href='http://osx.iusethis.com/app/{$this->i_use_this_key}'><div style=\"color: #383838; font: 14px Geneva, Arial, Helvetica, sans-serif; position: relative; top: 14px;    left: 45px; font-weight: bold; text-align: left;\">$count<span style=\"color:#7a7a7a; font:12px;\">usethis</span></div></a></div>";
 		    return $result;
 	    }
+	
+		public function numNewTickets()
+		{
+			$db = Database::getDatabase();
+			return $db->getValue("SELECT COUNT(*) FROM shine_tickets WHERE status = 'new' AND app_id = '{$this->id}'");
+		}
+
+		public function numOpenTickets()
+		{
+			$db = Database::getDatabase();
+			return $db->getValue("SELECT COUNT(*) FROM shine_tickets WHERE status = 'open' AND app_id = '{$this->id}'");
+		}
+
+		public function nextMilestone()
+		{
+			$db = Database::getDatabase();
+			$row = $db->getRow("SELECT * FROM shine_milestones WHERE status = 'open' AND app_id = '{$this->id}'ORDER BY dt_due ASC");
+			if($row !== false)
+			{
+				$m = new Milestone();
+				$m->load($row);
+				return $m;
+			}
+			return null;			
+		}
+		
+		public function strNextMilestone()
+		{
+			$m = $this->nextMilestone();
+			if(is_null($m))
+				return '';
+			else
+				return "<a href='tickets-milestone.php?id={$m->id}'>{$m->title}</a>";
+		}
     }
 
     class Order extends DBObject
@@ -297,6 +340,14 @@
 			exit;
 		}
 		
+		public function getDownloadLink($expires = 0) // Number of seconds until link expires, 0 = never expires
+		{
+			if($expires > 0) $expires += time();
+			$hash = md5($this->id . $expires . Config::get('authSalt'));
+			$link = 'http://' . $_SERVER['HTTP_HOST'] . '/license.php?id=' . $this->id . '&x=' . $expires . '&h=' . $hash;
+			return $link;
+		}
+		
 		public function intlAmount()
 		{
 			$currencies = array('USD' => '$', 'GBP' =>'£', 'EUR' => '€', 'CAD' => '$', 'JPY' => '¥');
@@ -344,7 +395,7 @@
     {
         function __construct($id = null)
         {
-            parent::__construct('shine_ticket', array('app_id', 'title', 'description', 'created_by', 'milestone_id', 'state_id', 'dt_created', 'dt_last_state'), $id);
+            parent::__construct('shine_tickets', array('app_id', 'title', 'description', 'created_by', 'assigned_to', 'milestone_id', 'status', 'dt_created', 'dt_last_state'), $id);
         }
     }
 
@@ -352,7 +403,7 @@
     {
         function __construct($id = null)
         {
-            parent::__construct('shine_milestone', array('app_id', 'title', 'dt_due', 'description'), $id);
+            parent::__construct('shine_milestone', array('app_id', 'title', 'dt_due', 'description', 'status'), $id);
         }
     }
 
@@ -360,14 +411,6 @@
     {
         function __construct($id = null)
         {
-            parent::__construct('shine_milestone', array('dt', 'ticket_id', 'app_id', 'user_id', 'state_from_id', 'state_to_id', 'milestone_from_id', 'milestone_to_id', 'comment'), $id);
-        }
-    }
-
-    class TicketStatus extends DBObject
-    {
-        function __construct($id = null)
-        {
-            parent::__construct('shine_ticket_statuses', array('title', 'is_open', 'css_class'), $id);
+            parent::__construct('shine_milestone', array('dt', 'ticket_id', 'app_id', 'user_id', 'status_from', 'status_to', 'milestone_from_id', 'milestone_to_id', 'comment'), $id);
         }
     }
