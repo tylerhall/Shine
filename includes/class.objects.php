@@ -344,7 +344,7 @@
 		{
 			if($expires > 0) $expires += time();
 			$hash = md5($this->id . $expires . Config::get('authSalt'));
-			$link = 'http://' . $_SERVER['HTTP_HOST'] . '/license.php?id=' . $this->id . '&x=' . $expires . '&h=' . $hash;
+			$link = 'http://' . $_SERVER['HTTP_HOST'] . WEB_ROOT . 'license.php?id=' . $this->id . '&x=' . $expires . '&h=' . $hash;
 			return $link;
 		}
 		
