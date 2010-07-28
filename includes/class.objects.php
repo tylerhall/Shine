@@ -361,9 +361,9 @@
 		{
 			$db = Database::getDatabase();
 			if(is_null($id))
-				return $db->getValue("SELECT COUNT(*) FROM shine_orders WHERE type = 'paypal'");
+				return $db->getValue("SELECT COUNT(*) FROM shine_orders");
 			else
-				return $db->getValue("SELECT COUNT(*) FROM shine_orders WHERE type = 'paypal' AND app_id = " . intval($id));
+				return $db->getValue("SELECT COUNT(*) FROM shine_orders WHERE app_id = " . intval($id));
 		}
     }
 
