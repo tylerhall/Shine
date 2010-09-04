@@ -4,6 +4,8 @@ Shine is a web-based dashboard for indie Mac developers. It's designed to manage
 
 This specific GitHub project is a complete rewrite of the previous version that was hosted on Google Code. Normally, I'm not an advocate of rewriting something that works, but in this case I felt it was needed. The original release (two years ago) was written in a very short period of time in a rush to release my first OS X application. This version uses an upgraded version of its PHP framework and is designed with future plans in mind.
 
+Here's the [original blog post](http://clickontyler.com/blog/2009/08/shine-an-indie-mac-dashboard/) about the project if you're looking for a longer description.
+
 Basic Usage
 -----------
 1. Unzip the installation folder into a non obvious directory on your web root directory.
