@@ -8,12 +8,12 @@
 ?>
 <div id="navigation">
     <ul id="primary-navigation">
-        <li<?PHP if($nav == 'applications') : ?> class="active"<?PHP endif; ?>><a href="index.php">Applications</a></li>
+        <li<?PHP if($nav == 'applications') : ?> class="active"<?PHP endif; ?>><a href="index.php">Home</a></li>
         <li<?PHP if($nav == 'orders') : ?> class="active"<?PHP endif; ?>><a href="orders.php">Orders</a></li>
+        <li<?PHP if($nav == 'activations') : ?> class="active"<?PHP endif; ?>><a href="activations.php">Activations</a></li>
         <li<?PHP if($nav == 'feedback') : ?> class="active"<?PHP endif; ?>><a href="feedback.php">Feedback (<?PHP echo $feedback_count; ?>)</a></li>
         <li<?PHP if($nav == 'tweets') : ?> class="active"<?PHP endif; ?>><a href="tweets.php">Tweets (<?PHP echo $tweet_count; ?>)</a></li>
         <li<?PHP if($nav == 'stats') : ?> class="active"<?PHP endif; ?>><a href="stats.php">Sparkle Stats</a></li>
-        <li<?PHP if($nav == 'tickets') : ?> class="active"<?PHP endif; ?>><a href="tickets.php">Tickets</a></li>
     </ul>
 
     <ul id="user-navigation">

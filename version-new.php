@@ -29,8 +29,8 @@
 			$info   = parse_url($app->s3path);
 			$object = slash($info['path']) . $object;
 			chmod($_FILES['file']['tmp_name'], 0755);
-			// $s3 = new S3($app->s3key, $app->s3pkey);
-			// $s3->uploadFile($app->s3bucket, $object, $_FILES['file']['tmp_name'], true);
+			$s3 = new S3($app->s3key, $app->s3pkey);
+			$s3->uploadFile($app->s3bucket, $object, $_FILES['file']['tmp_name'], true);
 			$v->insert();
 
 			redirect('versions.php?id=' . $app->id);

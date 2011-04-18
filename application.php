@@ -34,6 +34,7 @@
 			$app->return_url       = $_POST['return_url'];
 			$app->fs_security_key  = $_POST['fs_security_key'];
 			$app->tweet_terms      = $_POST['tweet_terms'];
+			$app->upgrade_app_id   = $_POST['upgrade_app_id'];
 			$app->update();
 			redirect('application.php?id=' . $app->id);
 		}
@@ -60,6 +61,7 @@
 			$return_url       = $_POST['return_url'];
 			$fs_security_key  = $_POST['fs_security_key'];
 			$tweet_terms      = $_POST['tweet_terms'];
+			$upgrade_app_id   = $_POST['upgrade_app_id'];
 		}
 	}
 	else
@@ -85,7 +87,10 @@
 		$return_url       = $app->return_url;
 		$fs_security_key  = $app->fs_security_key;
 		$tweet_terms      = $app->tweet_terms;
+		$upgrade_app_id   = $app->upgrade_app_id;
 	}
+
+	$upgrade_apps = DBObject::glob('Application', "SELECT * FROM shine_applications WHERE id <> '{$app->id}' ORDER BY name");
 ?>
 <?PHP include('inc/header.inc.php'); ?>
 
@@ -131,6 +136,17 @@
                                     <input type="text" class="text" name="tweet_terms" id="tweet_terms" value="<?PHP echo htmlspecialchars($tweet_terms); ?>">
                                     <span class="info">Seperate with commas</span>
                                 </p>
+								<p>
+									<label for="upgrade_app_id">Upgrade App</label><br>
+                                    <select name="upgrade_app_id" id="upgrade_app_id">
+										<option value="">-- None --</option>
+										<?PHP foreach($upgrade_apps as $a) : ?>
+										<option <?PHP if($upgrade_app_id == $a->id) echo 'selected="selected"'; ?> value="<?PHP echo $a->id; ?>"><?PHP echo $a->name; ?></option>
+										<?PHP endforeach; ?>
+									</select><br/>
+									<span class="info">Choosing an app here will provide a one-click option to upgrade existing orders to the selected app.</span>
+                                </p>
+
 
 								<hr>
 								
@@ -167,7 +183,7 @@
 
 								<hr>
 
-								<h3>Aquatic Prime</h3>
+								<h3>Licensing</h3>
 								<p>
 									<label for="license_type">License Type</label><br>
                                     <select name="license_type" id="license_type">
@@ -220,7 +236,7 @@
                                 <p>
 									<label for="email_body">Email Body</label>
                                     <textarea name="email_body" id="email_body" class="text"><?PHP echo $email_body ?></textarea><br>
-									<span class="info"><strong>Available Substitutions</strong>: {first_name}, {last_name}, {payer_email}, {license}, {1daylink}, {3daylink}, {1weeklink}, {foreverlink}. Add your own in includes/class.objects.php getBody().</span>
+									<span class="info"><strong>Available Substitutions</strong>: {first_name}, {last_name}, {payer_email}, {license}, {serial_number}, {1daylink}, {3daylink}, {1weeklink}, {foreverlink}. Add your own in includes/class.objects.php getBody().</span>
                                 </p>
 
 								<p>
@@ -236,14 +252,6 @@
                 </div></div>
             </div>
             <div id="sidebar" class="yui-b">
-                <div class="block">
-                    <div class="hd">
-                        <h3>i use this</h3>
-                    </div>
-                    <div class="bd">
-                        <?PHP echo $app->iUseThisHTML(); ?>
-                    </div>
-                </div>
             </div>
         </div>
 

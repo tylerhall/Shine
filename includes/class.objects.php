@@ -31,7 +31,7 @@
     {
         public function __construct($id = null)
         {
-            parent::__construct('shine_applications', array('name', 'link', 'bundle_name', 's3key', 's3pkey', 's3bucket', 's3path', 'sparkle_key', 'sparkle_pkey', 'ap_key', 'ap_pkey', 'from_email', 'email_subject', 'email_body', 'license_filename', 'custom_salt', 'license_type', 'return_url', 'fs_security_key', 'i_use_this_key', 'tweet_terms', 'hidden'), $id);
+            parent::__construct('shine_applications', array('name', 'link', 'bundle_name', 'upgrade_app_id', 's3key', 's3pkey', 's3bucket', 's3path', 'sparkle_key', 'sparkle_pkey', 'ap_key', 'ap_pkey', 'from_email', 'email_subject', 'email_body', 'license_filename', 'custom_salt', 'license_type', 'return_url', 'fs_security_key', 'i_use_this_key', 'tweet_terms', 'hidden'), $id);
         }
 
 		public function versions()
@@ -84,8 +84,9 @@
 
 		function getBody($order)
 		{
-			return str_replace(array('{first_name}', '{last_name}', '{payer_email}', '{license}', '{1daylink}', '{3daylink}', '{1weeklink}', '{foreverlink}'),
-			array($order->first_name, $order->last_name, $order->payer_email, $order->license, $order->getDownloadLink(86400), $order->getDownloadLink(86400*3), $order->getDownloadLink(86400*7), $order->getDownloadLink(0)), $this->email_body);
+			return str_replace(array('{first_name}', '{last_name}', '{payer_email}', '{license}', '{1daylink}', '{3daylink}', '{1weeklink}', '{foreverlink}', '{serial_number}'),
+			array($order->first_name, $order->last_name, $order->payer_email, $order->license, $order->getDownloadLink(86400), $order->getDownloadLink(86400*3), $order->getDownloadLink(86400*7), $order->getDownloadLink(0), $order->serial_number),
+			$this->email_body);
 		}
 		
 		function ordersPerMonth()
@@ -164,12 +165,40 @@
 		}
     }
 
+    class Activation extends DBObject
+    {
+        public function __construct($id = null)
+        {
+            parent::__construct('shine_activations', array('app_id', 'name', 'serial_number', 'guid', 'dt', 'ip', 'order_id'), $id);
+        }
+
+		public function applicationName()
+		{
+			static $cache;
+			if(!is_array($cache)) $cache = array();
+
+			if(!isset($cache[$this->app_id]))
+			{
+				$app = new Application($this->app_id);
+				$cache[$this->app_id] = $app->name;
+			}
+			
+			return $cache[$this->app_id];
+		}
+	}
+
     class Order extends DBObject
     {
         public function __construct($id = null)
         {
-            parent::__construct('shine_orders', array('app_id', 'dt', 'txn_type', 'first_name', 'last_name', 'residence_country', 'item_name', 'payment_gross', 'mc_currency', 'business', 'payment_type', 'verify_sign', 'payer_status', 'tax', 'payer_email', 'txn_id', 'quantity', 'receiver_email', 'payer_id', 'receiver_id', 'item_number', 'payment_status', 'payment_fee', 'mc_fee', 'shipping', 'mc_gross', 'custom', 'license', 'type', 'deleted', 'hash', 'claimed'), $id);
+            parent::__construct('shine_orders', array('app_id', 'dt', 'txn_type', 'first_name', 'last_name', 'residence_country', 'item_name', 'payment_gross', 'mc_currency', 'business', 'payment_type', 'verify_sign', 'payer_status', 'tax', 'payer_email', 'txn_id', 'quantity', 'receiver_email', 'payer_id', 'receiver_id', 'item_number', 'payment_status', 'payment_fee', 'mc_fee', 'shipping', 'mc_gross', 'custom', 'license', 'type', 'deleted', 'hash', 'claimed', 'serial_number', 'notes', 'upgrade_coupon'), $id);
         }
+
+		public function activationCount()
+		{
+			$db = Database::getDatabase();
+			return $db->getValue("SELECT COUNT(*) FROM shine_activations WHERE order_id = '{$this->id}'");
+		}
 
 		public function applicationName()
 		{
@@ -324,6 +353,28 @@
 		// 	$mail = $smtp->send($this->payer_email, $hdrs, $body);
 		// }
 		
+		public function upgradeLicense()
+		{
+			$app = new Application($this->app_id);
+			$upgrade_app = new Application($app->upgrade_app_id);
+			if($upgrade_app->ok())
+			{
+				$o = new Order();
+				$o->app_id      = $upgrade_app->id;
+				$o->dt          = dater();
+				$o->first_name  = $this->first_name;
+				$o->last_name   = $this->last_name;
+				$o->payer_email = $this->payer_email;
+				$o->notes       = "Upgrade via Shine";
+				$o->type        = 'Upgrade';
+				$o->insert();
+				$o->generateLicense();
+				return $o;
+			}
+			
+			return null;
+		}
+
 		public function downloadLicense()
 		{
 			$app = new Application($this->app_id);

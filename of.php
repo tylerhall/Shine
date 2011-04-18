@@ -1,16 +1,16 @@
 <?PHP
-	require 'includes/master.inc.php';
-	
-	error_log(print_r($_POST, true));
+    require 'includes/master.inc.php';
 
-	$db = Database::getDatabase();
+    error_log(print_r($_POST, true));
 
-	foreach($_POST as $key => $val)
-		$_POST[$key] = mysql_real_escape_string($val, $db->db);
+    $db = Database::getDatabase();
 
-	$dt = date('Y-m-d H:i:s');
+    foreach($_POST as $key => $val)
+        $_POST[$key] = mysql_real_escape_string($val, $db->db);
 
-	$query = "INSERT INTO shine_feedback (appname, appversion, systemversion, email, reply, `type`, message, importance, critical, dt, ip, `new`, reguser, regmail) VALUES
+    $dt = date('Y-m-d H:i:s');
+
+    $query = "INSERT INTO shine_feedback (appname, appversion, systemversion, email, reply, `type`, message, importance, critical, dt, ip, `new`, reguser, regmail) VALUES
                   ('{$_POST['appname']}',
                    '{$_POST['appversion']}',
                    '{$_POST['systemversion']}',
@@ -24,8 +24,25 @@
                    '{$_SERVER['REMOTE_ADDR']}',
                    '1',
                    '{$_POST['reguser']}',
-				   '{$_POST['regmail']}')";
+                   '{$_POST['regmail']}')";
 
-	mysql_query($query, $db->db) or die('error');
+    mysql_query($query, $db->db) or die('error');
 
-	echo "ok";
+	$link = 'http://shine.clickontyler.com/feedback-view.php?id=' . $db->insertId();
+
+    $message  = "$link\n\n";
+	$message .= "From: {$_POST['email']}\n";
+    $message .= "Version: {$_POST['appversion']}\n";
+    $message .= "System Version: {$_POST['systemversion']}\n";
+    $message .= "Importance: {$_POST['importance']}\n";
+    $message .= "Criticality: {$_POST['critical']}\n\n";
+    $message .= "Message: " . str_replace("\\n", "\n", $_POST['message']) . "\n\n";
+
+	// Send mail via http://postmarkapp.com
+    // Mail_Postmark::compose()
+    //     ->addTo('support@clickontyler.com')
+    //     ->subject($_POST['appname'] . ' ' . ucwords($_POST['type']))
+    //     ->messagePlain($message)
+    //     ->send();
+
+    echo "ok";

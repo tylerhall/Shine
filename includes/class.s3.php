@@ -107,7 +107,7 @@
             // x-amz-acl (private, public-read, public-read-write, authenticated-read)
 
             $request = array('verb' => 'PUT',
-                             'resource' => "/$bucket_name/$s3_path",
+                             'resource' => "/$bucket_name/" . trim($s3_path, '/'),
                              'content-md5' => $this->base64(md5_file($fs_path)));
 
             $fh = fopen($fs_path, 'r');
@@ -133,6 +133,7 @@
 
             $result = $this->sendRequest($request, $headers, $curl_opts);
             fclose($fh);
+
             return $this->curlInfo['http_code'] == '200';
         }
 
@@ -243,6 +244,7 @@
 
             $result = curl_exec($ch);
             $this->curlInfo = curl_getinfo($ch);
+
             curl_close($ch);
             return $result;
         }

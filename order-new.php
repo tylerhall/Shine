@@ -19,6 +19,7 @@
 			$o->last_name   = $_POST['last_name'];
 			$o->payer_email = $_POST['email'];
 			$o->app_id      = $_POST['app_id'];
+			$o->notes       = $_POST['notes'];
 			$o->type        = 'Manual';
 			$o->dt          = dater();
 			$o->item_name   = $app->name;
@@ -33,6 +34,7 @@
 			$first_name = $_POST['first_name'];
 			$last_name  = $_POST['last_name'];
 			$email      = $_POST['email'];
+			$notes      = $_POST['notes'];
 		}
 	}
 	else
@@ -40,6 +42,7 @@
 		$first_name = '';
 		$last_name  = '';
 		$email      = '';
+		$notes      = '';
 	}
 	
 	$applications = DBObject::glob('Application', 'SELECT * FROM shine_applications ORDER BY name');
@@ -60,6 +63,7 @@
 								<p><label for="first_name">First Name</label> <input type="text" name="first_name" id="first_name" value="<?PHP echo $first_name; ?>" class="text"></p>
 								<p><label for="last_name">Last Name</label> <input type="text" name="last_name" id="last_name" value="<?PHP echo $last_name; ?>" class="text"></p>
 								<p><label for="email">Email</label> <input type="text" name="email" id="email" value="<?PHP echo $email; ?>" class="text"></p>
+								<p><p><label for="notes">Notes</label> <textarea name="notes" id="notes" class="text"><?PHP echo $notes; ?></textarea></p>
 								<p><input type="submit" name="btnCreateOrder" value="Create Order" id="btnCreateOrder"></p>
 							</form>
 						</div>

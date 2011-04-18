@@ -23,7 +23,7 @@
 	{
 		$app_id = intval($_GET['id']);
 		$total_num_orders = $db->getValue("SELECT COUNT(*) FROM shine_orders WHERE app_id = $app_id $search_sql ORDER BY dt DESC");
-		$pager = new Pager(@$_GET['page'], 50, $total_num_orders);
+		$pager = new Pager(@$_GET['page'], 100, $total_num_orders);
 		$orders = DBObject::glob('Order', "SELECT * FROM shine_orders WHERE app_id = $app_id $search_sql ORDER BY dt DESC LIMIT {$pager->firstRecord}, {$pager->perPage}");
 		$where = " AND app_id = $app_id ";
 		$app_name = $applications[$app_id]->name;
@@ -31,11 +31,13 @@
 	else
 	{
 		$total_num_orders = $db->getValue("SELECT COUNT(*) FROM shine_orders WHERE 1 = 1 $search_sql ");
-		$pager = new Pager(@$_GET['page'], 50, $total_num_orders);
+		$pager = new Pager(@$_GET['page'], 100, $total_num_orders);
 		$orders = DBObject::glob('Order', "SELECT * FROM shine_orders WHERE 1 = 1 $search_sql ORDER BY dt DESC LIMIT {$pager->firstRecord}, {$pager->perPage}");
 		$where = '';
 		$app_name = 'All';
 	}
+
+	$available_apps = $db->getValues("SELECT app_id FROM shine_orders GROUP BY app_id");
 
 	// Orders Per Month
 	$order_totals    = $db->getRows("SELECT DATE_FORMAT(dt, '%b') as dtstr, COUNT(*) FROM shine_orders WHERE type = 'PayPal' $where GROUP BY CONCAT(YEAR(dt), '-', MONTH(dt)) ORDER BY YEAR(dt) ASC, MONTH(dt) ASC");
@@ -79,10 +81,9 @@
                             <h2>Orders</h2>
 							<ul>
 								<li class="<?PHP if(!isset($_GET['id'])) echo 'active'; ?>"><a href="orders.php">All Orders</a></li>
-								<?PHP foreach($applications as $a) : if($a->hidden == 1) continue; ?>
+								<?PHP foreach($applications as $a) : if(!in_array($a->id, $available_apps)) continue; ?>
 								<li class="<?PHP if(@$_GET['id'] == $a->id) echo 'active'; ?>"><a href="orders.php?id=<?PHP echo $a->id; ?>"><?PHP echo $a->name; ?></a></li>
 								<?PHP endforeach; ?>
-								<li><a href="order-new.php">Create Manual Order</a></li>
 							</ul>
 							<div class="clear"></div>
                         </div>
@@ -116,7 +117,7 @@
 									<?PHP foreach($orders as $o) : ?>
 									<tr class="<?PHP if($o->type == 'Manual') echo 'dim'; ?>">
 										<td><?PHP echo $o->applicationName(); ?></td>
-										<td><?PHP echo utf8_encode($o->first_name); ?> <?PHP echo utf8_encode($o->last_name); ?></td>
+										<td><?PHP echo $o->first_name; ?> <?PHP echo $o->last_name; ?></td>
 										<td><a href="mailto:<?PHP echo utf8_encode($o->payer_email); ?>"><?PHP echo utf8_encode($o->payer_email); ?></a></td>
 										<td><?PHP echo $o->type; ?></td>
 										<td><?PHP echo dater($o->dt, 'm/d/Y g:ia') ?></td>
@@ -153,7 +154,7 @@
 						<form action="orders.php?id=<?PHP echo @$app_id; ?>" method="get">
 							<p><input type="text" name="q" value="<?PHP echo @$q; ?>" id="q" class="text">
 							<span class="info">Searches Buyer's Name and Email address.</span></p>
-							<p><input type="submit" name="btnSearch" value="Search" id="btnSearch"></p>
+							<p><input type="submit" name="btnSearch" value="Search" id="btnSearch"> | <a href="order-new.php">Create Manual Order</a></p>
 						</form>
 					</div>
 				</div>

@@ -109,6 +109,18 @@
                 </div></div>
             </div>
             <div id="sidebar" class="yui-b">
+				<div class="block">
+					<div class="hd">
+						Search Orders
+					</div>
+					<div class="bd">
+						<form action="orders.php?id=<?PHP echo @$app_id; ?>" method="get">
+							<p><input type="text" name="q" value="<?PHP echo @$q; ?>" id="q" class="text">
+							<span class="info">Searches Buyer's Name and Email address.</span></p>
+							<p><input type="submit" name="btnSearch" value="Search" id="btnSearch"> | <a href="order-new.php">Create Manual Order</a></p>
+						</form>
+					</div>
+				</div>
 
 				<div class="block">
 					<div class="hd">

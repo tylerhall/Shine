@@ -123,6 +123,7 @@ textarea { height:13em; }
 .text-center { text-align:center; }
 .inline { display:inline; }
 .dim { opacity:0.3; }
+.fraud { background-color:yellow; }
 
 /* Shine Specific Stuff */
 a.big-button {

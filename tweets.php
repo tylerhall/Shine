@@ -26,12 +26,16 @@
         redirect("http://twitter.com/home?status=@{$t->username}%20&in_reply_to={$t->tweet_id}");
     }
 
-    $sql = ''; $app_id = '';
-    if(isset($_GET['id']))
+    $sql = ''; $app_id = ''; $group = '';
+    if(isset($_GET['id']) && !empty($_GET['id']))
     {
         $sql = 'AND app_id = ' . intval($_GET['id']);
         $app_id = intval($_GET['id']);
     }
+	else
+	{
+		$group = ' GROUP BY tweet_id ';
+	}
     
     if(isset($_GET['read']))
     {
@@ -40,7 +44,11 @@
         redirect("tweets.php?id=$app_id");
     }
 
-	$tweets = DBObject::glob('Tweet', "SELECT * FROM shine_tweets WHERE deleted = 0 $sql ORDER BY dt DESC LIMIT 100");
+	$tweets = DBObject::glob('Tweet', "SELECT * FROM shine_tweets WHERE deleted = 0 $sql $group ORDER BY dt DESC LIMIT 100");
+
+	$db = Database::getDatabase();
+	$available_apps = $db->getValues("SELECT id FROM shine_applications WHERE CHAR_LENGTH(tweet_terms) > 0");
+	$tweet_terms = $db->getValues("SELECT tweet_terms FROM shine_applications WHERE CHAR_LENGTH(tweet_terms) > 0");
 	
 	function twitterfy($str)
 	{
@@ -65,6 +73,7 @@
 							<ul>
 								<li class="<?PHP if(!isset($_GET['id'])) echo 'active'; ?>"><a href="tweets.php">All Apps</a></li>
 								<?PHP foreach($applications as $a) : ?>
+								<?PHP if(!in_array($a->id, $available_apps)) continue; ?>
 								<li class="<?PHP if(@$_GET['id'] == $a->id) echo 'active'; ?>"><a href="tweets.php?id=<?PHP echo $a->id; ?>"><?PHP echo $a->name; ?></a></li>
 								<?PHP endforeach; ?>
 							</ul>
@@ -114,6 +123,20 @@
                         <p><?PHP echo count($tweets); ?> tweets</p>
                         <p><a href="tweets.php?id=<?PHP echo $app_id; ?>&amp;read=1">Mark all as read</a></p>
                         <p><a href="tweets.php?id=<?PHP echo $app_id; ?>&amp;refresh=1">Refresh All</a></p>
+                    </div>
+                </div>
+                <div class="block">
+                    <div class="hd">
+                        <h3>Tweet Terms</h3>
+                    </div>
+                    <div class="bd">
+						<ul class="biglist">
+							<?PHP foreach($tweet_terms as $tt) : ?>
+							<?PHP foreach(explode(',', $tt) as $term) : ?>
+							<li><a href="http://search.twitter.com/search?q=<?PHP echo urlencode($term); ?>"><?PHP echo $term; ?></a></li>
+							<?PHP endforeach; ?>
+							<?PHP endforeach; ?>
+						</ul>
                     </div>
                 </div>
             </div>
