@@ -42,6 +42,7 @@ CREATE TABLE IF NOT EXISTS `shine_applications` (
   `i_use_this_key` varchar(45) NOT NULL,
   `tweet_terms` text NOT NULL,
   `hidden` tinyint(4) NOT NULL,
+  `engine_class_name` varchar(128) character set utf8 collate utf8_unicode_ci NOT NULL,
   PRIMARY KEY  (`id`)
 ) ENGINE=MyISAM DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
 

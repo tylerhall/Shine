@@ -113,7 +113,7 @@
 						<h3>Cut &amp; Paste License</h3>
 					</div>
 					<div class="bd">
-						<?PHP if($app->license_type == 'ap') : ?>
+						<?PHP if($app->engine_class_name == 'aquaticprime') : ?>
 						<textarea style="width:100%;"><?PHP echo $o->license; ?></textarea>
 						<?PHP else : ?>
 						<textarea style="width:100%;"><?PHP echo "Email: {$o->payer_email}\nReg Key: {$o->license}"; ?></textarea>
