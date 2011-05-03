@@ -1,4 +1,6 @@
 <?PHP
+	date_default_timezone_set('America/Chicago');
+
     // Application flag
     define('SPF', true);
 	define('DEFAULT_IPN_URL', 'https://www.paypal.com/cgi-bin/webscr?');
