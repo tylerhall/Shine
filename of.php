@@ -38,10 +38,15 @@
     $message .= "Criticality: {$_POST['critical']}\n\n";
     $message .= "Message: " . str_replace("\\n", "\n", $_POST['message']) . "\n\n";
 
-    Mail_Postmark::compose()
-        ->addTo('support@clickontyler.com')
-        ->subject($_POST['appname'] . ' ' . ucwords($_POST['type']))
-        ->messagePlain($message)
-        ->send();
+	// Login to Shine and visit your settings to set of_email...
+	$of_email = get_option('of_email', '');
+	if(strlen($of_email) > 0)
+	{
+	    Mail_Postmark::compose()
+	        ->addTo($of_email)
+	        ->subject($_POST['appname'] . ' ' . ucwords($_POST['type']))
+	        ->messagePlain($message)
+	        ->send();
+	}
 
     echo "ok";
