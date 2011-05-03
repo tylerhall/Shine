@@ -20,6 +20,15 @@
 
 	$db->query("UPDATE shine_versions SET updates = updates + 1 WHERE app_id = '{$app->id}' ORDER BY dt DESC LIMIT 1");
 	
+	$pirate = false;
+	if(isset($_GET['serialNumber'])) {
+		$sn = $db->quote(trim($_GET['serialNumber']));
+		$count = $db->getValue("SELECT COUNT(*) FROM shine_orders WHERE license = $sn");
+		if($count == 0) {
+			$pirate = true;
+		}
+	}
+
 	header("Content-type: application/xml");
 ?>
 <?PHP echo '<'; ?>?xml version="1.0" encoding="utf-8"?>
@@ -37,5 +46,13 @@
 			<enclosure url="<?PHP echo $v->url; ?>" sparkle:shortVersionString="<?PHP echo $v->human_version; ?>" sparkle:version="<?PHP echo $v->version_number; ?>" length="<?PHP echo $v->filesize; ?>" type="application/octet-stream" sparkle:dsaSignature="<?PHP echo $v->signature; ?>" />
 		</item>
 		<?PHP endforeach; ?>
+		<?PHP if($pirate === true) : ?>
+		<item>
+			<title>sparkle</title>
+			<description></description>
+			<pubDate></pubDate>
+			<enclosure url="http://clickontyler.com" sparkle:shortVersionString="1.0" sparkle:version="1.0" length="3000000" type="application/octet-stream" sparkle:dsaSignature="abc123" />
+		</item>
+		<?PHP endif; ?>
 	</channel>
 </rss>

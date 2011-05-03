@@ -221,7 +221,7 @@
 			
 			return $cache[$this->app_id];
 		}
-		
+
 		public function generateLicense()
 		{
 			$app = new Application($this->app_id);
@@ -237,7 +237,7 @@
 			$engine->order = $this;
 			$engine->emailLicense();
 		}
-		
+
 		public function upgradeLicense()
 		{
 			$app = new Application($this->app_id);

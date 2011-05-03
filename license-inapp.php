@@ -19,7 +19,7 @@
 	$o = new Order();
 	$o->select($a->serial_number, 'serial_number');
 	if(!$o->ok()) die('serial');
-
+	
 	// Because we die before the activation is updated with the found order id,
 	// this has the added benefit of highlighting the activation as "fraudulent"
 	// in the activations list. It's not fraudulent obviously, but it does let

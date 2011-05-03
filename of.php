@@ -38,11 +38,10 @@
     $message .= "Criticality: {$_POST['critical']}\n\n";
     $message .= "Message: " . str_replace("\\n", "\n", $_POST['message']) . "\n\n";
 
-	// Send mail via http://postmarkapp.com
-    // Mail_Postmark::compose()
-    //     ->addTo('support@clickontyler.com')
-    //     ->subject($_POST['appname'] . ' ' . ucwords($_POST['type']))
-    //     ->messagePlain($message)
-    //     ->send();
+    Mail_Postmark::compose()
+        ->addTo('support@clickontyler.com')
+        ->subject($_POST['appname'] . ' ' . ucwords($_POST['type']))
+        ->messagePlain($message)
+        ->send();
 
     echo "ok";

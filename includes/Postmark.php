@@ -300,7 +300,7 @@ class Mail_Postmark
 			'Content-Type: application/json',
 			'X-Postmark-Server-Token: ' . $this->_apiKey
 		);
-		
+
 		$ch = curl_init();
 		curl_setopt($ch, CURLOPT_URL, 'https://api.postmarkapp.com/email');
 		curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);

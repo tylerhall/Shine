@@ -115,6 +115,8 @@
 					<div class="bd">
 						<?PHP if($app->engine_class_name == 'aquaticprime') : ?>
 						<textarea style="width:100%;"><?PHP echo $o->license; ?></textarea>
+						<?PHP elseif($app->engine_class_name == 'dual') : ?>
+						<textarea style="width:100%;"><?PHP echo "Email: {$o->payer_email}\nSerial Number: {$o->serial_number}"; ?></textarea>
 						<?PHP else : ?>
 						<textarea style="width:100%;"><?PHP echo "Email: {$o->payer_email}\nReg Key: {$o->license}"; ?></textarea>
 						<?PHP endif; ?>
