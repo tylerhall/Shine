@@ -19,11 +19,24 @@
 		exit;
 	}
 	
+	if(isset($_GET['act']) && $_GET['act'] == 'deactivate')
+	{
+		$o->deactivated = 1;
+		$o->update();
+		redirect('order.php?id=' . $o->id);
+	}
 
 	if(isset($_GET['act']) && $_GET['act'] == 'delete')
 	{
 		$o->delete();
 		redirect('orders.php');
+	}
+
+	if(isset($_POST['btnNotes']))
+	{
+		$o->notes = $_POST['notes'];
+		$o->update();
+		redirect('order.php?id=' . $o->id);
 	}
 
 	$app = new Application($o->app_id);
@@ -36,7 +49,10 @@
 
                     <div class="block">
                         <div class="hd">
-                            <h2>Order #<?PHP echo $o->id; ?></h2>
+                            <h2>
+								Order #<?PHP echo $o->id; ?>
+								<?PHP if($o->deactivated == 1) : ?> (Deactivated) <?PHP endif; ?>
+							</h2>
                         </div>
                         <div class="bd">
 							<table>
@@ -55,7 +71,7 @@
             <div id="sidebar" class="yui-b">
                 <div class="block">
                     <div class="hd">
-                        <h3>Retrieve License</h3>
+                        <h3>License Options</h3>
                     </div>
                     <div class="bd">
 						<ul class="biglist">
@@ -64,6 +80,7 @@
 							<li><a href="<?PHP echo $o->getDownloadLink(86400); ?>">Download Link (1 day)</a></li>
 							<li><a href="<?PHP echo $o->getDownloadLink(86400 * 3); ?>">Download Link (3 days)</a></li>
 							<li><a href="<?PHP echo $o->getDownloadLink(86400 * 7); ?>">Download Link (1 week)</a></li>
+							<li><a href="order.php?id=<?PHP echo $o->id; ?>&amp;act=deactivate" id="deactivate">Deactivate License</a></li>
 						</ul>
 					</div>
 				</div>
