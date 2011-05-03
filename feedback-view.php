@@ -22,6 +22,18 @@
 		$f->new = 0;
 		$f->update();
 	}
+
+	// Get related orders
+	$db = Database::getDatabase();
+	$email = $db->quote($f->email);
+	$orders = DBObject::glob('Order', 'SELECT * FROM shine_orders WHERE payer_email = ' . $email .  ' ORDER BY dt DESC');
+
+	// Get related activations
+	$order_ids = array();
+	foreach($orders as $o)
+		$order_ids[] = $o->id;
+	$order_ids = implode(',', $order_ids);
+	$activations = DBObject::glob('Activation', "SELECT * FROM shine_activations WHERE (order_id IN ($order_ids)) OR (ip = '{$f->ip}') ORDER BY dt DESC");
 ?>
 <?PHP include('inc/header.inc.php'); ?>
 
@@ -91,13 +103,66 @@
 									<input type="submit" name="btnNew" value="Mark as New" id="btnnew"/>
 									<input type="submit" name="btnDelete" value="Delete" id="btndelete" onclick="return confirm('Are you sure?');"/>
 								</p>
-							</form>					
+							</form>
 	
 						</div>
 					</div>              
                 </div></div>
             </div>
             <div id="sidebar" class="yui-b">
+
+				<div class="block">
+					<div class="hd">
+						<h2>Related Orders</h2>
+					</div>
+					<div class="bd">
+					    <table>
+					        <thead>
+					            <tr>
+					                <td>Date</td>
+					                <td>Name</td>
+					                <td>App Name</td>
+					            </tr>
+					        </thead>
+					        <tbody>
+    							<?PHP foreach($orders as $o) : ?>
+    							<tr>
+    							    <td><?PHP echo time2str($o->dt); ?></td>
+    							    <td><a href="order.php?id=<?PHP echo $o->id; ?>"><?PHP echo utf8_encode($o->first_name); ?> <?PHP echo utf8_encode($o->last_name); ?></a></td>
+    							    <td><?PHP echo $o->applicationName(); ?></td>
+    							</tr>
+    							<?PHP endforeach; ?>
+					        </tbody>
+					    </table>
+					</div>
+				</div>							
+
+				<div class="block">
+					<div class="hd">
+						<h2>Related Activations</h2>
+					</div>
+					<div class="bd">
+					    <table>
+					        <thead>
+					            <tr>
+					                <td>Date</td>
+					                <td>App Name</td>
+					                <td>IP</td>
+					            </tr>
+					        </thead>
+					        <tbody>
+    							<?PHP foreach($activations as $a) : ?>
+    							<tr>
+    							    <td><?PHP echo time2str($a->dt); ?></td>
+    							    <td><?PHP echo $a->applicationName(); ?></td>
+    							    <td><a href="activations.php?q=<?PHP echo $a->ip; ?>"><?PHP echo $a->ip; ?></a></td>
+    							</tr>
+    							<?PHP endforeach; ?>
+					        </tbody>
+					    </table>
+					</div>
+				</div>							
+
 				
             </div>
         </div>
