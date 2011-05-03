@@ -121,6 +121,16 @@
 					</div>
 				</div>
 				
+				<div class="block">
+					<div class="hd">
+						<h3>Order Notes</h3>
+					</div>
+					<form action="order.php?id=<?PHP echo $o->id; ?>" method="post" class="bd">
+						<textarea style="width:100%;" name="notes" id="notes"><?PHP echo $o->notes; ?></textarea>
+						<input type="submit" name="btnNotes" value="Save Notes" id="btnNotes">
+					</form>
+				</div>
+				
             </div>
         </div>
 
