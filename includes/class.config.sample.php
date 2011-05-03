@@ -27,7 +27,7 @@
         // Standard Config Options...
 
         // ...For Auth Class
-        public $authDomain = '';    // Domain to set for the cookie
+        public $authDomain;         // Domain to set for the cookie
         public $authSalt;           // Can be any random string of characters
         public $useHashedPasswords; // Store hashed passwords in database? (versus plain-text)
 
