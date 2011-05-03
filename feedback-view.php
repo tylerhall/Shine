@@ -29,7 +29,7 @@
 	$orders = DBObject::glob('Order', 'SELECT * FROM shine_orders WHERE payer_email = ' . $email .  ' ORDER BY dt DESC');
 
 	// Get related activations
-	$order_ids = array();
+	$order_ids = array(-1); // -1 prevents sql error when no orders are added to the array
 	foreach($orders as $o)
 		$order_ids[] = $o->id;
 	$order_ids = implode(',', $order_ids);
