@@ -6,7 +6,6 @@
     <meta http-equiv="Content-Type" content="text/html;charset=utf-8" >
     <link rel="stylesheet" href="http://yui.yahooapis.com/2.7.0/build/reset-fonts-grids/reset-fonts-grids.css" type="text/css">
     <link rel="stylesheet" href="css/yuiapp.css" type="text/css">
-	<link rel="stylesheet" href="js/jquery.fancybox.css" type="text/css" media="screen">
 </head>
 <body class="rounded">
     <div id="doc3" class="yui-t6">
