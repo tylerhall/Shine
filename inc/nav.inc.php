@@ -1,6 +1,6 @@
 <?PHP
-    if(rand(1,30) == 1)
-        include 'tweet-cron.php';
+    // if(rand(1,30) == 1)
+    //     include 'tweet-cron.php';
 
     $db = Database::getDatabase();
     $feedback_count = $db->getValue("SELECT COUNT(*) FROM shine_feedback WHERE new = 1");
@@ -12,6 +12,7 @@
         <li<?PHP if($nav == 'orders') : ?> class="active"<?PHP endif; ?>><a href="orders.php">Orders</a></li>
         <li<?PHP if($nav == 'activations') : ?> class="active"<?PHP endif; ?>><a href="activations.php">Activations</a></li>
         <li<?PHP if($nav == 'feedback') : ?> class="active"<?PHP endif; ?>><a href="feedback.php">Feedback (<?PHP echo $feedback_count; ?>)</a></li>
+        <li<?PHP if($nav == 'tickets') : ?> class="active"<?PHP endif; ?>><a href="tickets.php">Tickets</a></li>
         <li<?PHP if($nav == 'tweets') : ?> class="active"<?PHP endif; ?>><a href="tweets.php">Tweets (<?PHP echo $tweet_count; ?>)</a></li>
         <li<?PHP if($nav == 'stats') : ?> class="active"<?PHP endif; ?>><a href="stats.php">Sparkle Stats</a></li>
     </ul>

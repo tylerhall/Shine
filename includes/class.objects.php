@@ -316,16 +316,68 @@
 
     class Milestone extends DBObject
     {
-        public function __construct($id = null)
+        function __construct($id = null)
         {
-            parent::__construct('shine_milestone', array('app_id', 'title', 'dt_due', 'description', 'status'), $id);
+            parent::__construct('shine_milestones', array('app_id', 'title', 'dt_due', 'description', 'status'), $id);
         }
+
+		function percent()
+		{
+			$db = Database::getDatabase();
+			$complete = $db->getValue("SELECT COUNT(*) FROM shine_tickets WHERE status IN ('resolved', 'invalid') AND milestone_id = '{$this->id}'");
+			$total = $db->getValue("SELECT COUNT(*) FROM shine_tickets WHERE status <> 'hold' AND milestone_id = '{$this->id}'");
+			if($total == 0)
+				return 0;
+			else
+				return round($complete / $total * 100);
+		}
     }
 
     class TicketHistory extends DBObject
     {
-        public function __construct($id = null)
+        function __construct($id = null)
         {
-            parent::__construct('shine_milestone', array('dt', 'ticket_id', 'app_id', 'user_id', 'status_from', 'status_to', 'milestone_from_id', 'milestone_to_id', 'comment'), $id);
+            parent::__construct('shine_ticket_history', array('dt', 'ticket_id', 'app_id', 'user_id', 'user_from', 'user_to', 'status_from', 'status_to', 'milestone_from_id', 'milestone_to_id', 'comment'), $id);
         }
+
+		function changes()
+		{
+			$users = DBObject::glob('user', 'SELECT * FROM shine_users');
+			$milestones = DBObject::glob('milestone', "SELECT * FROM shine_milestones WHERE app_id = '{$this->app_id}'");
+
+			$changes = array();
+			if($this->user_from != $this->user_to)
+			{
+				$from = isset($users[$this->user_from]) ? $users[$this->user_from]->username : null;
+				$to = isset($users[$this->user_to]) ? $users[$this->user_to]->username : null;
+
+				if($from && $to)
+					$changes[] = "Reassigned to <span class='noun'>$to</span> from <span class='noun'>$from</span>";
+				elseif($to)
+					$changes[] = "Assigned to <span class='noun'>$to</span>";
+				elseif($from)
+					$changes[] = "No longer assigned to <span class='noun'>$from</span>";
+			}
+
+
+			if($this->milestone_from_id != $this->milestone_to_id)
+			{
+				$from = isset($milestones[$this->milestone_from_id]) ? $milestones[$this->milestone_from_id]->title : null;
+				$to = isset($milestones[$this->milestone_to_id]) ? $milestones[$this->milestone_to_id]->title : null;
+
+				if($from && $to)
+					$changes[] = "Milestone changed from <span class='noun'>$from</span> to <span class='noun'>$to</span>";
+				elseif($to)
+					$changes[] = "Milestone changed to <span class='noun'>$to</span>";
+				elseif($from)
+					$changes[] = "Removed from the <span class='noun'>$from</span> milestone";
+			}
+
+			if($this->status_from != $this->status_to)
+			{
+				$changes[] = "Status changed from <span class='noun'>" . ucwords($this->status_from) . "</span> to <span class='noun'>" . ucwords($this->status_to) . "</span>";
+			}
+			
+			return $changes;
+		}
     }

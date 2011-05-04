@@ -53,7 +53,7 @@
 								<li><a href="feedback.php?type=support">Support Questions</a></li>
 								<li><a href="feedback.php?type=bug">Bug Reports</a></li>
 								<li><a href="feedback.php?type=feature">Feature Requests</a></li>
-								<li class="active"><a href="feedback-view.php?id=<?PHP echo $f->id; ?>">Ticket #<?PHP echo $f->id; ?></a></li>
+								<li class="active"><a href="feedback-view.php?id=<?PHP echo $f->id; ?>">Feedback #<?PHP echo $f->id; ?></a></li>
 							</ul>
 							<div class="clear"></div>
                         </div>
