@@ -31,7 +31,7 @@
 							<div class="clear"></div>
                         </div>
                         <div class="bd">
-                            <table>
+                            <table class="lines">
                                 <thead>
                                     <tr>
 										<td>ID</td>
@@ -49,7 +49,7 @@
 										<td><?PHP echo $f->id; ?></td>
 										<td><?PHP echo $f->appname; ?> <?PHP echo $f->appversion; ?></td>
 										<td><?PHP echo $f->type; ?></td>
-										<td><?PHP echo $f->email; ?></td>
+										<td><a href="mailto:<?PHP echo $f->email; ?>"><?PHP echo $f->email; ?></a></td>
 										<td><?PHP echo ($f->reply == 1) ? '<strong>Yes</strong>' : 'No'; ?></td>
 										<td><?PHP echo time2str($f->dt); ?></td>
 										<td><a href="feedback-view.php?id=<?PHP echo $f->id; ?>">View</a></td>

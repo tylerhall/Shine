@@ -80,7 +80,7 @@
 							<div class="clear"></div>
                         </div>
                         <div class="bd">
-                            <table>
+                            <table class="lines">
                                 <tbody>
                                     <?PHP foreach($tweets as $t) : ?>
                                     <?PHP if($t->new) : ?>

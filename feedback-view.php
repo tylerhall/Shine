@@ -22,6 +22,13 @@
 		$f->new = 0;
 		$f->update();
 	}
+	
+	if(isset($_POST['btnNotes']))
+	{
+		$f->notes = $_POST['notes'];
+		$f->update();
+		redirect('feedback-view.php?id=' . $f->id);
+	}
 
 	// Get related orders
 	$db = Database::getDatabase();
@@ -59,7 +66,7 @@
                         </div>
                         <div class="bd">
 
-							<table>
+							<table class="lines">
 								<tr>
 									<th>App Name</th>
 									<td><?PHP echo $f->appname . ' ' . $f->appversion;?></td>
@@ -108,9 +115,22 @@
 									<input type="submit" name="btnDelete" value="Delete" id="btndelete" onclick="return confirm('Are you sure?');"/>
 								</p>
 							</form>
-	
 						</div>
-					</div>              
+					</div>
+
+                    <div class="block">
+                        <div class="hd">
+                            <h2>Feedback Notes</h2>
+						</div>
+						<div clcass="bd">
+							<form action="feedback-view.php?id=<?PHP echo $f->id; ?>" method="post" class="bd">
+								<textarea style="width:100%;" name="notes" id="notes"><?PHP echo $f->notes; ?></textarea>
+								<input type="submit" name="btnNotes" value="Save Notes" id="btnNotes">
+								<span class="info">Notes will NOT be sent or made visible to customers.</span>
+							</form>
+						</div>
+					</div>
+
                 </div></div>
             </div>
             <div id="sidebar" class="yui-b">

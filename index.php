@@ -49,7 +49,7 @@
                             <h2>Your Applications</h2>
                         </div>
                         <div class="bd">
-                            <table>
+                            <table class="lines">
                                 <thead>
                                     <tr>
                                         <td>Name</td>
@@ -83,7 +83,7 @@
     						<h2>Recent Orders (<?PHP echo number_format(Order::totalOrders()); ?> total)</h2>
     					</div>
     					<div class="bd">
-    					    <table>
+    					    <table class="lines">
     					        <thead>
     					            <tr>
     					                <td>Date</td>

@@ -40,6 +40,10 @@
 	}
 
 	$app = new Application($o->app_id);
+
+	// Get related orders
+	$db = Database::getDatabase();
+	$orders = DBObject::glob('Order', 'SELECT * FROM shine_orders WHERE payer_email = ' . $db->quote($o->payer_email) .  ' AND id <> ' .  $o->id .  ' ORDER BY dt DESC');
 ?>
 <?PHP include('inc/header.inc.php'); ?>
 
@@ -55,20 +59,59 @@
 							</h2>
                         </div>
                         <div class="bd">
-							<table>
+							<table class="lines">
 								<?PHP foreach($o->columns as $k => $v) : ?>
+								<?PHP if(strlen(trim($v)) > 0) : ?>
 								<tr>
-									<th><?PHP echo $k; ?></th>
+									<th><strong><?PHP echo $k; ?></strong></th>
 									<td><?PHP echo $v; ?></td>
 								</tr>
+								<?PHP endif; ?>
 								<?PHP endforeach; ?>
 							</table>
 						</div>
 					</div>
-              
+
+					<div class="block">
+						<div class="hd">
+							<h2>Order Notes</h2>
+						</div>
+						<div class="bd">
+							<form action="order.php?id=<?PHP echo $o->id; ?>" method="post" class="bd">
+								<textarea style="width:100%;" name="notes" id="notes"><?PHP echo $o->notes; ?></textarea>
+								<input type="submit" name="btnNotes" value="Save Notes" id="btnNotes">
+								<span class="info">Notes will NOT be sent or made visible to customers.</span>
+							</form>
+						</div>
+					</div>              
+
                 </div></div>
             </div>
             <div id="sidebar" class="yui-b">
+				<div class="block">
+					<div class="hd">
+						<h3>Related Orders</h3>
+					</div>
+					<div class="bd">
+					    <table class="lines">
+					        <thead>
+					            <tr>
+					                <td>Date</td>
+					                <td>App Name</td>
+					            </tr>
+					        </thead>
+					        <tbody>
+    							<?PHP foreach($orders as $o2) : ?>
+    							<tr>
+    							    <td><a href="order.php?id=<?PHP echo $o2->id; ?>"><?PHP echo time2str($o2->dt); ?></a></td>
+    							    <td><?PHP echo $o->applicationName(); ?></td>
+    							</tr>
+    							<?PHP endforeach; ?>
+					        </tbody>
+					    </table>
+					</div>
+				</div>
+
                 <div class="block">
                     <div class="hd">
                         <h3>License Options</h3>
@@ -122,16 +165,7 @@
 						<?PHP endif; ?>
 					</div>
 				</div>
-				
-				<div class="block">
-					<div class="hd">
-						<h3>Order Notes</h3>
-					</div>
-					<form action="order.php?id=<?PHP echo $o->id; ?>" method="post" class="bd">
-						<textarea style="width:100%;" name="notes" id="notes"><?PHP echo $o->notes; ?></textarea>
-						<input type="submit" name="btnNotes" value="Save Notes" id="btnNotes">
-					</form>
-				</div>
+
 				
             </div>
         </div>

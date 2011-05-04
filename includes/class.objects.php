@@ -294,7 +294,7 @@
 	{
 		public function __construct($id = null)
 		{
-			parent::__construct('shine_feedback', array('appname', 'appversion', 'systemversion', 'email', 'reply', 'type', 'message', 'importance', 'critical', 'dt', 'ip', 'new', 'starred', 'reguser', 'regmail'), $id);
+			parent::__construct('shine_feedback', array('appname', 'appversion', 'systemversion', 'email', 'reply', 'type', 'message', 'importance', 'critical', 'dt', 'ip', 'new', 'starred', 'reguser', 'regmail', 'notes'), $id);
 		}
 	}
 

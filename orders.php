@@ -101,7 +101,7 @@
                             </ul>
 							<div class="clear"></div>
 
-                            <table>
+                            <table class="lines">
                                 <thead>
                                     <tr>
 										<td>Application</td>
