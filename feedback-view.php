@@ -28,6 +28,10 @@
 	$email = $db->quote($f->email);
 	$orders = DBObject::glob('Order', 'SELECT * FROM shine_orders WHERE payer_email = ' . $email .  ' ORDER BY dt DESC');
 
+ 	// Get related feedbacks
+ 	$email = $db->quote($f->email);
+ 	$feedbacks = DBObject::glob('Feedback', 'SELECT * FROM shine_feedback WHERE email = ' . $email .  ' AND id <> ' . $f->id . ' ORDER BY dt DESC');
+
 	// Get related activations
 	$order_ids = array(-1); // -1 prevents sql error when no orders are added to the array
 	foreach($orders as $o)
@@ -110,6 +114,32 @@
                 </div></div>
             </div>
             <div id="sidebar" class="yui-b">
+
+  				<div class="block">
+  					<div class="hd">
+ 						<h2>Related Feedback</h2>
+ 					</div>
+ 					<div class="bd">
+ 					    <table>
+ 					        <thead>
+ 					            <tr>
+ 					                <td>Date</td>
+ 					                <td>App Name</td>
+ 					                <td>Type</td>
+ 					            </tr>
+ 					        </thead>
+ 					        <tbody>
+     							<?PHP foreach($feedbacks as $f) : ?>
+     							<tr>
+     							    <td><?PHP echo time2str($f->dt); ?></td>
+     							    <td><?PHP echo $f->appname . ' ' . $f->appversion;?></td>
+     							    <td><a href="feedback-view.php?id=<?PHP echo $f->id; ?>"><?PHP echo ucwords($f->type); ?></a></td>
+     							</tr>
+     							<?PHP endforeach; ?>
+ 					        </tbody>
+ 					    </table>
+ 					</div>
+ 				</div>
 
 				<div class="block">
 					<div class="hd">
