@@ -90,9 +90,17 @@
             <div id="sidebar" class="yui-b">
 				<div class="block">
 					<div class="hd">
-						<h3>Related Orders</h3>
+						<h3>Customer Info</h3>
+					</div>
+					<div id="rapportive" class="bd"></div>
+				</div>
+
+				<div class="block">
+					<div class="hd">
+						<h3>Related Orders and Activations</h3>
 					</div>
 					<div class="bd">
+						<p><a href="activations.php?q=<?PHP echo $o->payer_email; ?>">Activated <?PHP echo $o->activationCount(); ?> times</a></p>
 					    <table class="lines">
 					        <thead>
 					            <tr>
@@ -144,15 +152,6 @@
 
 				<div class="block">
 					<div class="hd">
-						<h3>Activations</h3>
-					</div>
-					<div class="bd">
-						<a href="activations.php?q=<?PHP echo $o->payer_email; ?>">Activated <?PHP echo $o->activationCount(); ?> times</a>
-					</div>
-				</div>
-
-				<div class="block">
-					<div class="hd">
 						<h3>Cut &amp; Paste License</h3>
 					</div>
 					<div class="bd">
@@ -171,3 +170,8 @@
         </div>
 
 <?PHP include('inc/footer.inc.php'); ?>
+<script type="text/javascript" charset="utf-8">
+	$(function() {
+		$('#rapportive').load('rapportive.php?email=<?PHP echo $o->payer_email; ?>');
+	});
+</script>

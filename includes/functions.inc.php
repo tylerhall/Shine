@@ -1,4 +1,40 @@
 <?PHP
+	function rapportive($email)
+	{
+		$json_str = geturl('https://rapportive.com/contacts/email/' . $email);
+		$json = json_decode($json_str);
+
+		if($json === false) {
+			return "<p>Failed to load Rapportive</p>";
+		}
+
+		if(!isset($json->contact)) {
+			return "<p>No information found</p>";
+		}
+
+		$out  = "<div>";
+		if(isset($json->contact->image_url_raw) && strlen($json->contact->image_url_raw))
+			$out .= "<img style='float:left;margin-right:5px;margin-bottom:5px;;' width='75px' height='75px' src='{$json->contact->image_url_raw}'> ";
+		if(isset($json->contact->name) && strlen($json->contact->name))
+			$out .= "<strong>{$json->contact->name}</strong><br>";
+		if(isset($json->contact->email) && strlen($json->contact->email))
+			$out .= "<a href='mailto:$email'>$email</a><br>";
+		if(isset($json->contact->location) && strlen($json->contact->location))
+			$out .= "{$json->contact->location}</div>";
+		$out .= "<div style='clear:both;'></div>";
+
+		foreach($json->contact->occupations as $o) {
+			$out .= "&bull; {$o->job_title} at {$o->company}<br>";
+		}
+
+		foreach($json->contact->memberships as $m) {
+			$out .= "<div style='float:left;margin-right:5px;'><img src='https://rapportive.com/images/icons/{$m->icon_name}.png'> ";
+			$out .= "<a href='{$m->profile_url}'>{$m->formatted}</a></div>";
+		}
+		$out .= "<div style='clear:both;'></div>";
+
+		return $out;
+	}
 	function set_option($key, $val)
 	{
 		$db = Database::getDatabase();

@@ -134,6 +134,13 @@
                 </div></div>
             </div>
             <div id="sidebar" class="yui-b">
+				<div class="block">
+					<div class="hd">
+						<h3>Customer Info</h3>
+					</div>
+					<div id="rapportive" class="bd"></div>
+				</div>
+
 
   				<div class="block">
   					<div class="hd">
@@ -218,3 +225,8 @@
         </div>
 
 <?PHP include('inc/footer.inc.php'); ?>
+<script type="text/javascript" charset="utf-8">
+	$(function() {
+		$('#rapportive').load('rapportive.php?email=<?PHP echo $f->email; ?>');
+	});
+</script>
