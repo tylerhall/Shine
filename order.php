@@ -112,7 +112,7 @@
     							<?PHP foreach($orders as $o2) : ?>
     							<tr>
     							    <td><a href="order.php?id=<?PHP echo $o2->id; ?>"><?PHP echo time2str($o2->dt); ?></a></td>
-    							    <td><?PHP echo $o->applicationName(); ?></td>
+    							    <td><?PHP echo $o2->applicationName(); ?></td>
     							</tr>
     							<?PHP endforeach; ?>
 					        </tbody>
