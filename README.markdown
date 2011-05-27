@@ -19,9 +19,8 @@ This code is released under the MIT Open Source License. Feel free to do whateve
 
 Screenshots
 -------
-[![Screenshot 1](http://cdn.tyler.fm/blog/shine-ss2-sm.png)](http://cdn.tyler.fm/blog/shine-ss2.png)
-[![Screenshot 2](http://cdn.tyler.fm/blog/shine-ss3-sm.png)](http://cdn.tyler.fm/blog/shine-ss3.png)
-[![Screenshot 3](http://cdn.tyler.fm/blog/shine-ss4-sm.png)](http://cdn.tyler.fm/blog/shine-ss4.png)
-[![Screenshot 4](http://cdn.tyler.fm/blog/shine-ss5-sm.png)](http://cdn.tyler.fm/blog/shine-ss5.png)
-[![Screenshot 5](http://cdn.tyler.fm/blog/shine-ss6-sm.png)](http://cdn.tyler.fm/blog/shine-ss6.png)
-[![Screenshot 6](http://cdn.tyler.fm/blog/shine-ss7-sm.png)](http://cdn.tyler.fm/blog/shine-ss7.png)
+[![Screenshot 1](http://cdn.tyler.fm/blog/shine2-ss1-sm.png)](http://cdn.tyler.fm/blog/shine2-ss1.png)
+[![Screenshot 2](http://cdn.tyler.fm/blog/shine2-ss2-sm.png)](http://cdn.tyler.fm/blog/shine2-ss2.png)
+[![Screenshot 3](http://cdn.tyler.fm/blog/shine2-ss3-sm.png)](http://cdn.tyler.fm/blog/shine2-ss3.png)
+[![Screenshot 4](http://cdn.tyler.fm/blog/shine2-ss4-sm.png)](http://cdn.tyler.fm/blog/shine2-ss4.png)
+[![Screenshot 5](http://cdn.tyler.fm/blog/shine2-ss5-sm.png)](http://cdn.tyler.fm/blog/shine2-ss5.png)
