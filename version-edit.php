@@ -14,6 +14,17 @@
 		$v->delete();
 		redirect('versions.php?id=' . $app->id);
 	}
+	
+	if(isset($_POST['btnSave']))
+	{
+		$v->version_number = $_POST['version_number'];
+		$v->human_version  = $_POST['human_version'];
+		$v->url = $_POST['url'];
+		$v->release_notes  = $_POST['release_notes'];
+		$v->filesize = $_POST['filesize'];
+		$v->signature = $_POST['signature'];
+		$v->update();	
+	}
 
 	$version_number = $v->version_number;
 	$human_version  = $v->human_version;
@@ -48,6 +59,7 @@
 								<p><label for="filesize">Filesize</label> <input type="text" name="filesize" id="filesize" value="<?PHP echo $filesize; ?>" class="text"></p>
 								<p><label for="signature">Sparkle Signature</label> <input type="text" name="signature" id="signature" value="<?PHP echo $signature; ?>" class="text"></p>
 								<p><input type="submit" name="btnDelete" value="Delete Version" id="btnDelete" onclick="return confirm('Are you sure?');"></p>
+								<p><input type="submit" name="btnSave" value="Save" id="btnSave"></p>
 							</form>
 						</div>
 					</div>
