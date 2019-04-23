@@ -1,3 +1,11 @@
+# April, 2019 Update
+
+I've been using Shine (and so have quite a few other Mac developers) to succesfully run my software business for the last ten years or so. Unfortunately, due to my own unique business requirements, I forked Shine privately for [my company](https://clickontyler.com) a long time ago. It's gained tons of new features and improvements, but most of them are tied to my own needs and haven't made their way back into the open source version. So, I'm archiving this repo.
+
+I'm still more than happy to answer questions about the project and provide help and guidance for anyone using it or if you just have general questions about setting up a Mac software business outside the Mac App Store. Feel free to [contact me](https://tyler.io).
+
+# About Shine
+
 Shine is a web-based dashboard for indie Mac developers. It's designed to manage payment and order processing with PayPal and generate and email license files to your users using the [Aquatic Prime](http://www.aquaticmac.com/) framework. It even uploads each revision of your app into Amazon S3 and can produce reports from your users' demographic info (gathered via [Sparkle](http://sparkle.andymatuschak.org/)). It also serves as a central location to collect user feedback, bug reports, and support questions using the [OpenFeedback framework](http://github.com/tylerhall/OpenFeedback/tree/master).
 
 This specific GitHub project is a complete rewrite of the previous version that was hosted on Google Code. Normally, I'm not an advocate of rewriting something that works, but in this case I felt it was needed. The original release (two years ago) was written in a very short period of time in a rush to release my first OS X application. This version uses an upgraded version of its PHP framework and is designed with future plans in mind.
