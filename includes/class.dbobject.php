@@ -7,7 +7,7 @@
         public $columns = array();
         protected $className;
 
-        protected function __construct($table_name, $columns, $id = null)
+        protected function __construct($table_name, $columns, $id = null, $idColumnName = 'id')
         {
             $this->className    = get_class($this);
             $this->tableName    = $table_name;
@@ -17,7 +17,7 @@
             // a different id name exactly once - so I've decided to
             // drop the option from the constructor. You can overload
             // the constructor yourself if you have the need.
-            $this->idColumnName = 'id';
+            $this->idColumnName = $idColumnName;
 
             foreach($columns as $col)
                 $this->columns[$col] = null;
@@ -47,14 +47,56 @@
             return $value; // Seriously.
         }
 
+		public function __isset($key)
+		{
+			return array_key_exists($key, $this->columns);
+		}
+
+		public function __unset($key)
+		{
+			unset($this->columns[$key]);
+		}
+		
+		//values need to be escaped before reaching this, but column names don't.
+		//this now takes more than one condition, rather than only a single
         public function select($id, $column = null)
         {
             $db = Database::getDatabase();
+		    $numArgs = func_num_args();
 
             if(is_null($column)) $column = $this->idColumnName;
             $column = $db->escape($column);
+			$query = "SELECT * FROM `{$this->tableName}` WHERE ";
 
-            $db->query("SELECT * FROM `{$this->tableName}` WHERE `$column` = :id LIMIT 1", array('id' => $id));
+			if($numArgs >= 4 && $numArgs % 2 == 0){
+				// 4 or more args, and even number (since we need val:col pairs)
+			    $args = func_get_args();
+		
+				$valMap = array();
+
+				for ($x = 0; $x < $numArgs; $x++) {
+				    $col = $db->escape($args[$x+1]);
+			
+					$query .= "`$col` = :arg$x";
+			
+					// if more to go, then add AND, else finish with limit 1
+					$query .= ((($x + 2) != $numArgs) ? " AND " : " LIMIT 1");
+			
+					$valMap["arg$x"] = "$args[$x]";
+			
+					$x++;//increment by 2
+				}
+		        unset($args);
+			}else{
+				// normal query with only 1 value and one column name
+				$query .= "`$column` = :id LIMIT 1";
+				$valMap = array('id' => $id);
+			}
+			
+		    $db->query($query, $valMap);
+			unset($query, $valMap);
+			
+            //$db->query("SELECT * FROM `{$this->tableName}` WHERE `$column` = :id LIMIT 1", array('id' => $id));
             if($db->hasRows())
             {
                 $row = $db->getRow();
@@ -69,6 +111,11 @@
         {
             return !is_null($this->id);
         }
+		
+		public function isSetup()
+		{
+			return is_array($this->columns) && $this->ok();
+		}
 
         public function save()
         {
@@ -134,8 +181,10 @@
         {
             foreach($row as $k => $v)
             {
-                if($k == $this->idColumnName)
+                if($k == $this->idColumnName){
                     $this->id = $v;
+                    $this->columns[$k] = $v;
+				}
                 elseif(array_key_exists($k, $this->columns))
                     $this->columns[$k] = $v;
             }
@@ -181,6 +230,13 @@
             if(!in_array($key, array_keys($this->columns)))
                 $this->columns[$key] = $val;
         }
+		
+		public function dictionary()
+		{
+			$arr = $this->columns;
+			$arr[$this->idColumnName] = $this->id;
+			return $arr;
+		}
     }
 
     class TaggableDBObject extends DBObject
